@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#2A56D6}a:hover{color:#1C3EA0}</style>
+</helmet>
+<div style="min-height:100vh;padding:32px 28px 64px;box-sizing:border-box;max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+  <header>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · Proposta para revisão</div>
+    <h1 style="margin:6px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Ícone do app</h1>
+    <p style="margin:8px 0 0;font-size:15px;line-height:1.55;color:#3D4249;max-width:70ch;text-wrap:pretty">O logo final é horizontal (marca + “adotae” + slogan) e não cabe num quadrado. Para o ícone, usei só a marca (coração com cão e gato), sem texto, centralizada dentro da área segura: ocupa cerca de 52% do quadrado, para caber no círculo de 66% que o Android preserva no ícone adaptativo (linha tracejada) e ficar longe dos cantos arredondados do iOS. Ainda não apliquei em nenhuma tela.</p>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+    <sc-for list="{{ opts }}" as="o" hint-placeholder-count="3">
+      <div id="{{ o.id }}" style="background:#fff;border:1px solid #E4E3DE;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="background:#14161A;color:#fff;font-size:12px;font-weight:800;padding:3px 8px;border-radius:6px">{{ o.id }}</span>
+          <div style="font-size:17px;font-weight:700;color:#14161A">{{ o.nome }}</div>
+        </div>
+        <div style="position:relative;width:100%;aspect-ratio:1;border-radius:22.5%;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.06),0 8px 24px rgba(20,22,26,.12)">
+          <img src="{{ o.src }}" alt="{{ o.nome }}" style="width:100%;height:100%;display:block">
+          <sc-if value="{{ guias }}" hint-placeholder-val="{{ true }}">
+            <div style="position:absolute;inset:17%;border:1.5px dashed #C9382C;border-radius:50%;pointer-events:none"></div>
+          </sc-if>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:14px">
+          <img src="{{ o.src }}" alt="" style="width:60px;height:60px;border-radius:13.5px;display:block;box-shadow:0 1px 3px rgba(20,22,26,.2)">
+          <img src="{{ o.src }}" alt="" style="width:40px;height:40px;border-radius:9px;display:block;box-shadow:0 1px 3px rgba(20,22,26,.2)">
+          <img src="{{ o.src }}" alt="" style="width:29px;height:29px;border-radius:6.5px;display:block;box-shadow:0 1px 3px rgba(20,22,26,.2)">
+          <img src="{{ o.src }}" alt="" style="width:48px;height:48px;border-radius:50%;display:block;box-shadow:0 1px 3px rgba(20,22,26,.2)">
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#3D4249;text-wrap:pretty">{{ o.nota }}</p>
+      </div>
+    </sc-for>
+  </div>
+
+  <section style="background:#fff;border:1px solid #E4E3DE;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:17px;font-weight:700;color:#14161A">Na tela inicial do celular</div>
+    <div style="display:flex;flex-wrap:wrap;gap:20px">
+      <sc-for list="{{ opts }}" as="o" hint-placeholder-count="3">
+        <div style="width:300px;max-width:100%;border-radius:22px;padding:22px 18px;background:linear-gradient(160deg,#3B4A6B,#1E2638);display:grid;grid-template-columns:repeat(4,1fr);gap:16px 10px">
+          <sc-for list="{{ o.grade }}" as="g" hint-placeholder-count="8">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+              <sc-if value="{{ g.real }}"><img src="{{ o.src }}" alt="" style="width:54px;height:54px;border-radius:12px;display:block"></sc-if>
+              <sc-if value="{{ g.fake }}"><div style="{{ g.st }}"></div></sc-if>
+              <div style="font-size:11px;color:#fff;font-weight:500">{{ g.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="background:#fff;border:1px solid #E4E3DE;border-radius:20px;padding:20px;display:flex;flex-wrap:wrap;gap:20px;align-items:center">
+    <div style="flex:1 1 280px">
+      <div style="font-size:17px;font-weight:700;color:#14161A">Logo completo (já aplicado no app)</div>
+      <p style="margin:6px 0 0;font-size:14px;line-height:1.5;color:#3D4249">Nos cabeçalhos (Início, Lista de animais, Login) entrou a marca sem texto, no mesmo tamanho do símbolo anterior, sobre fundo branco. O logo completo fica reservado para usos maiores, como splash e materiais de divulgação.</p>
+    </div>
+    <img src="assets/adotae-logo.png" alt="Adotaê — Adoção de Animais de Estimação" style="width:240px;max-width:100%;display:block">
+  </section>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mostrarAreaSegura&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const cores = ['#F26648', '#1EBA5F', '#F5B820', '#7A8CB8', '#C9382C', '#5B3DB5', '#3D4249'];
+    const nomes = ['Fotos', 'Mapas', 'Câmera', 'Ajustes', 'Música', 'Notas', 'Relógio'];
+    const grade = (pos) => nomes.slice(0, 7).reduce((arr, n, i) => { if (arr.length === pos) arr.push({ real: true, fake: false, label: 'Adotaê' }); arr.push({ real: false, fake: true, label: n, st: { width: 54, height: 54, borderRadius: 12, background: cores[i], opacity: 0.85 } }); return arr; }, []);
+    return {
+      guias: this.props.mostrarAreaSegura ?? true,
+      opts: [
+        { id: 'A', nome: 'Fundo branco · cores originais', src: 'assets/icone-a.png', grade: grade(5), nota: 'Mais fiel ao logo da equipe. Em 29 pt os rostos somem, mas o coração continua legível. Pode se perder em telas com fundo claro.' },
+        { id: 'B', nome: 'Azul da marca · traço branco', src: 'assets/icone-b-azul.png', grade: grade(5), nota: 'Versão simplificada: uma cor só, traço mais grosso. É a que mais se destaca na tela inicial e conversa com o azul #2A56D6 do app, mas perde o degradê.' },
+        { id: 'C', nome: 'Amarelo claro · cores originais', src: 'assets/icone-c.png', grade: grade(5), nota: 'Meio-termo: mantém o degradê e usa o tom de acento #FEF6E4 do design system como fundo, mais quente que o branco.' },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

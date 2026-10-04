@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2A56D6}a:hover{color:#1C3EA0}
+input::placeholder,textarea::placeholder{color:#A6A9AE}
+@keyframes popIn{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:28px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;max-width:1360px;width:100%;margin:0 auto">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · React Native</div>
+      <h1 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Fluxo de Adoção</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#6B6F76;max-width:56ch;text-wrap:pretty">Wireframes navegáveis. Use os tweaks <span style="font-weight:600;color:#3D4249">animalDisponivel</span> e <span style="font-weight:600;color:#3D4249">formularioValido</span> para escolher o caminho em cada decisão do fluxograma.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onClick="{{ reset }}" style="border:1px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#F5F4F0">Reiniciar fluxo</button>
+      <button onClick="{{ nav.indisponivel }}" style="border:1px solid #F0C9C2;background:#FDF0EE;color:#C9382C;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#FBE5E1">Ver animal indisponível</button>
+      <button onClick="{{ nav.erroForm }}" style="border:1px solid #F0C9C2;background:#FDF0EE;color:#C9382C;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#FBE5E1">Ver erro de validação</button>
+    </div>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:center;max-width:1360px;width:100%;margin:0 auto">
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <nav style="flex:0 0 232px;display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:4px 8px 8px">Fluxo de Adoção</div>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="7">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Decisões</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;line-height:1.3;color:#3D4249;white-space:nowrap"><span>Animal disponível?</span><span style="{{ chipDisp }}">{{ txtDisp }}</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;line-height:1.3;color:#3D4249;white-space:nowrap"><span>Formulário válido?</span><span style="{{ chipValido }}">{{ txtValido }}</span></div>
+      </div>
+      <div style="border-top:1px solid #EFEEEA;padding:12px 8px 4px;font-size:12px;line-height:1.5;color:#6B6F76">Componentes base: <a href="Adotae%20-%20Cadastro%20e%20Login.dc.html">Cadastro e Login</a>. iPhone 390 × 844 pt.</div>
+    </nav>
+    </sc-if>
+
+    <div style="flex:none">
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 390 }}" height="{{ 844 }}" hint-size="390px,844px">
+
+        <sc-if value="{{ isLista }}" hint-placeholder-val="{{ true }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:62px 0 0;display:flex;flex-direction:column;background:#F7F7F5;overflow-y:auto">
+            <div style="margin-top:-62px;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:10px">
+              <div style="width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none"><img src="assets/adotae-marca.png" alt="Adotaê" style="width:32px;height:32px;object-fit:contain;display:block"></div>
+              <div style="flex:1;min-width:0;font-size:18px;font-weight:800;letter-spacing:-.02em;color:#14161A">Adotaê</div>
+              <div style="width:44px;height:44px;border-radius:50%;background:#fff;color:#2A56D6;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">{{ iniciais }}</div>
+            </div>
+            <div style="padding:18px 20px 0">
+              <h2 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.15">Animais para adoção</h2>
+              <p style="margin:6px 0 0;font-size:15px;color:#6B6F76">{{ countTxt }}</p>
+            </div>
+            <div style="display:flex;gap:8px;padding:14px 20px 4px;flex:none">
+              <sc-for list="{{ filtros }}" as="c" hint-placeholder-count="3">
+                <button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ temSolicitacao }}">
+              <button onClick="{{ nav.aguardando }}" style="margin:10px 20px 0;display:flex;gap:10px;align-items:center;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:14px;padding:12px 14px;animation:slideUp .18s ease">
+                <div style="flex:1;min-width:0;font-size:14px;line-height:1.4;color:#3D4249">Sua solicitação para <span style="font-weight:700;color:#14161A">{{ sol.animalNome }}</span></div>
+                <span style="{{ sol.badge }}"><span style="{{ sol.dot }}"></span>{{ sol.status }}</span>
+                <span style="font-size:20px;color:#A6A9AE">›</span>
+              </button>
+            </sc-if>
+            <div style="flex:1;overflow-y:auto;padding:14px 20px 40px">
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+                <sc-for list="{{ animais }}" as="a" hint-placeholder-count="4">
+                  <button onClick="{{ a.open }}" style="text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;padding:0;display:flex;flex-direction:column" style-hover="border-color:#C9D6FA">
+                    <div style="height:132px;width:100%;background:#F0EFEB;pointer-events:none"><image-slot id="{{ a.slot }}" shape="rect" placeholder="Foto"></image-slot></div>
+                    <div style="padding:12px 12px 14px;display:flex;flex-direction:column;gap:3px">
+                      <div style="font-size:16px;font-weight:700;color:#14161A">{{ a.nome }}</div>
+                      <div style="font-size:13.5px;color:#3D4249">{{ a.linha1 }}</div>
+                      <div style="font-size:13px;color:#6B6F76">{{ a.idade }}</div>
+                    </div>
+                  </button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ listaVazia }}">
+                <div style="background:#fff;border:1.5px dashed #D9D8D2;border-radius:16px;padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center">
+                  <div style="font-size:16px;font-weight:700;color:#14161A">Nenhum animal disponível</div>
+                  <div style="font-size:14px;line-height:1.5;color:#6B6F76;max-width:30ch">Escolha outro filtro ou volte mais tarde.</div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isDetalhe }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;overflow-y:auto">
+            <div style="flex:1;overflow-y:auto">
+              <div style="position:relative;height:300px;background:#F0EFEB">
+                <image-slot id="{{ an.slot }}" shape="rect" placeholder="Foto do animal"></image-slot>
+                <button onClick="{{ nav.lista }}" style="position:absolute;top:58px;left:16px;z-index:2;border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:14.5px;font-weight:700;padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(20,22,26,.15)">← Voltar</button>
+              </div>
+              <div style="padding:20px 20px 28px;display:flex;flex-direction:column;gap:20px">
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.15">{{ an.nome }}</h2>
+                  <div style="font-size:15px;color:#6B6F76">{{ an.sub }}</div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+                  <sc-for list="{{ an.infos }}" as="i" hint-placeholder-count="5">
+                    <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-radius:12px;padding:10px 12px">
+                      <div style="font-size:12px;color:#4A4E55">{{ i.label }}</div>
+                      <div style="font-size:15px;font-weight:700;color:#14161A;margin-top:2px">{{ i.value }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ an.flags }}" as="f" hint-placeholder-count="2">
+                    <span style="{{ f.badge }}"><span style="{{ f.dot }}"></span>{{ f.label }}</span>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Sobre {{ an.nome }}</h3>
+                  <p style="margin:0;font-size:15px;line-height:1.55;color:#3D4249;text-wrap:pretty">{{ an.descricao }}</p>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Abrigo responsável</h3>
+                  <button onClick="{{ an.abrirOng }}" style="width:100%;text-align:left;font-family:inherit;cursor:pointer;background:#fff;display:flex;gap:12px;align-items:center;border:1px solid #E4E3DE;border-radius:14px;padding:12px 14px" style-hover="border-color:#C9D6FA">
+                    <div style="width:44px;height:44px;border-radius:12px;background:#FFF8E3;color:#2A56D6;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{ an.abrigoIniciais }}</div>
+                    <div style="flex:1;min-width:0"><div style="font-size:15.5px;font-weight:700;color:#14161A">{{ an.abrigo }}</div><div style="font-size:13.5px;color:#6B6F76;margin-top:2px">{{ an.local }}</div></div>
+                    <span style="font-size:22px;color:#A6A9AE;flex:none">›</span>
+                  </button>
+                </div>
+                <button onClick="{{ an.denunciar }}" style="align-self:center;border:none;background:none;font-family:inherit;font-size:14px;font-weight:600;color:#C9382C;cursor:pointer;padding:8px 4px;text-decoration:underline;text-underline-offset:3px">Denunciar maus-tratos</button>
+              </div>
+            </div>
+            <div style="flex:none;padding:14px 20px;border-top:1px solid #EFEEEA;background:#fff">
+              <sc-if value="{{ an.jaSolicitado }}">
+                <button onClick="{{ nav.aguardando }}" style="width:100%;border:1.5px solid #2A56D6;background:#fff;color:#2A56D6;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#FFF8E3">Acompanhar solicitação</button>
+              </sc-if>
+              <sc-if value="{{ an.podeAdotar }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ quererAdotar }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Quero Adotar</button>
+              </sc-if>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isIndisponivel }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:88px 28px 46px;display:flex;flex-direction:column;background:#fff;overflow-y:auto">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center">
+              <div style="width:72px;height:72px;border-radius:50%;background:#FDF0EE;display:flex;align-items:center;justify-content:center;animation:popIn .26s ease">
+                <div style="width:38px;height:38px;border-radius:50%;background:#C9382C;color:#fff;font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center">!</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;align-items:center">
+                <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.25">{{ an.nome }} não está mais disponível</h2>
+                <p style="margin:0;font-size:15.5px;line-height:1.55;color:#6B6F76;max-width:30ch;text-wrap:pretty">Enquanto você navegava, o abrigo atualizou o status de {{ an.nome }}. Por isso não é possível enviar uma solicitação de adoção agora.</p>
+              </div>
+              <div style="width:100%;max-width:300px;display:flex;gap:12px;align-items:center;text-align:left;border:1px solid #E4E3DE;border-radius:14px;padding:10px">
+                <div style="width:56px;height:56px;border-radius:10px;overflow:hidden;background:#F0EFEB;flex:none;filter:grayscale(1);opacity:.7"></div>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px"><div style="font-size:15px;font-weight:700;color:#14161A">{{ an.nome }}</div><div><span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#F0EFEB;color:#4A4E55"><span style="width:7px;height:7px;border-radius:50%;background:#8A8D93"></span>Indisponível</span></div></div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <button onClick="{{ voltarLista }}" style="width:100%;border:1.5px solid #2A56D6;background:#fff;color:#2A56D6;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#FFF8E3">Ver animais disponíveis</button>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isForm }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:70px 24px 40px;display:flex;flex-direction:column;background:#fff;overflow:auto">
+            <button onClick="{{ nav.detalhe }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Voltar</button>
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 1 de 2</div>
+              <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Solicitação de adoção</h2>
+              <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76">O abrigo usa estes dados para entrar em contato com você.</p>
+            </div>
+
+            <div style="margin-top:16px;display:flex;gap:12px;align-items:center;background:#FEF6E4;border:1px solid #F2DC9E;border-radius:14px;padding:10px">
+              <div style="width:52px;height:52px;border-radius:10px;background:#F0EFEB;flex:none"></div>
+              <div style="flex:1;min-width:0"><div style="font-size:15.5px;font-weight:700;color:#14161A">{{ an.nome }}</div><div style="font-size:13.5px;color:#6B6F76;margin-top:2px">{{ an.abrigo }}</div></div>
+            </div>
+
+            <sc-if value="{{ showBanner }}">
+              <div style="margin-top:18px;display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                <div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                <div style="font-size:13.5px;line-height:1.45;color:#8E2A20"><span style="font-weight:700;color:#C9382C">{{ bannerTitle }}</span> Corrija os itens destacados abaixo para enviar. Nada do que você digitou foi perdido.</div>
+              </div>
+            </sc-if>
+
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:16px">
+              <sc-for list="{{ fields }}" as="f" hint-placeholder-count="3">
+                <div>
+                  <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">{{ f.label }}</label>
+                  <div style="{{ f.box }}">
+                    <input value="{{ f.value }}" onChange="{{ f.set }}" placeholder="{{ f.placeholder }}" type="{{ f.type }}" inputMode="{{ f.mode }}" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0">
+                  </div>
+                  <sc-if value="{{ f.error }}">
+                    <div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px">
+                      <div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                      <div style="font-size:13px;line-height:1.4;color:#C9382C">{{ f.error }}</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+              <sc-if value="{{ prefillNote }}">
+                <div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:-6px">Preenchido com os dados da sua conta. Você pode alterar se quiser.</div>
+              </sc-if>
+
+              <div style="border:1.5px solid #E4E3DE;border-radius:14px;overflow:hidden">
+                <button onClick="{{ toggleTemPet }}" style="width:100%;display:flex;align-items:center;gap:12px;border:none;background:#fff;font-family:inherit;padding:14px 16px;cursor:pointer;text-align:left">
+                  <div style="flex:1;min-width:0"><div style="font-size:15.5px;font-weight:600;color:#14161A;line-height:1.35">Você já teve ou tem outro animal de estimação?</div><div style="font-size:13px;color:#6B6F76;margin-top:2px">{{ temPetTxt }}</div></div>
+                  <div style="{{ petTrack }}"><div style="{{ petKnob }}"></div></div>
+                </button>
+                <sc-if value="{{ temPet }}">
+                  <div style="border-top:1px solid #EFEEEA;padding:14px 16px 16px;animation:slideUp .18s ease">
+                    <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Qual tipo?</label>
+                    <div style="display:flex;align-items:center;gap:8px;border-radius:12px;padding:0 14px;border:1.5px solid #E4E3DE;background:#fff">
+                      <input value="{{ tipoPet }}" onChange="{{ setTipoPet }}" placeholder="Ex.: 1 cão e 2 gatos" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0">
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+
+              <div>
+                <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Mensagem para o abrigo <span style="font-weight:500;color:#6B6F76">(opcional)</span></label>
+                <div style="display:flex;align-items:stretch;gap:8px;border-radius:12px;padding:0 14px;border:1.5px solid #E4E3DE;background:#fff">
+                  <textarea value="{{ mensagem }}" onChange="{{ setMensagem }}" rows="4" maxLength="400" placeholder="Por que você quer adotar? Conte sobre sua casa e sua rotina…" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:1.45;color:#14161A;padding:14px 0;resize:none"></textarea>
+                </div>
+                <div style="font-size:12.5px;color:#6B6F76;margin-top:7px;text-align:right">{{ msgCount }}</div>
+              </div>
+            </div>
+
+            <div style="height:22px"></div>
+            <button onClick="{{ enviar }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Enviar solicitação</button>
+            <button onClick="{{ nav.detalhe }}" style="margin-top:12px;width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Cancelar</button>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isEnviado }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:76px 24px 40px;display:flex;flex-direction:column;background:linear-gradient(180deg,#EAF7F1 0%,#FFFFFF 36%);overflow:auto">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+              <div style="width:80px;height:80px;border-radius:50%;background:#1E8A5F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:700;animation:popIn .32s cubic-bezier(.2,1.2,.3,1);box-shadow:0 12px 28px rgba(30,138,95,.28)">✓</div>
+              <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1E8A5F">Passo 2 de 2</div>
+              <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Solicitação enviada!</h2>
+              <p style="margin:0;font-size:15.5px;line-height:1.55;color:#6B6F76;max-width:30ch;text-wrap:pretty">Recebemos seu pedido para adotar {{ sol.animalNome }}. {{ sol.abrigo }} já foi notificado.</p>
+            </div>
+            <div style="margin-top:22px;background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;overflow:hidden">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid #D6E0FA">
+                <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Resumo da solicitação</div>
+                <span style="{{ sol.badge }}"><span style="{{ sol.dot }}"></span>{{ sol.status }}</span>
+              </div>
+              <sc-for list="{{ resumo }}" as="r" hint-placeholder-count="5">
+                <div style="display:flex;align-items:baseline;gap:12px;padding:12px 16px;border-bottom:1px solid #D6E0FA;font-size:14.5px">
+                  <span style="color:#4A4E55;flex:none;width:96px">{{ r.label }}</span>
+                  <span style="color:#14161A;font-weight:600;text-align:right;flex:1;min-width:0;overflow-wrap:break-word">{{ r.value }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="flex:1;min-height:24px"></div>
+            <button onClick="{{ nav.aguardando }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Continuar</button>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAguardando }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:76px 24px 40px;display:flex;flex-direction:column;background:#F7F7F5;overflow:auto">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+              <div style="width:72px;height:72px;border-radius:50%;background:#FFF8E3;display:flex;align-items:center;justify-content:center">
+                <div style="width:40px;height:40px;border-radius:50%;background:#F5B820;color:#14161A;font-size:15px;font-weight:800;letter-spacing:1px;display:flex;align-items:center;justify-content:center">•••</div>
+              </div>
+              <h2 style="margin:0;font-size:25px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Aguardando contato da ONG</h2>
+              <p style="margin:0;font-size:15.5px;line-height:1.55;color:#6B6F76;max-width:31ch;text-wrap:pretty">{{ sol.abrigo }} vai analisar sua solicitação e entrar em contato pelo telefone ou e-mail informados em até 5 dias úteis.</p>
+            </div>
+
+            <div style="margin-top:22px;background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:14px;display:flex;gap:14px">
+              <div style="width:80px;height:80px;flex:none;border-radius:12px;overflow:hidden;background:#F0EFEB;pointer-events:none"><image-slot id="{{ sol.slot }}" shape="rect" placeholder="Foto"></image-slot></div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                <div style="font-size:17px;font-weight:700;color:#14161A;line-height:1.2">{{ sol.animalNome }}</div>
+                <div style="font-size:14px;color:#3D4249">{{ sol.animalSub }}</div>
+                <div style="margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:8px"><span style="{{ sol.badge }}"><span style="{{ sol.dot }}"></span>{{ sol.status }}</span><span style="font-size:13px;color:#4A4E55">{{ sol.statusTxt }}</span></div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:0">
+              <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="3">
+                <div style="display:flex;gap:12px">
+                  <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px">
+                    <div style="{{ t.marker }}">{{ t.mark }}</div>
+                    <sc-if value="{{ t.line }}"><div style="width:2px;flex:1;min-height:18px;background:#E4E3DE;margin:4px 0"></div></sc-if>
+                  </div>
+                  <div style="padding-bottom:14px;min-width:0">
+                    <div style="{{ t.titleStyle }}">{{ t.titulo }}</div>
+                    <div style="font-size:13px;color:#6B6F76;margin-top:2px">{{ t.sub }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="flex:1;min-height:24px"></div>
+            <button onClick="{{ nav.lista }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Voltar ao início</button>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+      </x-import>
+    </div>
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:1 1 300px;min-width:280px;max-width:420px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Status da solicitação de adoção</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#FFF3D1;color:#7A5600"><span style="width:7px;height:7px;border-radius:50%;background:#D99A00"></span>Pendente</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#E8F6F0;color:#16694A"><span style="width:7px;height:7px;border-radius:50%;background:#1E8A5F"></span>Aprovada</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#FDF0EE;color:#8E2A20"><span style="width:7px;height:7px;border-radius:50%;background:#C9382C"></span>Rejeitada</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.5;color:#6B6F76">Mesmo enum do fluxo de Voluntários. Nenhum outro valor é exibido.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Regras deste fluxo</div>
+        <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5;color:#3D4249">
+          <li>A lista mostra só animais com <span style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">disponivel_adocao = true</span>.</li>
+          <li>A disponibilidade é checada de novo ao tocar em “Quero Adotar”; se mudou, mostra o erro e remove o animal da lista.</li>
+          <li>Nome, telefone e e-mail são obrigatórios e vêm preenchidos para quem está logado.</li>
+          <li>“Qual tipo?” só aparece quando o switch está em Sim; a mensagem é opcional.</li>
+          <li>Erros mantêm o que foi digitado e somem assim que o campo é corrigido.</li>
+        </ul>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;animalDisponivel&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;formularioValido&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;usuarioLogado&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;mostrarPaineis&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Apresentação&quot;}}">
+const C = { border: '#E4E3DE', blue: '#2A56D6', prim: '#F5B820', err: '#C9382C' };
+const HOJE = '01/10/2026';
+const box = (err) => ({
+  display: 'flex', alignItems: 'center', gap: 8, borderRadius: 12, padding: '0 14px',
+  border: '1.5px solid ' + (err ? C.err : C.border), background: err ? '#FDF0EE' : '#fff',
+  transition: 'border-color .15s ease, background .15s ease',
+});
+const onlyDigits = (s) => (s || '').replace(/\D/g, '');
+const maskPhone = (s) => {
+  const d = onlyDigits(s).slice(0, 11);
+  if (d.length <= 2) return d.length ? '(' + d : '';
+  if (d.length <= 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+  if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+  return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+};
+const RULES = {
+  nome: (v) => (v.trim().split(/\s+/).filter(Boolean).length < 2 ? 'Informe nome e sobrenome.' : ''),
+  telefone: (v) => (onlyDigits(v).length < 10 ? 'Telefone incompleto. Informe DDD + número.' : ''),
+  email: (v) => (/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.trim()) ? '' : 'E-mail inválido. Exemplo: nome@email.com'),
+};
+const FORCED = {
+  nome: 'Confirme seu nome completo, como no documento.',
+  telefone: 'Não conseguimos validar este telefone. Confira o DDD e o número.',
+  email: 'Não conseguimos validar este e-mail. Confira se está correto.',
+};
+const USER = { nome: 'Marina Souza', telefone: '(11) 91234-5678', email: 'marina.souza@email.com' };
+
+const ANIMAIS = [
+  { id: 1, nome: 'Thor', especie: 'Cão', raca: 'SRD', idade: '3 anos', porte: 'Grande', sexo: 'Macho', castracao: true, microchip: true, disponivel_adocao: true, abrigo: 'Abrigo Patas Felizes', local: 'Pinheiros, São Paulo', descricao: 'Brincalhão e muito carinhoso. Convive bem com outros cães, adora passear e já sabe pedir para sair.' },
+  { id: 2, nome: 'Mel', especie: 'Gato', raca: 'Siamês', idade: '8 meses', porte: 'Pequeno', sexo: 'Fêmea', castracao: true, microchip: false, disponivel_adocao: true, abrigo: 'Instituto Miau Seguro', local: 'Vila Mariana, São Paulo', descricao: 'Tranquila e curiosa. Resgatada ainda filhote, usa a caixa de areia e gosta de colo no fim do dia.' },
+  { id: 5, nome: 'Bento', especie: 'Cão', raca: 'Labrador', idade: '7 anos', porte: 'Grande', sexo: 'Macho', castracao: true, microchip: true, disponivel_adocao: true, abrigo: 'Abrigo Patas Felizes', local: 'Pinheiros, São Paulo', descricao: 'Idoso, sereno e obediente. Ideal para quem busca um companheiro tranquilo para dentro de casa.' },
+  { id: 6, nome: 'Nina', especie: 'Gato', raca: 'SRD', idade: '1 ano', porte: 'Pequeno', sexo: 'Fêmea', castracao: false, microchip: false, disponivel_adocao: true, abrigo: 'ONG Focinho Amigo', local: 'Santo André', descricao: 'Ativa e brincalhona, adora bolinhas. A castração já está agendada e será feita antes da adoção.' },
+  { id: 7, nome: 'Fred', especie: 'Cão', raca: 'Beagle', idade: '4 anos', porte: 'Médio', sexo: 'Macho', castracao: true, microchip: false, disponivel_adocao: true, abrigo: 'ONG Focinho Amigo', local: 'Santo André', descricao: 'Farejador nato, sociável com crianças. Precisa de passeios diários para gastar energia.' },
+  { id: 8, nome: 'Amora', especie: 'Cão', raca: 'SRD', idade: '2 anos', porte: 'Pequeno', sexo: 'Fêmea', castracao: true, microchip: true, disponivel_adocao: true, abrigo: 'Abrigo Patas Felizes', local: 'Pinheiros, São Paulo', descricao: 'Dócil e um pouco tímida no começo. Depois que confia, não sai do seu lado.' },
+  { id: 3, nome: 'Paçoca', especie: 'Cão', raca: 'Vira-lata caramelo', idade: '5 anos', porte: 'Médio', sexo: 'Macho', castracao: true, microchip: true, disponivel_adocao: false, abrigo: 'Abrigo Patas Felizes', local: 'Pinheiros, São Paulo', descricao: '' },
+  { id: 4, nome: 'Luna', especie: 'Gato', raca: 'SRD', idade: '2 anos', porte: 'Pequeno', sexo: 'Fêmea', castracao: false, microchip: false, disponivel_adocao: false, abrigo: 'Instituto Miau Seguro', local: 'Vila Mariana, São Paulo', descricao: '' },
+];
+const REQ = {
+  Pendente: { bg: '#FFF3D1', fg: '#7A5600', dot: '#D99A00', txt: 'Solicitação em análise' },
+  Aprovada: { bg: '#E8F6F0', fg: '#16694A', dot: '#1E8A5F', txt: 'A ONG aprovou seu pedido' },
+  Rejeitada: { bg: '#FDF0EE', fg: '#8E2A20', dot: '#C9382C', txt: 'A ONG não aprovou desta vez' },
+};
+const STEPS = [
+  { key: 'lista', label: 'Lista de animais disponíveis' },
+  { key: 'detalhe', label: 'Detalhe do animal' },
+  { key: 'indisponivel', label: 'Erro · animal indisponível' },
+  { key: 'form', label: 'Formulário de adoção' },
+  { key: 'erroForm', label: 'Erro de validação' },
+  { key: 'enviado', label: 'Confirmação enviada' },
+  { key: 'aguardando', label: 'Aguardando contato da ONG' },
+];
+const iniciaisDe = (n) => n.split(/\s+/).filter((w) => w.length > 2).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+const badge = (t) => ({ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 999, fontSize: 12.5, fontWeight: 700, background: t.bg, color: t.fg, whiteSpace: 'nowrap' });
+const dot = (c) => ({ width: 7, height: 7, borderRadius: '50%', background: c, flex: 'none' });
+
+const tabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? '#2A56D6' : '#6B6F76', minHeight: 48 });
+const tabStyles = (act) => ({ inicio: tabSt(act === 'inicio'), resgates: tabSt(act === 'resgates'), voluntariado: tabSt(act === 'voluntariado'), perfil: tabSt(act === 'perfil') });
+const URL_MAIN = 'Adotae%20-%20Cadastro%20e%20Login.dc.html';
+const URL_RESG = 'Adotae%20-%20Resgates%20-%20Cadastro.dc.html';
+
+class Component extends DCLogic {
+  state = {
+    screen: 'lista', animalId: 1, flipped: [], filtro: 'Todos',
+    v: { nome: '', telefone: '', email: '' }, temPet: false, tipoPet: '', mensagem: '',
+    submitted: false, forced: [], solicitacao: null, sessao: null,
+  };
+
+  componentDidMount() {
+    const m = /animal=(\d+)/.exec(window.location.hash || '');
+    const lg = /logado=([01])/.exec(window.location.hash || '');
+    if (lg) this.setState({ sessao: lg[1] === '1' });
+    if (m && ANIMAIS.some((x) => x.id === +m[1])) this.setState({ screen: 'detalhe', animalId: +m[1] });
+  }
+
+  logado = () => (this.state.sessao !== null ? this.state.sessao : (this.props.usuarioLogado ?? true));
+  tabsNav = () => {
+    const l = this.logado() ? 1 : 0;
+    const goMain = (t) => () => { window.location.href = URL_MAIN + '#tab=' + t + '&logado=' + l; };
+    return { inicio: goMain('inicio'), resgates: () => { if (l) window.location.href = URL_RESG + '#logado=1'; else goMain('resgates')(); }, voluntariado: goMain('voluntariado'), perfil: goMain('perfil') };
+  };
+
+
+  go = (k) => () => {
+    if (k === 'form') return this.openForm();
+    if (k === 'erroForm') return this.openForm(() => this.setState({ submitted: true, forced: ['nome', 'telefone', 'email'] }));
+    if (k === 'indisponivel') return this.setState((s) => ({ screen: 'indisponivel', animalId: s.animalId || 1 }));
+    if (k === 'enviado' || k === 'aguardando') {
+      if (!this.state.solicitacao) this.criarSolicitacao(this.prefilled(this.state.v));
+      return this.setState({ screen: k });
+    }
+    this.setState({ screen: k });
+  };
+
+  prefilled = (v) => (this.logado() && !v.nome && !v.telefone && !v.email ? Object.assign({}, USER) : v);
+
+  openForm = (cb) => this.setState((s) => ({
+    screen: 'form', submitted: false, forced: [], v: this.prefilled(s.v),
+    flipped: s.flipped.filter((id) => id !== s.animalId),
+  }), cb);
+
+  set = (k, mask) => (e) => {
+    const val = mask ? mask(e.target.value) : e.target.value;
+    this.setState((s) => ({ v: Object.assign({}, s.v, { [k]: val }), forced: s.forced.filter((f) => f !== k) }));
+  };
+
+  realErrors = () => {
+    const out = {};
+    Object.keys(RULES).forEach((k) => { const m = RULES[k](this.state.v[k] || ''); if (m) out[k] = m; });
+    return out;
+  };
+
+  quererAdotar = () => {
+    if (!(this.props.animalDisponivel ?? true)) {
+      return this.setState((s) => ({ screen: 'indisponivel', flipped: s.flipped.indexOf(s.animalId) >= 0 ? s.flipped : s.flipped.concat([s.animalId]) }));
+    }
+    this.openForm();
+  };
+
+  voltarLista = () => this.setState({ screen: 'lista' });
+
+  criarSolicitacao = (v) => this.setState((s) => ({
+    solicitacao: { animalId: s.animalId, status: 'Pendente', data: HOJE, nome: v.nome, telefone: v.telefone, email: v.email, temPet: s.temPet, tipoPet: s.tipoPet, mensagem: s.mensagem },
+  }));
+
+  enviar = () => {
+    const valido = this.props.formularioValido ?? true;
+    const errs = this.realErrors();
+    if (!valido) return this.setState({ submitted: true, forced: ['nome', 'telefone', 'email'] });
+    if (Object.keys(errs).length) return this.setState({ submitted: true, forced: [] });
+    this.criarSolicitacao(this.state.v);
+    this.setState({ screen: 'enviado', submitted: false, forced: [] });
+  };
+
+  reset = () => this.setState({
+    screen: 'lista', animalId: 1, flipped: [], filtro: 'Todos', v: { nome: '', telefone: '', email: '' },
+    temPet: false, tipoPet: '', mensagem: '', submitted: false, forced: [], solicitacao: null,
+  });
+
+  renderVals() {
+    const s = this.state;
+    const disp = this.props.animalDisponivel ?? true;
+    const valido = this.props.formularioValido ?? true;
+    const visiveis = ANIMAIS.filter((a) => a.disponivel_adocao && s.flipped.indexOf(a.id) < 0);
+    const filtrados = visiveis.filter((a) => s.filtro === 'Todos' || (s.filtro === 'Cães' ? a.especie === 'Cão' : a.especie === 'Gato'));
+    const a = ANIMAIS.find((x) => x.id === s.animalId) || ANIMAIS[0];
+
+    const errs = {};
+    if (s.submitted) {
+      const real = this.realErrors();
+      ['nome', 'telefone', 'email'].forEach((k) => {
+        if (real[k]) errs[k] = real[k];
+        else if (s.forced.indexOf(k) >= 0) errs[k] = FORCED[k];
+      });
+    }
+    const nErr = Object.keys(errs).length;
+    const activeStep = s.screen === 'form' && nErr > 0 ? 'erroForm' : s.screen;
+    const steps = STEPS.map((st, i) => {
+      const on = st.key === activeStep;
+      return {
+        n: i + 1, label: st.label, go: this.go(st.key),
+        style: { display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', padding: '9px 10px', borderRadius: 10, border: '1px solid ' + (on ? '#F2DC9E' : 'transparent'), background: on ? '#FFF8E3' : 'transparent', color: on ? '#14161A' : '#3D4249' },
+      };
+    });
+
+    const meta = {
+      nome: { label: 'Nome', placeholder: 'Ex.: Marina Souza' },
+      telefone: { label: 'Telefone', placeholder: '(11) 91234-5678', mode: 'tel', mask: maskPhone },
+      email: { label: 'E-mail', placeholder: 'nome@email.com', type: 'email', mode: 'email' },
+    };
+    const fields = Object.keys(meta).map((k) => ({
+      label: meta[k].label, placeholder: meta[k].placeholder, type: meta[k].type || 'text', mode: meta[k].mode || 'text',
+      value: s.v[k], set: this.set(k, meta[k].mask), box: box(!!errs[k]), error: errs[k] || '',
+    }));
+
+    const sol = s.solicitacao;
+    const sa = sol ? (ANIMAIS.find((x) => x.id === sol.animalId) || a) : a;
+    const st = REQ[sol ? sol.status : 'Pendente'];
+    const yes = { bg: '#E8F6F0', fg: '#16694A' }, no = { bg: '#F0EFEB', fg: '#4A4E55' };
+    const decisao = (ok) => ({ fontWeight: 700, fontSize: 12, padding: '2px 8px', borderRadius: 999, background: ok ? '#E8F6F0' : '#FDF0EE', color: ok ? '#16694A' : '#8E2A20' });
+    const track = (on) => ({ width: 51, height: 31, borderRadius: 16, background: on ? C.prim : '#D9D8D2', position: 'relative', flex: 'none', transition: 'background .2s ease' });
+    const knob = (on) => ({ position: 'absolute', top: 2, left: on ? 22 : 2, width: 27, height: 27, borderRadius: '50%', background: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,.2)', transition: 'left .2s ease' });
+
+    const marker = (state) => ({
+      width: 22, height: 22, boxSizing: 'border-box', borderRadius: '50%', flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800,
+      background: state === 'done' ? '#1E8A5F' : state === 'now' ? '#F5B820' : '#fff',
+      color: state === 'done' ? '#14161A' : '#14161A',
+      border: state === 'todo' ? '2px solid #D9D8D2' : 'none',
+    });
+    const tl = [
+      { titulo: 'Solicitação enviada', sub: sol ? sol.data : HOJE, state: 'done' },
+      { titulo: 'Em análise pelo abrigo', sub: 'Até 5 dias úteis', state: 'now' },
+      { titulo: 'Contato da ONG', sub: 'Conversa, visita e entrevista', state: 'todo' },
+    ].map((t, i, arr) => ({
+      titulo: t.titulo, sub: t.sub, marker: marker(t.state), mark: t.state === 'done' ? '✓' : '', line: i < arr.length - 1,
+      titleStyle: { fontSize: 15, fontWeight: 700, color: t.state === 'todo' ? '#6B6F76' : '#14161A' },
+    }));
+
+    return {
+      tabs: this.tabsNav(), tabStyle: tabStyles('inicio'),
+      steps, paineis: this.props.mostrarPaineis ?? true,
+      txtDisp: disp ? 'Sim' : 'Não', chipDisp: decisao(disp),
+      txtValido: valido ? 'Sim' : 'Não', chipValido: decisao(valido),
+      nav: {
+        lista: this.go('lista'), detalhe: this.go('detalhe'), indisponivel: this.go('indisponivel'),
+        form: this.go('form'), erroForm: this.go('erroForm'), aguardando: this.go('aguardando'),
+      },
+      reset: this.reset,
+      isLista: s.screen === 'lista', isDetalhe: s.screen === 'detalhe', isIndisponivel: s.screen === 'indisponivel',
+      isForm: s.screen === 'form', isEnviado: s.screen === 'enviado', isAguardando: s.screen === 'aguardando',
+      iniciais: this.logado() ? iniciaisDe(USER.nome) : '?',
+      countTxt: visiveis.length + (visiveis.length === 1 ? ' animal esperando' : ' animais esperando') + ' por um lar',
+      filtros: ['Todos', 'Cães', 'Gatos'].map((k) => {
+        const on = s.filtro === k;
+        return { label: k, pick: () => this.setState({ filtro: k }), style: { flex: 'none', whiteSpace: 'nowrap', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, padding: '9px 16px', borderRadius: 999, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : C.border), background: on ? '#FFF8E3' : '#fff', color: on ? '#14161A' : '#3D4249' } };
+      }),
+      animais: filtrados.map((x) => ({ nome: x.nome, slot: 'animal-' + x.id + '-1', linha1: x.especie + ' · ' + x.porte, idade: x.idade, open: () => this.setState({ screen: 'detalhe', animalId: x.id }) })),
+      listaVazia: filtrados.length === 0,
+      temSolicitacao: !!sol,
+      an: {
+        abrirOng: () => { window.location.href = 'Adotae%20-%20Perfil%20da%20ONG.dc.html#ongId=' + ({ 'Abrigo Patas Felizes': 1, 'Instituto Miau Seguro': 2, 'ONG Focinho Amigo': 3 }[a.abrigo] || 1) + '&logado=' + (this.logado() ? 1 : 0); },
+        denunciar: () => { window.location.href = this.logado() ? 'Adotae%20-%20Den%C3%BAncias.dc.html#animal=' + a.id + '&logado=1' : 'Adotae%20-%20Cadastro%20e%20Login.dc.html#tab=denuncia&logado=0&animal=' + a.id; },
+        nome: a.nome, slot: 'animal-' + a.id + '-1', sub: a.especie + ' · ' + a.raca, descricao: a.descricao,
+        abrigo: a.abrigo, local: a.local, abrigoIniciais: iniciaisDe(a.abrigo),
+        infos: [{ label: 'Espécie', value: a.especie }, { label: 'Raça', value: a.raca }, { label: 'Idade', value: a.idade }, { label: 'Porte', value: a.porte }, { label: 'Sexo', value: a.sexo }],
+        flags: [
+          { label: 'Castrado: ' + (a.castracao ? 'Sim' : 'Não'), badge: badge(a.castracao ? yes : no), dot: dot(a.castracao ? '#1E8A5F' : '#8A8D93') },
+          { label: 'Microchip: ' + (a.microchip ? 'Sim' : 'Não'), badge: badge(a.microchip ? yes : no), dot: dot(a.microchip ? '#1E8A5F' : '#8A8D93') },
+        ],
+        jaSolicitado: !!sol && sol.animalId === a.id,
+        podeAdotar: !(sol && sol.animalId === a.id),
+      },
+      quererAdotar: this.quererAdotar, voltarLista: this.voltarLista,
+      fields, showBanner: nErr > 0,
+      bannerTitle: nErr === 1 ? 'Revise 1 campo.' : 'Revise ' + nErr + ' campos.',
+      prefillNote: this.logado() && nErr === 0 && s.v.email === USER.email,
+      temPet: s.temPet, temPetTxt: s.temPet ? 'Sim' : 'Não',
+      toggleTemPet: () => this.setState((p) => ({ temPet: !p.temPet })),
+      petTrack: track(s.temPet), petKnob: knob(s.temPet),
+      tipoPet: s.tipoPet, setTipoPet: (e) => this.setState({ tipoPet: e.target.value }),
+      mensagem: s.mensagem, setMensagem: (e) => this.setState({ mensagem: e.target.value }), msgCount: s.mensagem.length + '/400',
+      enviar: this.enviar,
+      sol: {
+        animalNome: sa.nome, animalSub: sa.especie + ' · ' + sa.raca + ' · ' + sa.idade, abrigo: sa.abrigo, slot: 'animal-' + sa.id + '-1',
+        status: sol ? sol.status : 'Pendente', badge: badge(st), dot: dot(st.dot), statusTxt: st.txt,
+      },
+      resumo: sol ? [
+        { label: 'Animal', value: sa.nome + ' · ' + sa.abrigo },
+        { label: 'Nome', value: sol.nome },
+        { label: 'Telefone', value: sol.telefone },
+        { label: 'E-mail', value: sol.email },
+        { label: 'Outro animal', value: sol.temPet ? 'Sim' + (sol.tipoPet.trim() ? ' · ' + sol.tipoPet.trim() : '') : 'Não' },
+        { label: 'Mensagem', value: sol.mensagem.trim() || '—' },
+        { label: 'Enviada em', value: sol.data },
+      ] : [],
+      timeline: tl,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

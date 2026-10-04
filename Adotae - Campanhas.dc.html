@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2A56D6}a:hover{color:#1C3EA0}
+input::placeholder,textarea::placeholder{color:#A6A9AE}
+@keyframes popIn{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:28px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;max-width:1360px;width:100%;margin:0 auto">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · React Native · Área da ONG</div>
+      <h1 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Gerenciamento de Campanhas</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#6B6F76;max-width:56ch;text-wrap:pretty">Wireframes navegáveis. Use o tweak <span style="font-weight:600;color:#3D4249">formularioValido</span> para escolher o caminho ao publicar ou salvar.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onClick="{{ reset }}" style="border:1px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#F5F4F0">Reiniciar fluxo</button>
+      <button onClick="{{ nav.erro }}" style="border:1px solid #F0C9C2;background:#FDF0EE;color:#C9382C;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#FBE5E1">Ver erro de validação</button>
+    </div>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:center;max-width:1360px;width:100%;margin:0 auto">
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <nav style="flex:0 0 232px;display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:4px 8px 8px">Campanhas · ONG</div>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="7">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Decisões</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;line-height:1.3;color:#3D4249;white-space:nowrap"><span>Formulário válido?</span><span style="{{ chipValido }}">{{ txtValido }}</span></div>
+      </div>
+      <div style="border-top:1px solid #EFEEEA;padding:12px 8px 4px;font-size:12px;line-height:1.5;color:#6B6F76">Componentes base: <a href="Adotae%20-%20Cadastro%20e%20Login.dc.html">Cadastro e Login</a>. iPhone 390 × 844 pt.</div>
+    </nav>
+    </sc-if>
+
+    <div style="flex:none">
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 390 }}" height="{{ 844 }}" hint-size="390px,844px">
+        <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;background:#F7F7F5">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column">
+
+            <sc-if value="{{ isLista }}" hint-placeholder-val="{{ true }}">
+              <div style="height:100%;box-sizing:border-box;padding:62px 0 0;display:flex;flex-direction:column">
+                <div style="margin-top:-62px;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:12px">
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:600;color:#3D4249">Abrigo Patas Felizes</div>
+                    <h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Campanhas</h2>
+                  </div>
+                  <div style="width:44px;height:44px;border-radius:50%;background:#fff;color:#2A56D6;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">PF</div>
+                </div>
+                <div style="padding:16px 20px 0">
+                  <button onClick="{{ nav.nova }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">+ Nova campanha</button>
+                </div>
+                <sc-if value="{{ toast }}">
+                  <div style="margin:12px 20px 0;display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                    <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                    <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toast }}</div>
+                  </div>
+                </sc-if>
+                <div style="flex:1;overflow-y:auto;padding:14px 20px 24px;display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ lista }}" as="c" hint-placeholder-count="3">
+                    <button onClick="{{ c.open }}" style="width:100%;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;padding:0;display:flex;flex-direction:column;flex:none" style-hover="border-color:#C9D6FA">
+                      <div style="{{ c.imgBox }}"><image-slot id="{{ c.slot }}" shape="rect" placeholder="Imagem da campanha"></image-slot></div>
+                      <div style="padding:14px;display:flex;flex-direction:column;gap:8px;width:100%;box-sizing:border-box">
+                        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                          <span style="{{ c.tipoTag }}">{{ c.tipo }}</span>
+                          <span style="{{ c.badge }}"><span style="{{ c.dot }}"></span>{{ c.status }}</span>
+                        </div>
+                        <div style="font-size:17px;font-weight:700;color:#14161A;line-height:1.25">{{ c.titulo }}</div>
+                        <sc-if value="{{ c.isMon }}">
+                          <div style="display:flex;flex-direction:column;gap:6px">
+                            <div style="height:8px;border-radius:4px;background:#EFEEEA;overflow:hidden"><div style="{{ c.bar }}"></div></div>
+                            <div style="display:flex;justify-content:space-between;gap:8px;font-size:13.5px"><span style="color:#14161A;font-weight:600">{{ c.arrecadado }} <span style="color:#6B6F76;font-weight:400">de {{ c.meta }}</span></span><span style="color:#6B6F76;font-weight:600">{{ c.pct }}</span></div>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ c.isItens }}">
+                          <div style="font-size:14px;line-height:1.45;color:#3D4249;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ c.itens }}</div>
+                        </sc-if>
+                        <sc-if value="{{ c.eventoTxt }}">
+                          <div style="font-size:14px;line-height:1.45;color:#3D4249">{{ c.eventoTxt }}</div>
+                        </sc-if>
+                      </div>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isForm }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#fff">
+                <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 24px 24px;display:flex;flex-direction:column">
+                  <button onClick="{{ voltarForm }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">{{ voltarFormLabel }}</button>
+                  <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+                    <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ formTitulo }}</h2>
+                    <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76">{{ formSub }}</p>
+                  </div>
+
+                  <sc-if value="{{ showBanner }}">
+                    <div style="margin-top:18px;display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                      <div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                      <div style="font-size:13.5px;line-height:1.45;color:#8E2A20"><span style="font-weight:700;color:#C9382C">{{ bannerTitle }}</span> Corrija os itens destacados abaixo. Nada do que você preencheu foi perdido.</div>
+                    </div>
+                  </sc-if>
+
+                  <div style="margin-top:20px;display:flex;flex-direction:column;gap:18px">
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Tipo de campanha</label>
+                      <sc-if value="{{ tipoEditavel }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+                          <sc-for list="{{ tipoOpts }}" as="o" hint-placeholder-count="3">
+                            <button onClick="{{ o.pick }}" style="{{ o.style }}"><span style="{{ o.sw }}"></span><span>{{ o.label }}</span></button>
+                          </sc-for>
+                        </div>
+                        <sc-if value="{{ e.tipo }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.tipo }}</div></div></sc-if>
+                        <sc-if value="{{ tipoHint }}"><div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:7px">{{ tipoHint }}</div></sc-if>
+                      </sc-if>
+                      <sc-if value="{{ tipoFixo }}">
+                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="{{ tipoFixoTag }}">{{ f.tipo }}</span><span style="font-size:12.5px;color:#6B6F76">O tipo não pode ser alterado depois da criação.</span></div>
+                      </sc-if>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Título</label>
+                      <div style="{{ bx.titulo }}"><input value="{{ f.titulo }}" onChange="{{ set.titulo }}" placeholder="Ex.: Cirurgia da Luna" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                      <sc-if value="{{ e.titulo }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.titulo }}</div></div></sc-if>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Descrição</label>
+                      <div style="{{ bx.descricao }}"><textarea value="{{ f.descricao }}" onChange="{{ set.descricao }}" rows="4" maxLength="600" placeholder="Conte o objetivo da campanha e como a ajuda será usada." style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:1.45;color:#14161A;padding:14px 0;resize:none"></textarea></div>
+                      <div style="display:flex;gap:8px;justify-content:space-between;align-items:flex-start">
+                        <sc-if value="{{ e.descricao }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.descricao }}</div></div></sc-if>
+                        <span style="flex:1"></span>
+                        <div style="font-size:12.5px;color:#6B6F76;flex:none;margin-top:7px">{{ descCount }}</div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Imagem</label>
+                      <div style="height:160px;border-radius:12px;border:1.5px dashed #CFCEC8;overflow:hidden"><image-slot id="{{ f.slot }}" shape="rounded" radius="11" placeholder="Toque para adicionar a imagem de capa"></image-slot></div>
+                    </div>
+
+                    <sc-if value="{{ showMon }}">
+                      <div style="display:flex;flex-direction:column;gap:18px;padding-top:4px;border-top:1px solid #EFEEEA;animation:slideUp .18s ease">
+                        <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76;padding-top:14px">Arrecadação</div>
+                        <div>
+                          <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Meta</label>
+                          <div style="{{ bx.meta }}"><input value="{{ f.meta }}" onChange="{{ set.meta }}" placeholder="R$ 0,00" inputMode="numeric" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                          <sc-if value="{{ e.meta }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.meta }}</div></div></sc-if>
+                        </div>
+                        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px">
+                          <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Início</label>
+                            <div style="{{ bx.data_inicio }}"><input value="{{ f.data_inicio }}" onChange="{{ set.data_inicio }}" placeholder="dd/mm/aaaa" inputMode="numeric" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                            <sc-if value="{{ e.data_inicio }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.data_inicio }}</div></div></sc-if>
+                          </div>
+                          <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Término</label>
+                            <div style="{{ bx.data_fim }}"><input value="{{ f.data_fim }}" onChange="{{ set.data_fim }}" placeholder="dd/mm/aaaa" inputMode="numeric" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                            <sc-if value="{{ e.data_fim }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.data_fim }}</div></div></sc-if>
+                          </div>
+                        </div>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ showItens }}">
+                      <div style="display:flex;flex-direction:column;gap:18px;padding-top:4px;border-top:1px solid #EFEEEA;animation:slideUp .18s ease">
+                        <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76;padding-top:14px">Doação de itens</div>
+                        <div>
+                          <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Itens desejados</label>
+                          <div style="{{ bx.itens_desejados }}"><textarea value="{{ f.itens_desejados }}" onChange="{{ set.itens_desejados }}" rows="3" maxLength="400" placeholder="Ex.: ração para cães de porte grande, areia higiênica, cobertores" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:1.45;color:#14161A;padding:14px 0;resize:none"></textarea></div>
+                          <sc-if value="{{ e.itens_desejados }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.itens_desejados }}</div></div></sc-if>
+                          <sc-if value="{{ itensHint }}"><div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:7px">Separe os itens por vírgula.</div></sc-if>
+                        </div>
+                        <div>
+                          <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Aceitar doações até <span style="font-weight:500;color:#6B6F76">(opcional)</span></label>
+                          <div style="{{ bx.data_fim }}"><input value="{{ f.data_fim }}" onChange="{{ set.data_fim }}" placeholder="dd/mm/aaaa" inputMode="numeric" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                          <sc-if value="{{ e.data_fim }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.data_fim }}</div></div></sc-if>
+                        </div>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ showDiv }}">
+                      <div style="display:flex;flex-direction:column;gap:18px;padding-top:4px;border-top:1px solid #EFEEEA;animation:slideUp .18s ease">
+                        <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76;padding-top:14px">Evento</div>
+                        <div>
+                          <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Data do evento <span style="font-weight:500;color:#6B6F76">(opcional)</span></label>
+                          <div style="{{ bx.data_evento }}"><input value="{{ f.data_evento }}" onChange="{{ set.data_evento }}" placeholder="dd/mm/aaaa" inputMode="numeric" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                          <sc-if value="{{ e.data_evento }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ e.data_evento }}</div></div></sc-if>
+                        </div>
+                        <div>
+                          <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Local do evento <span style="font-weight:500;color:#6B6F76">(opcional)</span></label>
+                          <div style="{{ bx.local_evento }}"><input value="{{ f.local_evento }}" onChange="{{ set.local_evento }}" placeholder="Ex.: Parque Villa-Lobos, portão 2" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+                <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px">
+                  <button onClick="{{ salvar }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">{{ formBotao }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isCriada }}">
+              <div style="height:100%;box-sizing:border-box;padding:76px 24px 20px;display:flex;flex-direction:column;background:linear-gradient(180deg,#EAF7F1 0%,#FFFFFF 40%);overflow-y:auto">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center">
+                  <div style="width:80px;height:80px;border-radius:50%;background:#1E8A5F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:700;animation:popIn .32s cubic-bezier(.2,1.2,.3,1);box-shadow:0 12px 28px rgba(30,138,95,.28)">✓</div>
+                  <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Campanha publicada!</h2>
+                  <p style="margin:0;font-size:15.5px;line-height:1.55;color:#6B6F76;max-width:30ch;text-wrap:pretty">“{{ cr.titulo }}” já está ativa e aparece para quem acompanha a ONG no Adotaê.</p>
+                  <div style="width:100%;max-width:320px;display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap">
+                    <span style="{{ cr.tipoTag }}">{{ cr.tipo }}</span>
+                    <span style="{{ cr.badge }}"><span style="{{ cr.dot }}"></span>Ativa</span>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;margin-top:20px">
+                  <button onClick="{{ nav.lista }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Ver campanhas</button>
+                  <button onClick="{{ cr.abrir }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Ver detalhes da campanha</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isDetalhe }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#fff">
+                <div style="flex:1;min-height:0;overflow-y:auto">
+                  <div style="position:relative;height:220px;background:#F0EFEB">
+                    <image-slot id="{{ d.slot }}" shape="rect" placeholder="Imagem da campanha"></image-slot>
+                    <button onClick="{{ nav.lista }}" style="position:absolute;top:58px;left:16px;z-index:2;border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:14.5px;font-weight:700;padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(20,22,26,.15)">← Campanhas</button>
+                  </div>
+                  <div style="padding:20px 20px 24px;display:flex;flex-direction:column;gap:18px">
+                    <sc-if value="{{ toastDet }}">
+                      <div style="display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                        <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                        <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toastDet }}</div>
+                      </div>
+                    </sc-if>
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="{{ d.tipoTag }}">{{ d.tipo }}</span><span style="{{ d.badge }}"><span style="{{ d.dot }}"></span>{{ d.status }}</span></div>
+                      <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ d.titulo }}</h2>
+                    </div>
+
+                    <sc-if value="{{ d.isMon }}">
+                      <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span style="font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">{{ d.arrecadado }}</span><span style="font-size:14.5px;color:#4A4E55">de {{ d.meta }}</span></div>
+                        <div style="height:10px;border-radius:5px;background:#E4E3DE;overflow:hidden"><div style="{{ d.bar }}"></div></div>
+                        <div style="display:flex;justify-content:space-between;gap:8px;font-size:13.5px;color:#3D4249"><span><span style="font-weight:700">{{ d.pct }}</span> da meta</span><span>{{ d.doadores }} doações</span></div>
+                        <div style="font-size:13.5px;color:#4A4E55">{{ d.periodo }}</div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ d.isItens }}">
+                      <div style="display:flex;flex-direction:column;gap:10px">
+                        <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Itens que precisamos</h3>
+                        <div style="border:1px solid #E4E3DE;border-radius:14px;overflow:hidden">
+                          <sc-for list="{{ d.itens }}" as="i" hint-placeholder-count="3">
+                            <div style="display:flex;gap:12px;align-items:center;padding:13px 14px;border-bottom:1px solid #EFEEEA"><div style="width:8px;height:8px;border-radius:50%;background:#D99A00;flex:none"></div><div style="font-size:15px;color:#14161A">{{ i.label }}</div></div>
+                          </sc-for>
+                        </div>
+                        <sc-if value="{{ d.ate }}"><div style="font-size:13.5px;color:#6B6F76">Aceitando doações até {{ d.ate }}</div></sc-if>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ d.isDiv }}">
+                      <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                        <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Evento</div>
+                        <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#4A4E55">Data</span><span style="color:#14161A;font-weight:600">{{ d.dataEvento }}</span></div>
+                        <div style="height:1px;background:#E4E3DE"></div>
+                        <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#4A4E55;flex:none">Local</span><span style="color:#14161A;font-weight:600;text-align:right">{{ d.localEvento }}</span></div>
+                      </div>
+                    </sc-if>
+
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Sobre a campanha</h3>
+                      <p style="margin:0;font-size:15px;line-height:1.55;color:#3D4249;text-wrap:pretty">{{ d.descricao }}</p>
+                    </div>
+                    <sc-if value="{{ d.encerrada }}">
+                      <div style="background:#F7F7F5;border:1px solid #E4E3DE;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.45;color:#3D4249">Campanha encerrada em {{ d.dataEnc }}. Ela não aparece mais para os usuários.</div>
+                    </sc-if>
+                  </div>
+                </div>
+                <sc-if value="{{ d.ativa }}" hint-placeholder-val="{{ true }}">
+                  <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:10px">
+                    <button onClick="{{ nav.editar }}" style="border:1.5px solid #2A56D6;background:#fff;color:#2A56D6;font-family:inherit;font-size:17px;font-weight:700;padding:15px;border-radius:14px;cursor:pointer" style-hover="background:#FFF8E3">Editar</button>
+                    <button onClick="{{ abrirEncerrar }}" style="border:none;background:#C9382C;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer;white-space:nowrap" style-hover="background:#AE2E23">Encerrar campanha</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 6px 28px"><button onClick="{{ ong.go.animais }}" style="{{ ong.st.animais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5.5" cy="10.5" r="1.8"></circle><circle cx="9.5" cy="6" r="1.8"></circle><circle cx="14.5" cy="6" r="1.8"></circle><circle cx="18.5" cy="10.5" r="1.8"></circle><path d="M12 12.5c-3 0-5.5 3-5.5 5.3 0 1.5 1.2 2.2 2.6 2.2 1.1 0 1.9-.6 2.9-.6s1.8.6 2.9.6c1.4 0 2.6-.7 2.6-2.2 0-2.3-2.5-5.3-5.5-5.3z"></path></svg></span><span>Animais</span></button><button onClick="{{ ong.go.resgates }}" style="{{ ong.st.resgates }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><sc-if value="{{ ong.resgBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nResg }}</span></sc-if></span><span>Resgates</span></button><button onClick="{{ ong.go.voluntarios }}" style="{{ ong.st.voluntarios }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><sc-if value="{{ ong.volBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nVol }}</span></sc-if></span><span>Voluntários</span></button><button onClick="{{ ong.go.campanhas }}" style="{{ ong.st.campanhas }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M4 10v4h3l8 4.5V5.5L7 10H4z"></path><path d="M18.5 9a4 4 0 0 1 0 6"></path></svg></span><span>Campanhas</span></button><button onClick="{{ ong.go.mais }}" style="{{ ong.st.mais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span><span>Mais</span></button></div>
+
+          <sc-if value="{{ sheetEncerrar }}">
+            <div style="position:absolute;inset:0;background:rgba(20,22,26,.45);animation:fadeIn .2s ease;z-index:5">
+              <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 22px 34px;animation:sheetUp .28s cubic-bezier(.2,.8,.2,1)">
+                <div style="width:40px;height:5px;border-radius:3px;background:#D9D8D2;margin:8px auto 18px"></div>
+                <div style="width:60px;height:60px;border-radius:50%;background:#F0EFEB;display:flex;align-items:center;justify-content:center"><div style="width:32px;height:32px;border-radius:50%;background:#4A4E55;color:#fff;font-size:17px;font-weight:800;display:flex;align-items:center;justify-content:center">✓</div></div>
+                <h3 style="margin:14px 0 0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#14161A;line-height:1.3">Encerrar campanha?</h3>
+                <p style="margin:8px 0 0;font-size:15px;line-height:1.5;color:#6B6F76;text-wrap:pretty">{{ encTexto }}</p>
+                <div style="width:100%;display:flex;flex-direction:column;gap:6px;margin-top:18px">
+                  <button onClick="{{ confirmarEncerrar }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Encerrar campanha</button>
+                  <button onClick="{{ fecharSheet }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </x-import>
+    </div>
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:1 1 300px;min-width:280px;max-width:420px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Tipos e status de campanha</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;background:#FFF8E3;color:#1C3EA0">Monetária</span>
+          <span style="padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;background:#FFF3D1;color:#7A5600">Itens</span>
+          <span style="padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;background:#F1EDFC;color:#5B3DB5">Eventos</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.5;color:#6B6F76">Tipo: etiqueta retangular, mesmo formato da prioridade em Resgates.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid #EFEEEA;padding-top:12px">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#E8F6F0;color:#16694A"><span style="width:7px;height:7px;border-radius:50%;background:#1E8A5F"></span>Ativa</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#F0EFEB;color:#4A4E55"><span style="width:7px;height:7px;border-radius:50%;background:#8A8D93"></span>Encerrada</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.5;color:#6B6F76">Status: pílula com ponto. Enum próprio de campanhas, separado de Pendente/Aprovada/Rejeitada.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Campos por tipo</div>
+        <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5;color:#3D4249">
+          <li><span style="font-weight:600">Todos:</span> título e descrição obrigatórios; imagem opcional.</li>
+          <li><span style="font-weight:600">Monetária:</span> meta, início e término obrigatórios; término depois do início.</li>
+          <li><span style="font-weight:600">Itens:</span> itens desejados obrigatórios; “aceitar doações até” opcional.</li>
+          <li><span style="font-weight:600">Eventos:</span> data e local do evento opcionais.</li>
+          <li>Os campos do tipo aparecem ao vivo quando o tipo é escolhido. Dados digitados em um tipo são mantidos se a ONG trocar e voltar.</li>
+          <li>Ao editar, o tipo fica fixo.</li>
+        </ul>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;formularioValido&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;mostrarPaineis&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Apresentação&quot;}}">
+const C = { border: '#E4E3DE', blue: '#2A56D6', prim: '#F5B820', err: '#C9382C' };
+const URL_MAIN = 'Adotae%20-%20Cadastro%20e%20Login.dc.html';
+const URL_RESG = 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html';
+const TIPOS = {
+  'Monetária': { bg: '#EEF2FE', fg: '#1C3EA0', sw: '#2A56D6', hint: 'Vaquinha com meta em reais e prazo definido.' },
+  'Itens': { bg: '#FFF3D1', fg: '#7A5600', sw: '#D99A00', hint: 'Pedido de doações físicas, como ração e cobertores.' },
+  'Eventos': { bg: '#F1EDFC', fg: '#5B3DB5', sw: '#7357D9', hint: 'Feiras de adoção e outros eventos, sem arrecadação.' },
+};
+const TIPO_KEYS = Object.keys(TIPOS);
+const ST = {
+  Ativa: { bg: '#E8F6F0', fg: '#16694A', dot: '#1E8A5F' },
+  Encerrada: { bg: '#F0EFEB', fg: '#4A4E55', dot: '#8A8D93' },
+};
+const SEED = [
+  { id: 1, tipo: 'Monetária', titulo: 'Cirurgia da Luna', descricao: 'A Luna foi resgatada com uma fratura na pata dianteira e precisa de cirurgia ortopédica. O valor cobre a operação, a internação e 30 dias de fisioterapia.', meta: 500000, arrecadado: 342000, doacoes: 47, data_inicio: '15/09/2026', data_fim: '31/10/2026', itens_desejados: '', data_evento: '', local_evento: '', status: 'Ativa', data_enc: '' },
+  { id: 2, tipo: 'Itens', titulo: 'Inverno sem frio', descricao: 'Estamos preparando o abrigo para o inverno. Toda doação pode ser deixada na nossa sede de segunda a sábado, das 9h às 17h.', itens_desejados: 'Cobertores, mantas de lã, ração para cães de porte grande, areia higiênica, caminhas', data_fim: '30/11/2026', meta: 0, arrecadado: 0, doacoes: 0, data_inicio: '', data_evento: '', local_evento: '', status: 'Ativa', data_enc: '' },
+  { id: 3, tipo: 'Eventos', titulo: 'Feira de adoção de outubro', descricao: 'Mais de 30 cães e gatos castrados, vacinados e prontos para um novo lar. Traga documento com foto e comprovante de residência.', data_evento: '18/10/2026', local_evento: 'Parque Villa-Lobos, portão 2 — São Paulo', meta: 0, arrecadado: 0, doacoes: 0, data_inicio: '', data_fim: '', itens_desejados: '', status: 'Ativa', data_enc: '' },
+  { id: 4, tipo: 'Monetária', titulo: 'Reforma do gatil', descricao: 'Troca do telhado e das telas de proteção do gatil, que abriga 60 gatos.', meta: 1200000, arrecadado: 1235000, doacoes: 182, data_inicio: '01/06/2026', data_fim: '31/08/2026', itens_desejados: '', data_evento: '', local_evento: '', status: 'Encerrada', data_enc: '31/08/2026' },
+];
+const STEPS = [
+  { key: 'lista', label: 'Lista de campanhas' },
+  { key: 'nova', label: 'Nova campanha' },
+  { key: 'erro', label: 'Erro de validação' },
+  { key: 'criada', label: 'Campanha criada' },
+  { key: 'detalhe', label: 'Detalhe da campanha' },
+  { key: 'editar', label: 'Editar campanha' },
+  { key: 'encerrar', label: 'Encerrar campanha' },
+];
+const digits = (s) => (s || '').replace(/\D/g, '');
+const brl = (cents) => 'R$ ' + (cents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const brl0 = (cents) => 'R$ ' + Math.round(cents / 100).toLocaleString('pt-BR');
+const maskMoney = (s) => { const d = digits(s).slice(0, 10); return d ? brl(parseInt(d, 10)) : ''; };
+const maskDate = (s) => { const d = digits(s).slice(0, 8); return d.length > 4 ? d.slice(0, 2) + '/' + d.slice(2, 4) + '/' + d.slice(4) : d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d; };
+const validDate = (s) => { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ''); if (!m) return false; const dd = +m[1], mm = +m[2]; return mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31; };
+const dateNum = (s) => { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s); return +(m[3] + m[2] + m[1]); };
+const hoje = () => { const d = new Date(); const p = (n) => String(n).padStart(2, '0'); return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear(); };
+const emptyDraft = (id) => ({ id, tipo: null, titulo: '', descricao: '', meta: '', data_inicio: '', data_fim: '', itens_desejados: '', data_evento: '', local_evento: '' });
+const REQUIRED = { 'Monetária': ['meta', 'data_inicio', 'data_fim'], 'Itens': ['itens_desejados'], 'Eventos': [] };
+const FORCED = {
+  titulo: 'Revise o título antes de publicar.', descricao: 'Revise a descrição antes de publicar.',
+  meta: 'Confirme o valor da meta.', data_inicio: 'Confirme a data de início.', data_fim: 'Confirme a data de término.',
+  itens_desejados: 'Revise a lista de itens.',
+};
+const tag = (t) => ({ padding: '3px 8px', borderRadius: 6, fontSize: 12, fontWeight: 700, background: TIPOS[t].bg, color: TIPOS[t].fg, whiteSpace: 'nowrap' });
+const badge = (s) => ({ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 999, fontSize: 12.5, fontWeight: 700, background: ST[s].bg, color: ST[s].fg, whiteSpace: 'nowrap' });
+const dot = (s) => ({ width: 7, height: 7, borderRadius: '50%', background: ST[s].dot, flex: 'none' });
+const box = (err, multi) => ({ display: 'flex', alignItems: multi ? 'stretch' : 'center', gap: 8, borderRadius: 12, padding: '0 14px', border: '1.5px solid ' + (err ? C.err : C.border), background: err ? '#FDF0EE' : '#fff', transition: 'border-color .15s ease, background .15s ease' });
+
+const ONG_URLS = { main: 'Adotae%20-%20Cadastro%20e%20Login.dc.html', resg: 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html', camp: 'Adotae%20-%20Campanhas.dc.html' };
+const ONG_GO = {
+  animais: () => { window.location.href = ONG_URLS.main + '#ong=animais'; },
+  resgates: () => { window.location.href = ONG_URLS.resg; },
+  voluntarios: () => { window.location.href = ONG_URLS.main + '#ong=voluntarios'; },
+  campanhas: () => { window.location.href = ONG_URLS.camp; },
+  mais: () => { window.location.href = ONG_URLS.main + '#ong=mais'; },
+};
+const ongTabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? '#2A56D6' : '#6B6F76', minHeight: 48, minWidth: 0 });
+const ongNav = (active, go, nResg, nVol) => ({
+  go, nResg, nVol, resgBadge: nResg > 0, volBadge: nVol > 0,
+  st: { animais: ongTabSt(active === 'animais'), resgates: ongTabSt(active === 'resgates'), voluntarios: ongTabSt(active === 'voluntarios'), campanhas: ongTabSt(active === 'campanhas'), mais: ongTabSt(active === 'mais') },
+});
+
+class Component extends DCLogic {
+  state = { itens: SEED, nextId: 5, screen: 'lista', selId: 1, mode: 'novo', draft: emptyDraft(5), submitted: false, forced: [], sheet: null, toast: '', toastDet: '', criadaId: null };
+
+  componentWillUnmount() { clearTimeout(this._t); }
+  flash = (k, msg) => { clearTimeout(this._t); this.setState({ [k]: msg }); this._t = setTimeout(() => this.setState({ toast: '', toastDet: '' }), 3200); };
+
+  go = (k) => () => {
+    const s = this.state;
+    if (k === 'lista') return this.setState({ screen: 'lista', sheet: null });
+    if (k === 'nova') return this.setState({ screen: 'form', mode: 'novo', draft: emptyDraft(s.nextId), submitted: false, forced: [], sheet: null });
+    if (k === 'erro') return this.setState((p) => {
+      const d = p.screen === 'form' ? p.draft : emptyDraft(p.nextId);
+      const draft = d.tipo ? d : Object.assign({}, d, { tipo: 'Monetária' });
+      return { screen: 'form', mode: p.screen === 'form' ? p.mode : 'novo', draft, submitted: true, forced: ['titulo', 'descricao'].concat(REQUIRED[draft.tipo]), sheet: null };
+    });
+    if (k === 'criada') {
+      if (s.criadaId == null) return this.publicar(Object.assign(emptyDraft(s.nextId), { tipo: 'Itens', titulo: 'Ração para o Natal', descricao: 'Queremos garantir ração para todos os 120 animais do abrigo durante as festas de fim de ano.', itens_desejados: 'Ração para cães adultos, ração para filhotes, sachês para gatos' }));
+      return this.setState({ screen: 'criada', sheet: null });
+    }
+    const ativo = s.itens.find((x) => x.id === s.selId && x.status === 'Ativa') || s.itens.find((x) => x.status === 'Ativa');
+    if (!ativo) return this.setState({ itens: SEED, selId: 1, screen: 'detalhe', sheet: k === 'encerrar' ? 'encerrar' : null });
+    if (k === 'detalhe') return this.setState({ screen: 'detalhe', selId: ativo.id, sheet: null });
+    if (k === 'encerrar') return this.setState({ screen: 'detalhe', selId: ativo.id, sheet: 'encerrar' });
+    if (k === 'editar') return this.abrirEditar(ativo.id);
+  };
+
+  abrirEditar = (id) => {
+    const c = this.state.itens.find((x) => x.id === id);
+    this.setState({
+      screen: 'form', mode: 'editar', selId: id, submitted: false, forced: [], sheet: null,
+      draft: { id: c.id, tipo: c.tipo, titulo: c.titulo, descricao: c.descricao, meta: c.meta ? brl(c.meta) : '', data_inicio: c.data_inicio, data_fim: c.data_fim, itens_desejados: c.itens_desejados, data_evento: c.data_evento, local_evento: c.local_evento },
+    });
+  };
+
+  setD = (k, mask) => (e) => {
+    const v = mask ? mask(e.target.value) : e.target.value;
+    this.setState((s) => ({ draft: Object.assign({}, s.draft, { [k]: v }), forced: s.forced.filter((f) => f !== k) }));
+  };
+
+  realErrors = (d) => {
+    const e = {};
+    if (!d.tipo) e.tipo = 'Escolha o tipo de campanha.';
+    if (d.titulo.trim().length < 4) e.titulo = d.titulo.trim() ? 'Título muito curto (mínimo de 4 caracteres).' : 'Informe o título da campanha.';
+    if (d.descricao.trim().length < 20) e.descricao = d.descricao.trim() ? 'Escreva ao menos 20 caracteres.' : 'Descreva o objetivo da campanha.';
+    if (d.tipo === 'Monetária') {
+      if (!(parseInt(digits(d.meta) || '0', 10) > 0)) e.meta = 'Informe a meta em reais.';
+      if (!validDate(d.data_inicio)) e.data_inicio = d.data_inicio ? 'Data incompleta.' : 'Informe o início.';
+      if (!validDate(d.data_fim)) e.data_fim = d.data_fim ? 'Data incompleta.' : 'Informe o término.';
+      else if (validDate(d.data_inicio) && dateNum(d.data_fim) <= dateNum(d.data_inicio)) e.data_fim = 'Deve ser depois do início.';
+    }
+    if (d.tipo === 'Itens') {
+      if (d.itens_desejados.trim().length < 3) e.itens_desejados = 'Liste os itens de que a ONG precisa.';
+      if (d.data_fim && !validDate(d.data_fim)) e.data_fim = 'Data incompleta. Use dd/mm/aaaa.';
+    }
+    if (d.tipo === 'Eventos' && d.data_evento && !validDate(d.data_evento)) e.data_evento = 'Data incompleta. Use dd/mm/aaaa.';
+    return e;
+  };
+
+  salvar = () => {
+    const s = this.state, d = s.draft;
+    const valido = this.props.formularioValido ?? true;
+    if (!valido) return this.setState({ submitted: true, forced: d.tipo ? ['titulo', 'descricao'].concat(REQUIRED[d.tipo]) : ['titulo', 'descricao'] });
+    if (Object.keys(this.realErrors(d)).length) return this.setState({ submitted: true, forced: [] });
+    if (s.mode === 'novo') return this.publicar(d);
+    this.setState((p) => ({
+      itens: p.itens.map((x) => (x.id === d.id ? Object.assign({}, x, {
+        titulo: d.titulo.trim(), descricao: d.descricao.trim(), meta: d.tipo === 'Monetária' ? parseInt(digits(d.meta), 10) : x.meta,
+        data_inicio: d.data_inicio, data_fim: d.data_fim, itens_desejados: d.itens_desejados.trim(), data_evento: d.data_evento, local_evento: d.local_evento.trim(),
+      }) : x)),
+      screen: 'detalhe', submitted: false, forced: [],
+    }));
+    this.flash('toastDet', 'Alterações salvas.');
+  };
+
+  publicar = (d) => this.setState((p) => ({
+    itens: [{
+      id: d.id, tipo: d.tipo, titulo: d.titulo.trim(), descricao: d.descricao.trim(),
+      meta: d.tipo === 'Monetária' ? parseInt(digits(d.meta), 10) : 0, arrecadado: 0, doacoes: 0,
+      data_inicio: d.tipo === 'Monetária' ? d.data_inicio : '', data_fim: d.tipo === 'Eventos' ? '' : d.data_fim,
+      itens_desejados: d.tipo === 'Itens' ? d.itens_desejados.trim() : '',
+      data_evento: d.tipo === 'Eventos' ? d.data_evento : '', local_evento: d.tipo === 'Eventos' ? d.local_evento.trim() : '',
+      status: 'Ativa', data_enc: '',
+    }].concat(p.itens),
+    nextId: p.nextId + 1, criadaId: d.id, selId: d.id, screen: 'criada', submitted: false, forced: [],
+  }));
+
+  confirmarEncerrar = () => {
+    const id = this.state.selId;
+    this.setState((p) => ({ itens: p.itens.map((x) => (x.id === id ? Object.assign({}, x, { status: 'Encerrada', data_enc: hoje() }) : x)), sheet: null }));
+    this.flash('toastDet', 'Campanha encerrada.');
+  };
+
+  reset = () => this.setState({ itens: SEED, nextId: 5, screen: 'lista', selId: 1, mode: 'novo', draft: emptyDraft(5), submitted: false, forced: [], sheet: null, toast: '', toastDet: '', criadaId: null });
+
+  renderVals() {
+    const s = this.state, d = s.draft;
+    const valido = this.props.formularioValido ?? true;
+    const errs = {};
+    if (s.submitted) {
+      const real = this.realErrors(d);
+      Object.assign(errs, real);
+      s.forced.forEach((k) => { if (!errs[k] && FORCED[k]) errs[k] = FORCED[k]; });
+      if (d.tipo) Object.keys(errs).forEach((k) => { if (k !== 'tipo' && k !== 'titulo' && k !== 'descricao' && REQUIRED[d.tipo].indexOf(k) < 0 && !real[k]) delete errs[k]; });
+    }
+    const nErr = Object.keys(errs).length;
+    const editando = s.mode === 'editar';
+    let active = s.screen;
+    if (s.screen === 'form') active = nErr ? 'erro' : editando ? 'editar' : 'nova';
+    if (s.screen === 'detalhe' && s.sheet === 'encerrar') active = 'encerrar';
+    const steps = STEPS.map((x, i) => {
+      const on = x.key === active;
+      return { n: i + 1, label: x.label, go: this.go(x.key), style: { display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', padding: '9px 10px', borderRadius: 10, border: '1px solid ' + (on ? '#F2DC9E' : 'transparent'), background: on ? '#FFF8E3' : 'transparent', color: on ? '#14161A' : '#3D4249' } };
+    });
+
+    const progress = (c) => Math.min(100, c.meta ? Math.round((c.arrecadado / c.meta) * 100) : 0);
+    const barStyle = (c, h) => ({ width: progress(c) + '%', height: h, borderRadius: h / 2, background: c.status === 'Encerrada' ? '#8A8D93' : '#1E8A5F' });
+    const evento = (c) => [c.data_evento ? 'Evento em ' + c.data_evento : '', c.local_evento].filter(Boolean).join(' · ');
+    const ordered = s.itens.slice().sort((a, b) => (a.status === b.status ? 0 : a.status === 'Ativa' ? -1 : 1));
+
+    const c = s.itens.find((x) => x.id === s.selId) || s.itens[0] || SEED[0];
+    const cr = s.itens.find((x) => x.id === s.criadaId) || c;
+    const tabBtn = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12.5, fontWeight: 700, color: on ? C.blue : '#6B6F76', cursor: 'pointer', padding: '0 0 6px' });
+    const tabInd = (on) => ({ width: 36, height: 3, borderRadius: '0 0 3px 3px', background: on ? C.prim : 'transparent' });
+
+    const keys = ['titulo', 'descricao', 'meta', 'data_inicio', 'data_fim', 'itens_desejados', 'data_evento', 'local_evento'];
+    const bx = {}, set = {};
+    keys.forEach((k) => {
+      bx[k] = box(!!errs[k], k === 'descricao' || k === 'itens_desejados');
+      set[k] = this.setD(k, k === 'meta' ? maskMoney : /^data_/.test(k) ? maskDate : null);
+    });
+    const e = {}; ['tipo'].concat(keys).forEach((k) => { e[k] = errs[k] || ''; });
+
+    return {
+      steps, paineis: this.props.mostrarPaineis ?? true, reset: this.reset,
+      txtValido: valido ? 'Sim' : 'Não',
+      chipValido: { fontWeight: 700, fontSize: 12, padding: '2px 8px', borderRadius: 999, background: valido ? '#E8F6F0' : '#FDF0EE', color: valido ? '#16694A' : '#8E2A20' },
+      nav: { lista: this.go('lista'), nova: this.go('nova'), erro: this.go('erro'), editar: () => this.abrirEditar(c.id) },
+      isLista: s.screen === 'lista', isForm: s.screen === 'form', isCriada: s.screen === 'criada', isDetalhe: s.screen === 'detalhe',
+      toast: s.toast, toastDet: s.toastDet,
+      lista: ordered.map((x) => ({
+        open: () => this.setState({ screen: 'detalhe', selId: x.id, toastDet: '' }),
+        slot: 'campanha-' + x.id, tipo: x.tipo, tipoTag: tag(x.tipo), status: x.status, badge: badge(x.status), dot: dot(x.status),
+        imgBox: { height: 140, width: '100%', background: '#F0EFEB', pointerEvents: 'none', filter: x.status === 'Encerrada' ? 'grayscale(1)' : 'none', opacity: x.status === 'Encerrada' ? 0.7 : 1 },
+        titulo: x.titulo,
+        isMon: x.tipo === 'Monetária', bar: barStyle(x, 8), arrecadado: brl0(x.arrecadado), meta: brl0(x.meta), pct: progress(x) + '%',
+        isItens: x.tipo === 'Itens', itens: x.itens_desejados,
+        eventoTxt: x.tipo === 'Eventos' ? evento(x) : '',
+      })),
+
+      formTitulo: editando ? 'Editar campanha' : 'Nova campanha',
+      formSub: editando ? 'As mudanças aparecem para os usuários assim que você salvar.' : 'Escolha o tipo primeiro: os campos mudam conforme a escolha.',
+      formBotao: editando ? 'Salvar alterações' : 'Publicar campanha',
+      voltarFormLabel: editando ? '← Detalhe' : '← Campanhas',
+      voltarForm: () => this.setState({ screen: editando ? 'detalhe' : 'lista', submitted: false, forced: [] }),
+      showBanner: nErr > 0, bannerTitle: nErr === 1 ? 'Revise 1 campo.' : 'Revise ' + nErr + ' campos.',
+      tipoEditavel: !editando, tipoFixo: editando, tipoFixoTag: d.tipo ? tag(d.tipo) : {},
+      tipoOpts: TIPO_KEYS.map((k) => {
+        const on = d.tipo === k;
+        return {
+          label: k, sw: { width: 10, height: 10, borderRadius: 3, background: TIPOS[k].sw, flex: 'none' },
+          pick: () => this.setState((p) => ({ draft: Object.assign({}, p.draft, { tipo: k }) })),
+          style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, fontFamily: 'inherit', fontSize: 14, fontWeight: 600, padding: '13px 6px', borderRadius: 12, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : errs.tipo ? C.err : C.border), background: on ? '#FFF8E3' : errs.tipo ? '#FDF0EE' : '#fff', color: on ? '#14161A' : '#3D4249', whiteSpace: 'nowrap' },
+        };
+      }),
+      tipoHint: errs.tipo ? '' : d.tipo ? TIPOS[d.tipo].hint : 'Escolha o tipo para ver os campos específicos.',
+      f: Object.assign({}, d, { slot: 'campanha-' + d.id }), bx, set, e,
+      descCount: d.descricao.length + '/600', itensHint: !errs.itens_desejados,
+      showMon: d.tipo === 'Monetária', showItens: d.tipo === 'Itens', showDiv: d.tipo === 'Eventos',
+      salvar: this.salvar,
+
+      cr: { titulo: cr.titulo, tipo: cr.tipo, tipoTag: tag(cr.tipo), badge: badge('Ativa'), dot: dot('Ativa'), abrir: () => this.setState({ screen: 'detalhe', selId: cr.id }) },
+
+      d: {
+        slot: 'campanha-' + c.id, tipo: c.tipo, tipoTag: tag(c.tipo), status: c.status, badge: badge(c.status), dot: dot(c.status),
+        titulo: c.titulo, descricao: c.descricao,
+        isMon: c.tipo === 'Monetária', arrecadado: brl0(c.arrecadado), meta: brl0(c.meta), pct: progress(c) + '%', bar: barStyle(c, 10), doadores: c.doacoes,
+        periodo: c.data_inicio && c.data_fim ? 'De ' + c.data_inicio + ' a ' + c.data_fim : '',
+        isItens: c.tipo === 'Itens', itens: c.itens_desejados.split(',').map((t) => t.trim()).filter(Boolean).map((t) => ({ label: t.charAt(0).toUpperCase() + t.slice(1) })), ate: c.data_fim,
+        isDiv: c.tipo === 'Eventos', dataEvento: c.data_evento || 'A definir', localEvento: c.local_evento || 'A definir',
+        ativa: c.status === 'Ativa', encerrada: c.status === 'Encerrada', dataEnc: c.data_enc,
+      },
+      abrirEncerrar: () => this.setState({ sheet: 'encerrar' }), fecharSheet: () => this.setState({ sheet: null }),
+      sheetEncerrar: s.sheet === 'encerrar' && s.screen === 'detalhe',
+      encTexto: c.tipo === 'Monetária'
+        ? 'A campanha sai do ar e para de receber doações. O valor arrecadado (' + brl0(c.arrecadado) + ') continua registrado.'
+        : c.tipo === 'Itens' ? 'A campanha sai do ar e a lista de itens deixa de aparecer para os usuários.' : 'O anúncio sai do ar e deixa de aparecer para os usuários.',
+      confirmarEncerrar: this.confirmarEncerrar,
+
+      ong: ongNav('campanhas', Object.assign({}, ONG_GO, { campanhas: this.go('lista') }), 3, 3),
+      tabOn: tabBtn(true), tabOff: tabBtn(false), indOn: tabInd(true), indOff: tabInd(false),
+      irAnimais: () => { window.location.href = URL_MAIN + '#ong=animais'; },
+      irVoluntarios: () => { window.location.href = URL_MAIN + '#ong=voluntarios'; },
+      irResgates: () => { window.location.href = URL_RESG; },
+      irDoacoes: () => { window.location.href = 'Adotae%20-%20Doa%C3%A7%C3%B5es.dc.html' + '#ong=doacoes'; },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

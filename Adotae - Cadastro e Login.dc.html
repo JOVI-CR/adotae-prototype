@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2A56D6}a:hover{color:#1C3EA0}
+input::placeholder,textarea::placeholder{color:#A6A9AE}
+@keyframes popIn{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:28px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;max-width:1360px;width:100%;margin:0 auto">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · React Native</div>
+      <h1 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Acesso, Animais e Voluntariado</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#6B6F76;max-width:56ch;text-wrap:pretty">Wireframes navegáveis em alta fidelidade. Clique dentro do aparelho para percorrer os fluxos — validação, máscaras, estados de erro e ações da ONG são reais.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onClick="{{ reset }}" style="border:1px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer" style-hover="background:#F5F4F0">Reiniciar fluxo</button>
+      <button onClick="{{ demoErro }}" style="border:1px solid #F0C9C2;background:#FDF0EE;color:#C9382C;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer" style-hover="background:#FBE5E1">Ver estado de erro</button>
+      <button onClick="{{ nav.animais }}" style="border:1px solid #F2DC9E;background:#FFF8E3;color:#2A56D6;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer" style-hover="background:#FFF3D1">Ver área da ONG</button>
+      <button onClick="{{ nav.vHome }}" style="border:1px solid #F2DC9E;background:#FFF8E3;color:#7A5600;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer" style-hover="background:#FFF1C7">Ver voluntariado</button>
+    </div>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:center;max-width:1360px;width:100%;margin:0 auto">
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <nav style="flex:0 0 232px;display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:4px 8px 8px">Cadastro e Login</div>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="7">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:16px 8px 8px;border-top:1px solid #EFEEEA;margin-top:8px">Gestão de animais · ONG</div>
+      <sc-for list="{{ steps2 }}" as="s" hint-placeholder-count="5">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:16px 8px 8px;border-top:1px solid #EFEEEA;margin-top:8px">Voluntariado · Usuário</div>
+      <sc-for list="{{ steps3 }}" as="s" hint-placeholder-count="8">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:16px 8px 8px;border-top:1px solid #EFEEEA;margin-top:8px">Voluntários · ONG</div>
+      <sc-for list="{{ steps4 }}" as="s" hint-placeholder-count="4">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Decisões</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;line-height:1.3;color:#3D4249;white-space:nowrap"><span>Usuário logado?</span><span style="{{ chipLogado }}">{{ txtLogado }}</span></div>
+      </div>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;font-size:12px;line-height:1.5;color:#6B6F76">Referência: iPhone 390 × 844 pt. Componentes mapeiam 1:1 para <span style="color:#3D4249;font-weight:600">Pressable</span>, <span style="color:#3D4249;font-weight:600">TextInput</span>, <span style="color:#3D4249;font-weight:600">Switch</span> e <span style="color:#3D4249;font-weight:600">Modal</span>.</div>
+    </nav>
+    </sc-if>
+
+    <div style="flex:none">
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 390 }}" height="{{ 844 }}" hint-size="390px,844px">
+
+        <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+          <div style="height:100%;display:flex;flex-direction:column;background:#F7F7F5">
+            <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 0 20px">
+              <div style="margin-top:-62px;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:10px">
+                <div style="width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none"><img src="assets/adotae-marca.png" alt="Adotaê" style="width:32px;height:32px;object-fit:contain;display:block"></div>
+                <div style="flex:1;min-width:0;font-size:18px;font-weight:800;letter-spacing:-.02em;color:#14161A">Adotaê</div>
+                <sc-if value="{{ homeLogado }}">
+                  <button onClick="{{ tabs.perfil }}" aria-label="Minha conta" style="width:44px;height:44px;border-radius:50%;border:none;background:#F5B820;color:#14161A;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;flex:none">{{ homeIniciais }}</button>
+                </sc-if>
+                <sc-if value="{{ homeDeslogado }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ entrar }}" style="border:1.5px solid #2A56D6;background:#fff;color:#2A56D6;font-family:inherit;font-size:15px;font-weight:700;padding:10px 18px;border-radius:12px;cursor:pointer;white-space:nowrap;flex:none" style-hover="background:#FFF8E3">Entrar</button>
+                </sc-if>
+              </div>
+              <div style="padding:20px 20px 0;display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+                <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Campanhas em destaque</h3>
+                <span style="font-size:13px;color:#6B6F76">{{ nCampanhas }} ativas</span>
+              </div>
+              <div style="display:flex;gap:12px;overflow-x:auto;padding:12px 20px 4px;scroll-snap-type:x mandatory">
+                <sc-for list="{{ homeCampanhas }}" as="c" hint-placeholder-count="3">
+                  <button onClick="{{ c.open }}" style="flex:none;width:256px;scroll-snap-align:start;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;padding:0;display:flex;flex-direction:column" style-hover="border-color:#C9D6FA">
+                    <div style="height:112px;width:100%;background:#F0EFEB;pointer-events:none"><image-slot id="{{ c.slot }}" shape="rect" placeholder="Imagem"></image-slot></div>
+                    <div style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:7px;width:100%;box-sizing:border-box">
+                      <div><span style="{{ c.tipoTag }}">{{ c.tipo }}</span></div>
+                      <div style="font-size:16px;font-weight:700;color:#14161A;line-height:1.25">{{ c.titulo }}</div>
+                      <sc-if value="{{ c.isMon }}">
+                        <div style="display:flex;flex-direction:column;gap:6px">
+                          <div style="height:8px;border-radius:4px;background:#EFEEEA;overflow:hidden"><div style="{{ c.bar }}"></div></div>
+                          <div style="display:flex;justify-content:space-between;gap:8px;font-size:13px"><span style="color:#14161A;font-weight:600">{{ c.arrecadado }} <span style="color:#6B6F76;font-weight:400">de {{ c.meta }}</span></span><span style="color:#6B6F76;font-weight:600">{{ c.pct }}</span></div>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ c.isItens }}"><div style="font-size:13.5px;line-height:1.45;color:#3D4249;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ c.itens }}</div></sc-if>
+                      <sc-if value="{{ c.eventoTxt }}"><div style="font-size:13.5px;line-height:1.45;color:#3D4249">{{ c.eventoTxt }}</div></sc-if>
+                    </div>
+                  </button>
+                </sc-for>
+              </div>
+              <div style="padding:22px 20px 0">
+                <h2 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.15">Animais para adoção</h2>
+                <p style="margin:6px 0 0;font-size:15px;color:#6B6F76">{{ homeCount }}</p>
+              </div>
+              <div style="display:flex;gap:8px;padding:14px 20px 4px">
+                <sc-for list="{{ homeFiltros }}" as="c" hint-placeholder-count="3">
+                  <button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}</button>
+                </sc-for>
+              </div>
+              <div style="padding:14px 20px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+                <sc-for list="{{ homeAnimais }}" as="a" hint-placeholder-count="4">
+                  <button onClick="{{ a.open }}" style="text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;padding:0;display:flex;flex-direction:column" style-hover="border-color:#C9D6FA">
+                    <div style="height:132px;width:100%;background:#F0EFEB;pointer-events:none"><image-slot id="{{ a.slot }}" shape="rect" placeholder="Foto"></image-slot></div>
+                    <div style="padding:12px 12px 14px;display:flex;flex-direction:column;gap:3px">
+                      <div style="font-size:16px;font-weight:700;color:#14161A">{{ a.nome }}</div>
+                      <div style="font-size:13.5px;color:#3D4249">{{ a.linha1 }}</div>
+                      <div style="font-size:13px;color:#6B6F76">{{ a.idade }}</div>
+                    </div>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isPerfil }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:70px 24px 40px;display:flex;flex-direction:column;background:#fff;overflow-y:auto">
+            <button onClick="{{ nav.landing }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Início</button>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center">
+              <div style="width:72px;height:72px;border-radius:50%;background:#F5B820;color:#14161A;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px #EAF0FD,0 0 0 9px #C9D6FA">{{ homeIniciais }}</div>
+              <div style="font-size:15.5px;line-height:1.5;color:#6B6F76">Perfil (fora do escopo deste fluxo)</div>
+            </div>
+            <button onClick="{{ fazerDenuncia }}" style="width:100%;margin-bottom:10px;border:1.5px solid #2A56D6;background:#fff;color:#2A56D6;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#FFF8E3">Fazer denúncia</button>
+            <button onClick="{{ sair }}" style="width:100%;border:1.5px solid #2A56D6;background:#fff;color:#2A56D6;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#FFF8E3">Sair</button>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTipo }}">
+          <div style="height:100%;box-sizing:border-box;padding:70px 24px 40px;display:flex;flex-direction:column;background:#fff">
+            <button onClick="{{ nav.landing }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Voltar</button>
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 1 de 3</div>
+              <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Como você quer usar o Adotaê?</h2>
+              <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76">Isso define o seu cadastro e o que você verá no app.</p>
+            </div>
+            <div style="margin-top:26px;display:flex;flex-direction:column;gap:14px">
+              <button onClick="{{ pickUser }}" style="{{ cardUser }}">
+                <div style="display:flex;align-items:flex-start;gap:14px">
+                  <div style="width:44px;height:44px;border-radius:13px;background:#FFF8E3;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:16px;height:16px;border-radius:50%;background:#F5B820"></div></div>
+                  <div style="flex:1;min-width:0;text-align:left">
+                    <div style="font-size:17px;font-weight:700;color:#14161A">Sou adotante/voluntário</div>
+                    <div style="font-size:14px;line-height:1.45;color:#6B6F76;margin-top:4px">Quero adotar, doar, ser voluntário ou denunciar maus-tratos.</div>
+                  </div>
+                  <div style="{{ radioUser }}"></div>
+                </div>
+              </button>
+              <button onClick="{{ pickOng }}" style="{{ cardOng }}">
+                <div style="display:flex;align-items:flex-start;gap:14px">
+                  <div style="width:44px;height:44px;border-radius:13px;background:#FFF3D1;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:16px;height:16px;border-radius:4px;background:#F5B820"></div></div>
+                  <div style="flex:1;min-width:0;text-align:left">
+                    <div style="font-size:17px;font-weight:700;color:#14161A">Sou uma ONG/abrigo</div>
+                    <div style="font-size:14px;line-height:1.45;color:#6B6F76;margin-top:4px">Quero cadastrar animais, receber doações e organizar campanhas.</div>
+                  </div>
+                  <div style="{{ radioOng }}"></div>
+                </div>
+              </button>
+            </div>
+            <div style="flex:1"></div>
+            <button onClick="{{ continuarTipo }}" style="{{ btnContinuar }}">Continuar</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isForm }}">
+          <div style="height:100%;box-sizing:border-box;padding:70px 24px 40px;display:flex;flex-direction:column;background:#fff;overflow:auto">
+            <button onClick="{{ nav.tipo }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Voltar</button>
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 2 de 3</div>
+              <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ formTitle }}</h2>
+              <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76">{{ formSub }}</p>
+            </div>
+
+            <sc-if value="{{ showBanner }}">
+              <div style="margin-top:18px;display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                <div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                <div style="font-size:13.5px;line-height:1.45;color:#8E2A20"><span style="font-weight:700;color:#C9382C">{{ bannerTitle }}</span> {{ bannerText }}</div>
+              </div>
+            </sc-if>
+
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:16px">
+              <sc-for list="{{ fields }}" as="f" hint-placeholder-count="4">
+                <div>
+                  <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">{{ f.label }}</label>
+                  <div style="{{ f.box }}">
+                    <input value="{{ f.value }}" onChange="{{ f.set }}" placeholder="{{ f.placeholder }}" type="{{ f.type }}" inputMode="{{ f.mode }}" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0">
+                    <sc-if value="{{ f.toggle }}">
+                      <button onClick="{{ f.toggle }}" style="border:none;background:none;font-family:inherit;font-size:13px;font-weight:600;color:#2A56D6;cursor:pointer;padding:4px">{{ f.toggleLabel }}</button>
+                    </sc-if>
+                  </div>
+                  <sc-if value="{{ f.error }}">
+                    <div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px">
+                      <div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                      <div style="font-size:13px;line-height:1.4;color:#C9382C">{{ f.error }}</div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ f.hint }}">
+                    <div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:7px">{{ f.hint }}</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="height:26px"></div>
+            <button onClick="{{ submitForm }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Criar conta</button>
+            <button onClick="{{ nav.login }}" style="margin-top:12px;width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Já tenho conta · <span style="color:#2A56D6">Entrar</span></button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isSucesso }}">
+          <div style="height:100%;box-sizing:border-box;padding:88px 28px 46px;display:flex;flex-direction:column;background:linear-gradient(180deg,#EAF7F1 0%,#FFFFFF 44%)">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center">
+              <div style="width:88px;height:88px;border-radius:50%;background:#1E8A5F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:42px;font-weight:700;animation:popIn .32s cubic-bezier(.2,1.2,.3,1);box-shadow:0 12px 28px rgba(30,138,95,.28)">✓</div>
+              <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1E8A5F">Passo 3 de 3</div>
+                <h2 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ successTitle }}</h2>
+                <p style="margin:0;font-size:16px;line-height:1.55;color:#6B6F76;max-width:28ch;text-wrap:pretty">{{ successText }}</p>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;max-width:300px">
+                <div style="font-size:13.5px;line-height:1.45;color:#16694A;text-align:left">{{ successNote }}</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <button onClick="{{ nav.login }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Continuar para o login</button>
+              <button onClick="{{ nav.landing }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Voltar ao início</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isLogin }}">
+          <div style="height:100%;box-sizing:border-box;padding:70px 24px 40px;display:flex;flex-direction:column;background:#fff">
+            <button onClick="{{ nav.landing }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Voltar</button>
+            <div style="margin-top:22px;display:flex;align-items:center;gap:12px">
+              <div style="width:52px;height:52px;border-radius:16px;background:#fff;border:1px solid #E4E3DE;box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex:none"><img src="assets/adotae-marca.png" alt="Adotaê" style="width:40px;height:40px;object-fit:contain;display:block"></div>
+              <div>
+                <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Entrar</h2>
+                <p style="margin:3px 0 0;font-size:14.5px;color:#6B6F76">Que bom ter você de volta.</p>
+              </div>
+            </div>
+
+            <sc-if value="{{ loginGate }}">
+              <div style="margin-top:20px;display:flex;gap:10px;align-items:flex-start;background:#FFF8E3;border:1px solid #F2DC9E;border-left:4px solid #F5B820;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                <div style="width:18px;height:18px;border-radius:50%;background:#F5B820;color:#14161A;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">i</div>
+                <div style="font-size:13.5px;line-height:1.45;color:#1C3EA0"><span style="font-weight:700">Entre para continuar.</span> {{ loginGateTxt }}</div>
+              </div>
+            </sc-if>
+
+            <div style="margin-top:24px;display:flex;flex-direction:column;gap:16px">
+              <sc-for list="{{ loginFields }}" as="f" hint-placeholder-count="2">
+                <div>
+                  <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">{{ f.label }}</label>
+                  <div style="{{ f.box }}">
+                    <input value="{{ f.value }}" onChange="{{ f.set }}" placeholder="{{ f.placeholder }}" type="{{ f.type }}" inputMode="{{ f.mode }}" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0">
+                    <sc-if value="{{ f.toggle }}">
+                      <button onClick="{{ f.toggle }}" style="border:none;background:none;font-family:inherit;font-size:13px;font-weight:600;color:#2A56D6;cursor:pointer;padding:4px">{{ f.toggleLabel }}</button>
+                    </sc-if>
+                  </div>
+                  <sc-if value="{{ f.error }}">
+                    <div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px">
+                      <div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                      <div style="font-size:13px;line-height:1.4;color:#C9382C">{{ f.error }}</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+
+            <button onClick="{{ esqueciSenha }}" style="align-self:flex-end;margin-top:12px;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#2A56D6;cursor:pointer;padding:6px 2px">Esqueci minha senha</button>
+
+            <sc-if value="{{ recuperacao }}">
+              <div style="margin-top:10px;display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ recuperacao }}</div>
+              </div>
+            </sc-if>
+
+            <div style="flex:1;min-height:24px"></div>
+            <button onClick="{{ submitLogin }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Entrar</button>
+            <button onClick="{{ nav.tipo }}" style="margin-top:12px;width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Não tem conta? · <span style="color:#2A56D6">Criar uma conta</span></button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVHome }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:62px 20px 40px;display:flex;flex-direction:column;gap:18px;background:#F7F7F5;overflow-y:auto">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#6B6F76">Boas-vindas de volta</div><h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Olá, {{ userFirst }}</h2></div>
+              <button onClick="{{ reset }}" style="width:44px;height:44px;border-radius:50%;border:none;background:#F5B820;color:#14161A;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;flex:none">{{ userIniciais }}</button>
+            </div>
+            <div style="background:#F5B820;border-radius:20px;padding:22px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:none">
+              <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#3D4249">Voluntariado</div>
+              <div style="font-size:23px;font-weight:800;line-height:1.25;letter-spacing:-.01em;color:#14161A">Doe seu tempo a quem mais precisa</div>
+              <div style="font-size:14.5px;line-height:1.5;color:#3D4249">{{ vagasResumo }}</div>
+              <div style="height:6px"></div>
+              <button onClick="{{ nav.vOngs }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Quero ser Voluntário</button>
+            </div>
+            <sc-if value="{{ hasCand }}">
+              <div style="background:#EAF0FD;border:1px solid #C9D6FA;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;flex:none;animation:slideUp .2s ease">
+                <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Minha candidatura</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><div style="font-size:16px;font-weight:700;color:#14161A">{{ cand.ong }}</div><span style="{{ cand.badge }}"><span style="{{ cand.dot }}"></span>{{ cand.status }}</span></div>
+                <div style="font-size:13.5px;line-height:1.45;color:#4A4E55">{{ cand.texto }}</div>
+              </div>
+            </sc-if>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#3D4249;margin-bottom:10px">Outras formas de ajudar</div>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+                <div style="background:#fff;border:1px solid #E4E3DE;border-radius:14px;padding:14px 12px;display:flex;flex-direction:column;gap:10px"><div style="width:28px;height:28px;border-radius:9px;background:#FFF8E3;display:flex;align-items:center;justify-content:center"><div style="width:10px;height:10px;border-radius:50%;background:#F5B820"></div></div><div style="font-size:14.5px;font-weight:700;color:#14161A">Adotar</div></div>
+                <div style="background:#fff;border:1px solid #E4E3DE;border-radius:14px;padding:14px 12px;display:flex;flex-direction:column;gap:10px"><div style="width:28px;height:28px;border-radius:9px;background:#FFF3D1;display:flex;align-items:center;justify-content:center"><div style="width:10px;height:10px;border-radius:3px;background:#D99A00"></div></div><div style="font-size:14.5px;font-weight:700;color:#14161A">Doar</div></div>
+                <div style="background:#fff;border:1px solid #E4E3DE;border-radius:14px;padding:14px 12px;display:flex;flex-direction:column;gap:10px"><div style="width:28px;height:28px;border-radius:9px;background:#FDF0EE;display:flex;align-items:center;justify-content:center"><div style="width:10px;height:10px;border-radius:50%;background:#C9382C"></div></div><div style="font-size:14.5px;font-weight:700;color:#14161A">Denunciar</div></div>
+              </div>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAnimais }}">
+          <div style="height:100%;position:relative;overflow:hidden;background:#F7F7F5">
+            <div style="height:100%;box-sizing:border-box;padding:62px 0 0;display:flex;flex-direction:column">
+              <div style="margin-top:-62px;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:12px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:#3D4249">{{ ongNome }}</div>
+                  <h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Meus animais</h2>
+                </div>
+                <button onClick="{{ reset }}" style="width:44px;height:44px;border-radius:50%;border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;flex:none">{{ ongIniciais }}</button>
+              </div>
+
+              <div style="padding:16px 20px 0">
+                <button onClick="{{ openNovo }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">+ Cadastrar animal</button>
+              </div>
+
+              <div style="display:flex;gap:8px;overflow-x:auto;padding:16px 20px 4px;flex:none">
+                <sc-for list="{{ filtros }}" as="c" hint-placeholder-count="5">
+                  <button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }} <span style="opacity:.7">{{ c.count }}</span></button>
+                </sc-for>
+              </div>
+
+              <sc-if value="{{ toast }}">
+                <div style="margin:10px 20px 0;display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                  <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                  <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toast }}</div>
+                </div>
+              </sc-if>
+
+              <div style="flex:1;overflow-y:auto;padding:12px 20px 40px;display:flex;flex-direction:column;gap:12px">
+                <sc-for list="{{ animaisVis }}" as="a" hint-placeholder-count="4">
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;flex:none">
+                    <div style="display:flex;gap:14px;padding:14px">
+                      <div style="width:80px;height:80px;flex:none;border-radius:12px;overflow:hidden;background:#F0EFEB">
+                        <image-slot id="{{ a.slot }}" shape="rounded" radius="12" placeholder="Foto"></image-slot>
+                      </div>
+                      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+                          <div style="font-size:17px;font-weight:700;color:#14161A;line-height:1.2">{{ a.nome }}</div>
+                        </div>
+                        <div style="font-size:14px;color:#3D4249">{{ a.sub }}</div>
+                        <div style="font-size:13px;color:#6B6F76">{{ a.meta }}</div>
+                        <div style="margin-top:4px"><span style="{{ a.badge }}"><span style="{{ a.dot }}"></span>{{ a.status }}</span></div>
+                      </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid #EFEEEA">
+                      <button onClick="{{ a.edit }}" style="border:none;background:none;font-family:inherit;font-size:14px;font-weight:600;color:#2A56D6;padding:13px 4px;cursor:pointer" style-hover="background:#FFFBEF">Editar</button>
+                      <button onClick="{{ a.changeStatus }}" style="border:none;border-left:1px solid #EFEEEA;border-right:1px solid #EFEEEA;background:none;font-family:inherit;font-size:14px;font-weight:600;color:#2A56D6;padding:13px 4px;cursor:pointer" style-hover="background:#FFFBEF">Alterar status</button>
+                      <button onClick="{{ a.remove }}" style="border:none;background:none;font-family:inherit;font-size:14px;font-weight:600;color:#C9382C;padding:13px 4px;cursor:pointer" style-hover="background:#FDF0EE">Remover</button>
+                    </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ listaVazia }}">
+                  <div style="background:#fff;border:1.5px dashed #D9D8D2;border-radius:16px;padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center">
+                    <div style="font-size:16px;font-weight:700;color:#14161A">{{ vazioTitulo }}</div>
+                    <div style="font-size:14px;line-height:1.5;color:#6B6F76;max-width:30ch">{{ vazioTexto }}</div>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 6px 28px"><button onClick="{{ ong.go.animais }}" style="{{ ong.st.animais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5.5" cy="10.5" r="1.8"></circle><circle cx="9.5" cy="6" r="1.8"></circle><circle cx="14.5" cy="6" r="1.8"></circle><circle cx="18.5" cy="10.5" r="1.8"></circle><path d="M12 12.5c-3 0-5.5 3-5.5 5.3 0 1.5 1.2 2.2 2.6 2.2 1.1 0 1.9-.6 2.9-.6s1.8.6 2.9.6c1.4 0 2.6-.7 2.6-2.2 0-2.3-2.5-5.3-5.5-5.3z"></path></svg></span><span>Animais</span></button><button onClick="{{ ong.go.resgates }}" style="{{ ong.st.resgates }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><sc-if value="{{ ong.resgBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nResg }}</span></sc-if></span><span>Resgates</span></button><button onClick="{{ ong.go.voluntarios }}" style="{{ ong.st.voluntarios }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><sc-if value="{{ ong.volBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nVol }}</span></sc-if></span><span>Voluntários</span></button><button onClick="{{ ong.go.campanhas }}" style="{{ ong.st.campanhas }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M4 10v4h3l8 4.5V5.5L7 10H4z"></path><path d="M18.5 9a4 4 0 0 1 0 6"></path></svg></span><span>Campanhas</span></button><button onClick="{{ ong.go.mais }}" style="{{ ong.st.mais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span><span>Mais</span></button></div>
+            </div>
+
+            <sc-if value="{{ sheetForm }}">
+              <div style="position:absolute;inset:0;background:rgba(20,22,26,.45);animation:fadeIn .2s ease;z-index:5">
+                <div style="position:absolute;left:0;right:0;bottom:0;top:58px;background:#fff;border-radius:24px 24px 0 0;display:flex;flex-direction:column;animation:sheetUp .28s cubic-bezier(.2,.8,.2,1)">
+                  <div style="width:40px;height:5px;border-radius:3px;background:#D9D8D2;margin:8px auto 0;flex:none"></div>
+                  <div style="display:flex;align-items:center;gap:12px;padding:12px 20px 12px;border-bottom:1px solid #EFEEEA;flex:none">
+                    <h3 style="margin:0;flex:1;font-size:20px;font-weight:800;letter-spacing:-.01em;color:#14161A">{{ formAnimalTitulo }}</h3>
+                    <button onClick="{{ closeSheet }}" style="border:none;background:#F0EFEB;width:36px;height:36px;border-radius:50%;font-family:inherit;font-size:16px;color:#3D4249;cursor:pointer">✕</button>
+                  </div>
+
+                  <div style="flex:1;overflow-y:auto;padding:18px 20px 24px;display:flex;flex-direction:column;gap:18px">
+                    <sc-if value="{{ af.showBanner }}">
+                      <div style="display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                        <div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                        <div style="font-size:13.5px;line-height:1.45;color:#8E2A20"><span style="font-weight:700;color:#C9382C">{{ af.bannerTitle }}</span> Corrija os itens destacados para salvar. Nada do que você preencheu foi perdido.</div>
+                      </div>
+                    </sc-if>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Fotos</label>
+                      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+                        <div style="height:104px;border-radius:12px;border:1.5px dashed #CFCEC8;overflow:hidden"><image-slot id="{{ af.slot1 }}" shape="rounded" radius="11" placeholder="Capa"></image-slot></div>
+                        <div style="height:104px;border-radius:12px;border:1.5px dashed #CFCEC8;overflow:hidden"><image-slot id="{{ af.slot2 }}" shape="rounded" radius="11" placeholder="+ Foto"></image-slot></div>
+                        <div style="height:104px;border-radius:12px;border:1.5px dashed #CFCEC8;overflow:hidden"><image-slot id="{{ af.slot3 }}" shape="rounded" radius="11" placeholder="+ Foto"></image-slot></div>
+                      </div>
+                      <div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:7px">Toque para adicionar até 3 fotos. A primeira será a capa.</div>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Nome</label>
+                      <div style="{{ af.nome.box }}"><input value="{{ af.nome.value }}" onChange="{{ af.nome.set }}" placeholder="Ex.: Thor" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                      <sc-if value="{{ af.nome.error }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ af.nome.error }}</div></div></sc-if>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Espécie</label>
+                      <div style="display:flex;gap:8px">
+                        <sc-for list="{{ af.especieOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+                      </div>
+                      <sc-if value="{{ af.especieErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ af.especieErr }}</div></div></sc-if>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:12px">
+                      <div>
+                        <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Raça</label>
+                        <div style="{{ af.raca.box }}"><input value="{{ af.raca.value }}" onChange="{{ af.raca.set }}" placeholder="Ex.: SRD" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                      </div>
+                      <div>
+                        <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Idade</label>
+                        <div style="{{ af.idade.box }}"><input value="{{ af.idade.value }}" onChange="{{ af.idade.set }}" placeholder="Ex.: 2 anos" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                      </div>
+                    </div>
+                    <sc-if value="{{ af.racaIdadeErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:-10px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ af.racaIdadeErr }}</div></div></sc-if>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Porte</label>
+                      <div style="display:flex;gap:8px">
+                        <sc-for list="{{ af.porteOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+                      </div>
+                      <sc-if value="{{ af.porteErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ af.porteErr }}</div></div></sc-if>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Sexo</label>
+                      <div style="display:flex;gap:8px">
+                        <sc-for list="{{ af.sexoOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+                      </div>
+                      <sc-if value="{{ af.sexoErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ af.sexoErr }}</div></div></sc-if>
+                    </div>
+
+                    <div style="border:1.5px solid #E4E3DE;border-radius:14px;overflow:hidden">
+                      <button onClick="{{ af.toggleCastrado }}" style="width:100%;display:flex;align-items:center;gap:12px;border:none;background:#fff;font-family:inherit;padding:14px 16px;cursor:pointer;text-align:left">
+                        <div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:600;color:#14161A">Castrado</div><div style="font-size:13px;color:#6B6F76;margin-top:2px">{{ af.castradoTxt }}</div></div>
+                        <div style="{{ af.castradoTrack }}"><div style="{{ af.castradoKnob }}"></div></div>
+                      </button>
+                      <button onClick="{{ af.toggleChip }}" style="width:100%;display:flex;align-items:center;gap:12px;border:none;border-top:1px solid #EFEEEA;background:#fff;font-family:inherit;padding:14px 16px;cursor:pointer;text-align:left">
+                        <div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:600;color:#14161A">Possui microchip</div><div style="font-size:13px;color:#6B6F76;margin-top:2px">{{ af.chipTxt }}</div></div>
+                        <div style="{{ af.chipTrack }}"><div style="{{ af.chipKnob }}"></div></div>
+                      </button>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Descrição</label>
+                      <div style="{{ af.desc.box }}"><textarea value="{{ af.desc.value }}" onChange="{{ af.desc.set }}" rows="4" maxLength="500" placeholder="Temperamento, história, cuidados especiais, se convive com outros animais…" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:1.45;color:#14161A;padding:14px 0;resize:none"></textarea></div>
+                      <div style="display:flex;gap:8px;justify-content:space-between;align-items:flex-start;margin-top:7px">
+                        <sc-if value="{{ af.desc.error }}"><div style="display:flex;gap:6px;align-items:flex-start"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ af.desc.error }}</div></div></sc-if>
+                        <sc-if value="{{ af.desc.hint }}"><div style="font-size:12.5px;line-height:1.4;color:#6B6F76">{{ af.desc.hint }}</div></sc-if>
+                        <div style="font-size:12.5px;color:#6B6F76;flex:none">{{ af.descCount }}</div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Status de disponibilidade</label>
+                      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                        <sc-for list="{{ af.statusOpts }}" as="o" hint-placeholder-count="4">
+                          <button onClick="{{ o.pick }}" style="{{ o.style }}"><span style="{{ o.dot }}"></span><span>{{ o.label }}</span></button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="padding:14px 20px 34px;border-top:1px solid #EFEEEA;display:flex;flex-direction:column;gap:6px;flex:none;background:#fff">
+                    <button onClick="{{ saveAnimal }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">{{ formAnimalBotao }}</button>
+                    <button onClick="{{ closeSheet }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ sheetStatus }}">
+              <div style="position:absolute;inset:0;background:rgba(20,22,26,.45);animation:fadeIn .2s ease;z-index:5">
+                <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;display:flex;flex-direction:column;animation:sheetUp .28s cubic-bezier(.2,.8,.2,1)">
+                  <div style="width:40px;height:5px;border-radius:3px;background:#D9D8D2;margin:8px auto 0"></div>
+                  <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 20px 4px">
+                    <div style="flex:1;min-width:0">
+                      <h3 style="margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em;color:#14161A">Alterar status</h3>
+                      <p style="margin:4px 0 0;font-size:14.5px;color:#6B6F76">{{ statusSub }}</p>
+                    </div>
+                    <button onClick="{{ closeSheet }}" style="border:none;background:#F0EFEB;width:36px;height:36px;border-radius:50%;font-family:inherit;font-size:16px;color:#3D4249;cursor:pointer;flex:none">✕</button>
+                  </div>
+                  <div style="padding:14px 20px 0;display:flex;flex-direction:column;gap:10px">
+                    <sc-for list="{{ statusSheetOpts }}" as="o" hint-placeholder-count="4">
+                      <button onClick="{{ o.pick }}" style="{{ o.style }}">
+                        <span style="{{ o.badge }}"><span style="{{ o.dot }}"></span>{{ o.label }}</span>
+                        <span style="flex:1"></span>
+                        <span style="{{ o.radio }}"></span>
+                        <span style="flex-basis:100%;font-size:13.5px;line-height:1.45;color:#6B6F76;text-align:left">{{ o.desc }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="padding:18px 20px 34px;display:flex;flex-direction:column;gap:6px">
+                    <button onClick="{{ saveStatus }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Salvar status</button>
+                    <button onClick="{{ closeSheet }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ sheetRemover }}">
+              <div style="position:absolute;inset:0;background:rgba(20,22,26,.5);animation:fadeIn .2s ease;z-index:5;display:flex;align-items:center;justify-content:center;padding:24px">
+                <div style="width:100%;background:#fff;border-radius:20px;padding:26px 22px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;animation:popIn .22s cubic-bezier(.2,1.1,.3,1)">
+                  <div style="width:60px;height:60px;border-radius:50%;background:#FDF0EE;display:flex;align-items:center;justify-content:center">
+                    <div style="width:32px;height:32px;border-radius:50%;background:#C9382C;color:#fff;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center">!</div>
+                  </div>
+                  <h3 style="margin:6px 0 0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#14161A">{{ removerTitulo }}</h3>
+                  <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76;text-wrap:pretty">O perfil sai da sua lista e das buscas de adoção. Pedidos em aberto serão cancelados. Esta ação não pode ser desfeita.</p>
+                  <div style="width:100%;display:flex;flex-direction:column;gap:10px;margin-top:10px">
+                    <button onClick="{{ confirmRemove }}" style="width:100%;border:none;background:#C9382C;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#AE2E23">Remover animal</button>
+                    <button onClick="{{ closeSheet }}" style="width:100%;border:1.5px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:17px;font-weight:700;padding:15px;border-radius:14px;cursor:pointer" style-hover="background:#F5F4F0">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVOngs }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:62px 0 0;display:flex;flex-direction:column;background:#F7F7F5;overflow-y:auto">
+            <div style="margin-top:-62px;padding:62px 20px 22px;background:#F5B820;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden">
+              <div style="position:absolute;right:-28px;top:34px;width:132px;height:132px;border-radius:50%;background:#fff;opacity:.25;pointer-events:none"></div>
+              <button onClick="{{ nav.vHome }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#14161A;cursor:pointer;position:relative">← Início</button>
+              <h2 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2;position:relative">ONGs aceitando voluntários</h2>
+              <p style="margin:0;font-size:15px;line-height:1.5;color:#3D4249;position:relative">{{ ongsCount }} organizações perto de você com vagas abertas.</p>
+            </div>
+            <div style="flex:1;overflow-y:auto;padding:16px 20px 40px;display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ ongsVis }}" as="o" hint-placeholder-count="3">
+                <div onClick="{{ o.open }}" style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;flex:none;cursor:pointer" style-hover="border-color:#C9D6FA">
+                  <div style="display:flex;gap:14px;padding:14px">
+                    <div style="width:80px;height:80px;flex:none;border-radius:12px;overflow:hidden;background:#F0EFEB;pointer-events:none"><image-slot id="{{ o.slot }}" shape="rounded" radius="12" placeholder="Logo"></image-slot></div>
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                      <div style="font-size:17px;font-weight:700;color:#14161A;line-height:1.2">{{ o.nome }}</div>
+                      <div style="font-size:14px;color:#3D4249">{{ o.local }}</div>
+                      <div style="margin-top:4px"><span style="{{ o.badge }}"><span style="{{ o.dot }}"></span>{{ o.vagas }}</span></div>
+                    </div>
+                  </div>
+                  <div style="border-top:1px solid #EFEEEA;padding:12px 14px;font-size:13.5px;color:#6B6F76;display:flex;justify-content:space-between;gap:8px"><span style="min-width:0">{{ o.atividades }}</span><span style="color:#2A56D6;font-weight:600;flex:none">Ver detalhes ›</span></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVOngDetalhe }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;overflow:hidden;background:#fff">
+            <div style="height:100%;display:flex;flex-direction:column">
+              <div style="flex:1;overflow-y:auto">
+                <div style="position:relative;height:240px;background:#F0EFEB">
+                  <image-slot id="{{ vong.slot }}" shape="rect" placeholder="Foto da ONG"></image-slot>
+                  <button onClick="{{ nav.vOngs }}" style="position:absolute;top:58px;left:16px;z-index:2;border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:14.5px;font-weight:700;padding:9px 14px;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(20,22,26,.15)">← Voltar</button>
+                </div>
+                <div style="padding:20px 20px 28px;display:flex;flex-direction:column;gap:22px">
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <div><span style="{{ vong.badge }}"><span style="{{ vong.dot }}"></span>{{ vong.vagas }}</span></div>
+                    <h2 style="margin:4px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ vong.nome }}</h2>
+                    <div style="font-size:14.5px;color:#6B6F76">{{ vong.local }}</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Quem somos</h3>
+                    <p style="margin:0;font-size:15px;line-height:1.55;color:#3D4249;text-wrap:pretty">{{ vong.sobre }}</p>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>O que voluntários fazem aqui</h3>
+                    <div style="border:1px solid #E4E3DE;border-radius:14px;overflow:hidden">
+                      <sc-for list="{{ vong.atividades }}" as="a" hint-placeholder-count="3">
+                        <div style="display:flex;gap:12px;align-items:center;padding:13px 14px;border-bottom:1px solid #EFEEEA"><div style="width:8px;height:8px;border-radius:50%;background:#F5B820;flex:none"></div><div style="font-size:15px;color:#14161A">{{ a.label }}</div></div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Turnos disponíveis</h3>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ vong.turnos }}" as="c" hint-placeholder-count="2"><span style="padding:7px 12px;border-radius:999px;background:#FFF8E3;color:#1C3EA0;font-size:13.5px;font-weight:600">{{ c.label }}</span></sc-for></div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Requisitos</h3>
+                    <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.5;color:#3D4249">
+                      <sc-for list="{{ vong.requisitos }}" as="r" hint-placeholder-count="3"><li>{{ r.label }}</li></sc-for>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div style="flex:none;padding:14px 20px;border-top:1px solid #EFEEEA;background:#fff"><button onClick="{{ openConfirmar }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Candidatar-se</button></div>
+            </div>
+
+            <sc-if value="{{ vSheetConfirmar }}">
+              <div style="position:absolute;inset:0;background:rgba(20,22,26,.45);animation:fadeIn .2s ease;z-index:5">
+                <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 22px 34px;animation:sheetUp .28s cubic-bezier(.2,.8,.2,1)">
+                  <div style="width:40px;height:5px;border-radius:3px;background:#D9D8D2;margin:8px auto 18px"></div>
+                  <div style="width:60px;height:60px;border-radius:50%;background:#FFF8E3;display:flex;align-items:center;justify-content:center"><div style="width:32px;height:32px;border-radius:50%;background:#F5B820;color:#14161A;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center">?</div></div>
+                  <h3 style="margin:14px 0 0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#14161A;line-height:1.3;text-wrap:pretty">Deseja se candidatar como voluntário desta ONG?</h3>
+                  <p style="margin:8px 0 0;font-size:15px;line-height:1.5;color:#6B6F76;text-wrap:pretty">Você vai preencher uma candidatura rápida para <span style="font-weight:700;color:#3D4249">{{ vong.nome }}</span>. A ONG analisa e responde pelo app.</p>
+                  <div style="width:100%;margin-top:16px;background:#FEF6E4;border:1px solid #F2DC9E;border-radius:14px;display:grid;grid-template-columns:1fr 1fr;text-align:left">
+                    <div style="padding:12px 14px"><div style="font-size:12.5px;color:#4A4E55">Tempo estimado</div><div style="font-size:15px;font-weight:700;color:#14161A;margin-top:2px">2 minutos</div></div>
+                    <div style="padding:12px 14px;border-left:1px solid #F2DC9E"><div style="font-size:12.5px;color:#4A4E55">Resposta em até</div><div style="font-size:15px;font-weight:700;color:#14161A;margin-top:2px">5 dias úteis</div></div>
+                  </div>
+                  <div style="width:100%;display:flex;flex-direction:column;gap:6px;margin-top:18px">
+                    <button onClick="{{ nav.vForm }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Sim, continuar</button>
+                    <button onClick="{{ closeVSheet }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Agora não</button>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVForm }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:70px 24px 40px;display:flex;flex-direction:column;background:#fff;overflow:auto">
+            <button onClick="{{ nav.vOngDetalhe }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Voltar</button>
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 1 de 2</div><h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Candidatura de voluntário</h2><p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76">Para {{ vong.nome }}</p></div>
+            <sc-if value="{{ vf.showBanner }}"><div style="margin-top:18px;display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease"><div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13.5px;line-height:1.45;color:#8E2A20"><span style="font-weight:700;color:#C9382C">{{ vf.bannerTitle }}</span> Corrija os itens destacados para continuar. Nada do que você preencheu foi perdido.</div></div></sc-if>
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:18px">
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Nome</label><div style="{{ vf.nome.box }}"><input value="{{ vf.nome.value }}" onChange="{{ vf.nome.set }}" placeholder="Ex.: Marina Souza" inputMode="text" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div><sc-if value="{{ vf.nome.error }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ vf.nome.error }}</div></div></sc-if></div>
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Telefone</label><div style="{{ vf.telefone.box }}"><input value="{{ vf.telefone.value }}" onChange="{{ vf.telefone.set }}" placeholder="(11) 91234-5678" inputMode="tel" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div><sc-if value="{{ vf.telefone.error }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ vf.telefone.error }}</div></div></sc-if></div>
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Disponibilidade</label><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ vf.dispOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div><sc-if value="{{ vf.dispErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ vf.dispErr }}</div></div></sc-if></div>
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Áreas de interesse</label><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ vf.areasOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div><sc-if value="{{ vf.areasErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ vf.areasErr }}</div></div></sc-if></div>
+              <div><label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Experiência com animais</label><div style="display:flex;gap:8px"><sc-for list="{{ vf.expOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div><sc-if value="{{ vf.expErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ vf.expErr }}</div></div></sc-if></div>
+              <div>
+                <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Por que você quer ser voluntário?</label>
+                <div style="{{ vf.motivo.box }}"><textarea value="{{ vf.motivo.value }}" onChange="{{ vf.motivo.set }}" rows="4" maxLength="400" placeholder="Conte um pouco sobre você e como gostaria de ajudar…" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:1.45;color:#14161A;padding:14px 0;resize:none"></textarea></div>
+                <div style="display:flex;gap:8px;justify-content:space-between;align-items:flex-start">
+                  <sc-if value="{{ vf.motivo.error }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ vf.motivo.error }}</div></div></sc-if>
+                  <sc-if value="{{ vf.motivo.hint }}"><div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:7px">{{ vf.motivo.hint }}</div></sc-if>
+                  <div style="font-size:12.5px;color:#6B6F76;flex:none;margin-top:7px">{{ vf.motivoCount }}</div>
+                </div>
+              </div>
+            </div>
+            <div style="height:26px"></div>
+            <button onClick="{{ submitVForm }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Continuar</button>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVTermos }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:70px 24px 34px;display:flex;flex-direction:column;background:#fff;overflow-y:auto">
+            <button onClick="{{ nav.vForm }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Voltar</button>
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 2 de 2</div><h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Termos e condições</h2><p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76">Leia antes de enviar sua candidatura para {{ vong.nome }}.</p></div>
+            <div style="flex:1;min-height:0;overflow-y:auto;margin-top:18px;border:1.5px solid #E4E3DE;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px;background:#F7F7F5">
+              <sc-for list="{{ termos }}" as="t" hint-placeholder-count="6">
+                <div><div style="font-size:14.5px;font-weight:700;color:#14161A">{{ t.n }}. {{ t.titulo }}</div><div style="font-size:14px;line-height:1.55;color:#3D4249;margin-top:4px">{{ t.texto }}</div></div>
+              </sc-for>
+            </div>
+            <button onClick="{{ toggleAceite }}" style="margin-top:14px;display:flex;align-items:center;gap:12px;border:none;background:none;font-family:inherit;padding:6px 0;cursor:pointer;text-align:left"><span style="{{ aceiteBox }}">{{ aceiteCheck }}</span><span style="font-size:15px;font-weight:600;color:#14161A;line-height:1.35">Li e concordo com os Termos e condições</span></button>
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+              <button onClick="{{ aceitarTermos }}" style="{{ btnAceitar }}">Aceitar e enviar</button>
+              <button onClick="{{ recusarTermos }}" style="width:100%;border:1.5px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:17px;font-weight:700;padding:15px;border-radius:14px;cursor:pointer" style-hover="background:#F5F4F0">Recusar</button>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVSucesso }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:88px 28px 46px;display:flex;flex-direction:column;background:linear-gradient(180deg,#EAF7F1 0%,#FFFFFF 44%);overflow-y:auto">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center">
+              <div style="width:88px;height:88px;border-radius:50%;background:#1E8A5F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:42px;font-weight:700;animation:popIn .32s cubic-bezier(.2,1.2,.3,1);box-shadow:0 12px 28px rgba(30,138,95,.28)">✓</div>
+              <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+                <h2 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Candidatura enviada!</h2>
+                <p style="margin:0;font-size:16px;line-height:1.55;color:#6B6F76;max-width:28ch;text-wrap:pretty">Sua candidatura para {{ vong.nome }} foi enviada com sucesso.</p>
+              </div>
+              <div style="background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;max-width:300px;font-size:13.5px;line-height:1.45;color:#16694A;text-align:left">A ONG responde em até 5 dias úteis. Você recebe uma notificação e pode acompanhar o status na tela inicial.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <button onClick="{{ nav.vHome }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Voltar ao início</button>
+              <button onClick="{{ nav.vOngs }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Ver outras ONGs</button>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVCancelada }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column"><div style="flex:1;min-height:0;box-sizing:border-box;padding:88px 28px 46px;display:flex;flex-direction:column;background:#fff;overflow-y:auto">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center">
+              <div style="width:72px;height:72px;border-radius:50%;background:#F0EFEB;display:flex;align-items:center;justify-content:center;color:#4A4E55;font-size:28px;font-weight:700;animation:popIn .28s ease">✕</div>
+              <div style="display:flex;flex-direction:column;gap:10px;align-items:center">
+                <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.25">Candidatura não enviada</h2>
+                <p style="margin:0;font-size:15.5px;line-height:1.55;color:#6B6F76;max-width:30ch;text-wrap:pretty">Como você não aceitou os Termos e condições, sua candidatura para {{ vong.nome }} não foi enviada. Nenhum dado foi compartilhado com a ONG.</p>
+              </div>
+              <div style="background:#F7F7F5;border:1px solid #E4E3DE;border-radius:12px;padding:12px 14px;max-width:300px;font-size:13.5px;line-height:1.45;color:#3D4249;text-align:left">Suas respostas continuam salvas. Se mudar de ideia, é só revisar os termos.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <button onClick="{{ nav.vTermos }}" style="width:100%;border:1.5px solid #2A56D6;background:#fff;color:#2A56D6;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#FFF8E3">Revisar termos</button>
+              <button onClick="{{ nav.vHome }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Voltar ao início</button>
+            </div>
+          </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isVoluntarios }}">
+          <div style="height:100%;position:relative;overflow:hidden;background:#F7F7F5">
+            <div style="height:100%;box-sizing:border-box;padding:62px 0 0;display:flex;flex-direction:column">
+              <div style="margin-top:-62px;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:12px"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#3D4249">{{ ongNome }}</div><h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Voluntários</h2></div><button onClick="{{ reset }}" style="width:44px;height:44px;border-radius:50%;border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;flex:none">{{ ongIniciais }}</button></div>
+              <div style="padding:16px 20px 0"><div style="display:flex;gap:4px;background:#F0EFEB;border-radius:12px;padding:4px">
+                <button onClick="{{ volTabAtivos }}" style="{{ segAtivos }}">Ativos · {{ nAtivos }}</button>
+                <button onClick="{{ volTabSol }}" style="{{ segSol }}">Solicitações · {{ nSol }}</button>
+              </div></div>
+              <sc-if value="{{ toast }}"><div style="margin:10px 20px 0;display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease"><div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div><div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toast }}</div></div></sc-if>
+              <div style="flex:1;overflow-y:auto;padding:12px 20px 24px;display:flex;flex-direction:column;gap:12px">
+                <sc-if value="{{ tabSol }}">
+                  <sc-for list="{{ solicitacoesVis }}" as="p" hint-placeholder-count="3">
+                    <button onClick="{{ p.open }}" style="width:100%;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px;display:flex;gap:14px;align-items:center;flex:none" style-hover="border-color:#C9D6FA">
+                      <div style="width:56px;height:56px;border-radius:50%;background:#FFF8E3;color:#2A56D6;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{ p.iniciais }}</div>
+                      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                        <div style="font-size:17px;font-weight:700;color:#14161A;line-height:1.2">{{ p.nome }}</div>
+                        <div style="font-size:13.5px;color:#6B6F76">Enviada em {{ p.data }}</div>
+                        <div style="margin-top:2px"><span style="{{ p.badge }}"><span style="{{ p.dot }}"></span>Pendente</span></div>
+                      </div>
+                      <span style="font-size:24px;color:#A6A9AE;flex:none">›</span>
+                    </button>
+                  </sc-for>
+                </sc-if>
+                <sc-if value="{{ tabAtivos }}">
+                  <sc-for list="{{ ativosVis }}" as="p" hint-placeholder-count="3">
+                    <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;flex:none">
+                      <div style="display:flex;gap:14px;padding:14px">
+                        <div style="width:64px;height:64px;border-radius:50%;background:#E8F6F0;color:#16694A;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{ p.iniciais }}</div>
+                        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                          <div style="font-size:17px;font-weight:700;color:#14161A;line-height:1.2">{{ p.nome }}</div>
+                          <div style="font-size:14px;color:#3D4249">{{ p.areas }}</div>
+                          <div style="font-size:13px;color:#6B6F76">{{ p.meta }}</div>
+                          <div style="margin-top:4px"><span style="{{ p.badge }}"><span style="{{ p.dot }}"></span>Ativo</span></div>
+                        </div>
+                      </div>
+                      <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #EFEEEA">
+                        <button onClick="{{ p.open }}" style="border:none;background:none;font-family:inherit;font-size:14px;font-weight:600;color:#2A56D6;padding:13px 4px;cursor:pointer" style-hover="background:#FFFBEF">Ver candidatura</button>
+                        <button onClick="{{ p.desligar }}" style="border:none;border-left:1px solid #EFEEEA;background:none;font-family:inherit;font-size:14px;font-weight:600;color:#C9382C;padding:13px 4px;cursor:pointer" style-hover="background:#FDF0EE">Desligar</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </sc-if>
+                <sc-if value="{{ volVazio }}">
+                  <div style="background:#fff;border:1.5px dashed #D9D8D2;border-radius:16px;padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center">
+                    <div style="font-size:16px;font-weight:700;color:#14161A">{{ volVazioTitulo }}</div>
+                    <div style="font-size:14px;line-height:1.5;color:#6B6F76;max-width:30ch">{{ volVazioTexto }}</div>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 6px 28px"><button onClick="{{ ong.go.animais }}" style="{{ ong.st.animais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5.5" cy="10.5" r="1.8"></circle><circle cx="9.5" cy="6" r="1.8"></circle><circle cx="14.5" cy="6" r="1.8"></circle><circle cx="18.5" cy="10.5" r="1.8"></circle><path d="M12 12.5c-3 0-5.5 3-5.5 5.3 0 1.5 1.2 2.2 2.6 2.2 1.1 0 1.9-.6 2.9-.6s1.8.6 2.9.6c1.4 0 2.6-.7 2.6-2.2 0-2.3-2.5-5.3-5.5-5.3z"></path></svg></span><span>Animais</span></button><button onClick="{{ ong.go.resgates }}" style="{{ ong.st.resgates }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><sc-if value="{{ ong.resgBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nResg }}</span></sc-if></span><span>Resgates</span></button><button onClick="{{ ong.go.voluntarios }}" style="{{ ong.st.voluntarios }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><sc-if value="{{ ong.volBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nVol }}</span></sc-if></span><span>Voluntários</span></button><button onClick="{{ ong.go.campanhas }}" style="{{ ong.st.campanhas }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M4 10v4h3l8 4.5V5.5L7 10H4z"></path><path d="M18.5 9a4 4 0 0 1 0 6"></path></svg></span><span>Campanhas</span></button><button onClick="{{ ong.go.mais }}" style="{{ ong.st.mais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span><span>Mais</span></button></div>
+            </div>
+
+            <sc-if value="{{ solAberta }}">
+              <div style="position:absolute;inset:0;background:#F7F7F5;z-index:4;display:flex;flex-direction:column;animation:fadeIn .18s ease">
+                <div style="flex:1;overflow-y:auto;padding:62px 20px 24px;display:flex;flex-direction:column;gap:14px">
+                  <button onClick="{{ closeSol }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">{{ solBackLabel }}</button>
+                  <div style="display:flex;gap:14px;align-items:center;flex:none">
+                    <div style="{{ sol.avatar }}">{{ sol.iniciais }}</div>
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                      <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ sol.nome }}</h2>
+                      <div style="font-size:14px;color:#6B6F76">{{ sol.sub }}</div>
+                      <div><span style="{{ sol.badge }}"><span style="{{ sol.dot }}"></span>{{ sol.statusLabel }}</span></div>
+                    </div>
+                  </div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none"><div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Contato</div><div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#6B6F76">Telefone</span><span style="color:#14161A;font-weight:600">{{ sol.telefone }}</span></div><div style="height:1px;background:#EFEEEA"></div><div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#6B6F76">E-mail</span><span style="color:#14161A;font-weight:600;min-width:0;overflow-wrap:anywhere;text-align:right">{{ sol.email }}</span></div></div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none"><div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Disponibilidade</div><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ sol.disp }}" as="c" hint-placeholder-count="2"><span style="padding:7px 12px;border-radius:999px;background:#FFF8E3;color:#1C3EA0;font-size:13.5px;font-weight:600">{{ c.label }}</span></sc-for></div></div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none"><div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Áreas de interesse</div><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ sol.areas }}" as="c" hint-placeholder-count="2"><span style="padding:7px 12px;border-radius:999px;background:#FFF8E3;color:#1C3EA0;font-size:13.5px;font-weight:600">{{ c.label }}</span></sc-for></div></div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none"><div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Experiência com animais</div><div style="font-size:15px;color:#14161A">{{ sol.exp }}</div></div>
+                  <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-left:4px solid #F5B820;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none"><div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Motivação</div><div style="font-size:15px;line-height:1.55;color:#14161A;font-style:italic">{{ sol.motivo }}</div></div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none"><div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Termos e condições</div><div style="display:flex;gap:8px;align-items:center;font-size:14.5px;color:#16694A"><span style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">✓</span>Aceitos em {{ sol.data }}</div></div>
+                </div>
+                <sc-if value="{{ sol.pendente }}">
+                  <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px 34px;display:flex;flex-direction:column;gap:10px">
+                    <div style="font-size:13px;line-height:1.4;color:#6B6F76;text-align:center">{{ sol.first }} recebe uma notificação com a sua decisão.</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                      <button onClick="{{ sol.rejeitar }}" style="border:none;background:#C9382C;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#AE2E23">Rejeitar</button>
+                      <button onClick="{{ sol.aprovar }}" style="border:none;background:#1E8A5F;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#177049">Aprovar</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ volDialogOpen }}">
+              <div style="position:absolute;inset:0;background:rgba(20,22,26,.5);animation:fadeIn .2s ease;z-index:6;display:flex;align-items:center;justify-content:center;padding:24px">
+                <div style="width:100%;background:#fff;border-radius:20px;padding:26px 22px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;animation:popIn .22s cubic-bezier(.2,1.1,.3,1)">
+                  <div style="width:60px;height:60px;border-radius:50%;background:#FDF0EE;display:flex;align-items:center;justify-content:center"><div style="width:32px;height:32px;border-radius:50%;background:#C9382C;color:#fff;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center">!</div></div>
+                  <h3 style="margin:6px 0 0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#14161A">{{ vdlg.titulo }}</h3>
+                  <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76;text-wrap:pretty">{{ vdlg.texto }}</p>
+                  <div style="width:100%;display:flex;flex-direction:column;gap:10px;margin-top:10px">
+                    <button onClick="{{ confirmVolDialog }}" style="width:100%;border:none;background:#C9382C;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#AE2E23">{{ vdlg.confirmar }}</button>
+                    <button onClick="{{ closeVolDialog }}" style="width:100%;border:1.5px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:17px;font-weight:700;padding:15px;border-radius:14px;cursor:pointer" style-hover="background:#F5F4F0">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isMais }}">
+          <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;background:#F7F7F5">
+            <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 20px 24px;display:flex;flex-direction:column;gap:14px">
+              <div style="margin:-62px -20px 0;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:12px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:#3D4249">{{ ongNome }}</div>
+                  <h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Mais</h2>
+                </div>
+                <button onClick="{{ reset }}" style="width:44px;height:44px;border-radius:50%;border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;flex:none">{{ ongIniciais }}</button>
+              </div>
+              <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76;margin-top:8px">Gestão</div>
+              <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;display:flex;flex-direction:column">
+                <sc-for list="{{ maisItens }}" as="i" hint-placeholder-count="1">
+                  <button onClick="{{ i.open }}" style="width:100%;display:flex;align-items:center;gap:14px;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:none;border-bottom:1px solid #EFEEEA;padding:14px 16px;min-height:64px" style-hover="background:#FFFBEF">
+                    <div style="{{ i.tile }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="{{ i.icon }}"></path></svg></div>
+                    <div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:700;color:#14161A">{{ i.label }}</div><div style="font-size:13.5px;line-height:1.4;color:#6B6F76;margin-top:2px">{{ i.sub }}</div></div>
+                    <sc-if value="{{ i.count }}"><span style="min-width:22px;height:22px;padding:0 7px;box-sizing:border-box;border-radius:11px;background:#F5B820;color:#14161A;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex:none">{{ i.count }}</span></sc-if>
+                    <span style="font-size:22px;color:#A6A9AE;flex:none">›</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 6px 28px"><button onClick="{{ ong.go.animais }}" style="{{ ong.st.animais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5.5" cy="10.5" r="1.8"></circle><circle cx="9.5" cy="6" r="1.8"></circle><circle cx="14.5" cy="6" r="1.8"></circle><circle cx="18.5" cy="10.5" r="1.8"></circle><path d="M12 12.5c-3 0-5.5 3-5.5 5.3 0 1.5 1.2 2.2 2.6 2.2 1.1 0 1.9-.6 2.9-.6s1.8.6 2.9.6c1.4 0 2.6-.7 2.6-2.2 0-2.3-2.5-5.3-5.5-5.3z"></path></svg></span><span>Animais</span></button><button onClick="{{ ong.go.resgates }}" style="{{ ong.st.resgates }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><sc-if value="{{ ong.resgBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nResg }}</span></sc-if></span><span>Resgates</span></button><button onClick="{{ ong.go.voluntarios }}" style="{{ ong.st.voluntarios }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><sc-if value="{{ ong.volBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nVol }}</span></sc-if></span><span>Voluntários</span></button><button onClick="{{ ong.go.campanhas }}" style="{{ ong.st.campanhas }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M4 10v4h3l8 4.5V5.5L7 10H4z"></path><path d="M18.5 9a4 4 0 0 1 0 6"></path></svg></span><span>Campanhas</span></button><button onClick="{{ ong.go.mais }}" style="{{ ong.st.mais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span><span>Mais</span></button></div>
+          </div>
+        </sc-if>
+
+      </x-import>
+    </div>
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:1 1 300px;min-width:280px;max-width:420px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Base do design system</div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px">
+          <div><div style="height:44px;border-radius:10px;background:#F5B820"></div><div style="font-size:11.5px;font-weight:600;color:#3D4249;margin-top:6px">Primária</div><div style="font-size:11px;color:#6B6F76;font-family:ui-monospace,Menlo,monospace">#F5B820</div></div>
+          <div><div style="height:44px;border-radius:10px;background:#2A56D6"></div><div style="font-size:11.5px;font-weight:600;color:#3D4249;margin-top:6px">Acento</div><div style="font-size:11px;color:#6B6F76;font-family:ui-monospace,Menlo,monospace">#2A56D6</div></div>
+          <div><div style="height:44px;border-radius:10px;background:#1E8A5F"></div><div style="font-size:11.5px;font-weight:600;color:#3D4249;margin-top:6px">Sucesso</div><div style="font-size:11px;color:#6B6F76;font-family:ui-monospace,Menlo,monospace">#1E8A5F</div></div>
+          <div><div style="height:44px;border-radius:10px;background:#C9382C"></div><div style="font-size:11.5px;font-weight:600;color:#3D4249;margin-top:6px">Erro</div><div style="font-size:11px;color:#6B6F76;font-family:ui-monospace,Menlo,monospace">#C9382C</div></div>
+          <div><div style="height:44px;border-radius:10px;background:#14161A"></div><div style="font-size:11.5px;font-weight:600;color:#3D4249;margin-top:6px">Texto</div><div style="font-size:11px;color:#6B6F76;font-family:ui-monospace,Menlo,monospace">#14161A</div></div>
+          <div><div style="height:44px;border-radius:10px;background:#F7F7F5;border:1px solid #E4E3DE"></div><div style="font-size:11.5px;font-weight:600;color:#3D4249;margin-top:6px">Fundo</div><div style="font-size:11px;color:#6B6F76;font-family:ui-monospace,Menlo,monospace">#F7F7F5</div></div>
+        </div>
+        <div style="margin-top:14px;display:flex;align-items:flex-end;gap:12px;padding-top:14px;border-top:1px solid #EFEEEA"><div style="width:64px;height:64px;border-radius:19px;background:#2A56D6;display:flex;align-items:center;justify-content:center"><svg width="50" height="50" viewBox="0 0 100 100" aria-label="Adotaê" style="display:block"><path d="M27 50 L30 15 L53 33 Z" fill="#fff" stroke="#2A56D6" stroke-width="6" stroke-linejoin="round"></path><ellipse cx="74" cy="47" rx="11" ry="21" transform="rotate(-22 74 47)" fill="#fff"></ellipse><circle cx="50" cy="57" r="27" fill="#fff"></circle><circle cx="40" cy="54" r="4" fill="#F5B820"></circle><circle cx="60" cy="54" r="4" fill="#F5B820"></circle><path d="M44.5 64 Q50 61.5 55.5 64 Q53 70 50 70.5 Q47 70 44.5 64 Z" fill="#F5B820"></path></svg></div><div style="width:40px;height:40px;border-radius:12px;background:#2A56D6;display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 100 100" aria-label="Adotaê" style="display:block"><path d="M27 50 L30 15 L53 33 Z" fill="#fff" stroke="#2A56D6" stroke-width="6" stroke-linejoin="round"></path><ellipse cx="74" cy="47" rx="11" ry="21" transform="rotate(-22 74 47)" fill="#fff"></ellipse><circle cx="50" cy="57" r="27" fill="#fff"></circle><circle cx="40" cy="54" r="4" fill="#F5B820"></circle><circle cx="60" cy="54" r="4" fill="#F5B820"></circle><path d="M44.5 64 Q50 61.5 55.5 64 Q53 70 50 70.5 Q47 70 44.5 64 Z" fill="#F5B820"></path></svg></div><div style="width:24px;height:24px;border-radius:7px;background:#2A56D6;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 100 100" aria-label="Adotaê" style="display:block"><path d="M27 50 L30 15 L53 33 Z" fill="#fff" stroke="#2A56D6" stroke-width="6" stroke-linejoin="round"></path><ellipse cx="74" cy="47" rx="11" ry="21" transform="rotate(-22 74 47)" fill="#fff"></ellipse><circle cx="50" cy="57" r="27" fill="#fff"></circle><circle cx="40" cy="54" r="4" fill="#F5B820"></circle><circle cx="60" cy="54" r="4" fill="#F5B820"></circle><path d="M44.5 64 Q50 61.5 55.5 64 Q53 70 50 70.5 Q47 70 44.5 64 Z" fill="#F5B820"></path></svg></div><div style="flex:1;min-width:0;font-size:12.5px;line-height:1.45;color:#6B6F76">Marca: orelha pontuda de gato + orelha caída de cão numa só cabeça.</div></div>
+        <div style="margin-top:12px;font-size:12.5px;line-height:1.5;color:#6B6F76">Amarelo é a cor primária: fundos de cabeçalho, banners e estados selecionados. Azul é o acento: Botão primário (texto branco, 6,3:1), botão secundário, links e ícones. Sobre o amarelo, texto sempre em #14161A (contraste 11:1), nunca branco.</div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #EFEEEA;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap"><div style="font-size:12.5px;font-weight:600;color:#3D4249">Tipografia</div><div style="font-size:11px;color:#6B6F76;font-family:ui-monospace,Menlo,monospace">Figtree · fallback system-ui</div></div>
+          <div><div style="font-size:24px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.15">Título de tela</div><div style="font-size:12px;color:#6B6F76;margin-top:3px">ExtraBold 800 · 24–30 px · títulos de tela e nome da marca</div></div>
+          <div><div style="font-size:17px;font-weight:700;color:#14161A">Seção, card e botão</div><div style="font-size:12px;color:#6B6F76;margin-top:3px">Bold 700 · 15–17 px · subtítulos, nomes em cards, botões, badges e abas</div></div>
+          <div><div style="font-size:14px;font-weight:600;color:#3D4249">Rótulo de campo · chip · link</div><div style="font-size:12px;color:#6B6F76;margin-top:3px">SemiBold 600 · 13–15 px · rótulos, chips, botões de texto e “← Voltar”</div></div>
+          <div><div style="font-size:13px;font-weight:500;color:#6B6F76">(opcional)</div><div style="font-size:12px;color:#6B6F76;margin-top:3px">Medium 500 · 13 px · só em sufixos discretos de rótulo</div></div>
+          <div><div style="font-size:15px;font-weight:400;color:#3D4249;line-height:1.5">Texto corrido, descrições e campos.</div><div style="font-size:12px;color:#6B6F76;margin-top:3px">Regular 400 · 13–16 px · corpo, texto digitado, mensagens de erro e sucesso</div></div>
+          <div><div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 1 de 3</div><div style="font-size:12px;color:#6B6F76;margin-top:3px">Bold 700 · 11–12 px · caixa alta, +0,1 em · sobretítulos e etapas</div></div>
+          <div style="font-size:12px;line-height:1.5;color:#6B6F76">Monoespaçada (ui-monospace) aparece só nos códigos deste painel, não no app.</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Componentes reutilizáveis</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="width:100%;box-sizing:border-box;background:#2A56D6;color:#fff;font-size:16px;font-weight:700;padding:15px;border-radius:14px;text-align:center">Botão primário</div>
+          <div style="width:100%;box-sizing:border-box;border:1.5px solid #2A56D6;color:#2A56D6;font-size:16px;font-weight:700;padding:14px;border-radius:14px;text-align:center">Botão secundário</div>
+          <div style="width:100%;box-sizing:border-box;background:#C9382C;color:#fff;font-size:16px;font-weight:700;padding:15px;border-radius:14px;text-align:center">Botão destrutivo</div>
+          <div style="width:100%;box-sizing:border-box;color:#6B6F76;font-size:15px;font-weight:600;padding:10px;text-align:center">Botão de texto</div>
+          <div style="width:100%;box-sizing:border-box;background:#F0EFEB;color:#A6A9AE;font-size:16px;font-weight:700;padding:15px;border-radius:14px;text-align:center">Desabilitado</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #EFEEEA;padding-top:14px">
+          <div style="border:1.5px solid #E4E3DE;border-radius:12px;padding:14px;font-size:15px;color:#A6A9AE">Campo padrão</div>
+          <div style="border:1.5px solid #2A56D6;box-shadow:0 0 0 3px rgba(245,184,32,.14);border-radius:12px;padding:14px;font-size:15px;color:#14161A">Campo em foco</div>
+          <div style="border:1.5px solid #C9382C;background:#FDF0EE;border-radius:12px;padding:14px;font-size:15px;color:#14161A">Campo com erro</div>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;text-align:center;border:1.5px solid #F5B820;background:#FFF8E3;color:#2A56D6;border-radius:12px;padding:11px 6px;font-size:14px;font-weight:600">Selecionado</div>
+            <div style="flex:1;text-align:center;border:1.5px solid #E4E3DE;background:#fff;color:#3D4249;border-radius:12px;padding:11px 6px;font-size:14px;font-weight:600">Opção</div>
+            <div style="width:51px;height:31px;border-radius:16px;background:#F5B820;position:relative;flex:none;align-self:center"><div style="position:absolute;top:2px;left:22px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2)"></div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #EFEEEA;padding-top:14px">
+          <div style="background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:12px 13px;font-size:13.5px;color:#8E2A20"><span style="font-weight:700;color:#C9382C">Erro.</span> Mensagem que explica o que corrigir.</div>
+          <div style="background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 13px;font-size:13.5px;color:#16694A"><span style="font-weight:700">Sucesso.</span> Confirmação da ação concluída.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #EFEEEA;padding-top:14px">
+          <div style="font-size:12.5px;font-weight:600;color:#3D4249">Status do animal</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#E8F6F0;color:#16694A"><span style="width:7px;height:7px;border-radius:50%;background:#1E8A5F"></span>Disponível</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#FFF3D1;color:#7A5600"><span style="width:7px;height:7px;border-radius:50%;background:#D99A00"></span>Em processo de adoção</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#FFF8E3;color:#1C3EA0"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820"></span>Adotado</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#F0EFEB;color:#4A4E55"><span style="width:7px;height:7px;border-radius:50%;background:#8A8D93"></span>Indisponível</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Componentes · Voluntariado</div>
+        <div style="display:flex;gap:4px;background:#F0EFEB;border-radius:12px;padding:4px"><div style="flex:1;text-align:center;background:#fff;border-radius:9px;padding:9px;font-size:14px;font-weight:700;color:#14161A;box-shadow:0 1px 3px rgba(20,22,26,.12)">Ativos</div><div style="flex:1;text-align:center;padding:9px;font-size:14px;font-weight:700;color:#4A4E55">Solicitações</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#C9382C;color:#fff;font-size:15px;font-weight:700;padding:13px;border-radius:14px;text-align:center">Rejeitar</div><div style="background:#1E8A5F;color:#fff;font-size:15px;font-weight:700;padding:13px;border-radius:14px;text-align:center">Aprovar</div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span style="padding:9px 14px;border-radius:999px;border:1.5px solid #F5B820;background:#FFF8E3;color:#2A56D6;font-size:14px;font-weight:600">✓ Manhã</span><span style="padding:9px 14px;border-radius:999px;border:1.5px solid #E4E3DE;color:#3D4249;font-size:14px;font-weight:600">Tarde</span><span style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#14161A"><span style="width:22px;height:22px;border-radius:7px;background:#F5B820;color:#14161A;font-size:13px;display:flex;align-items:center;justify-content:center">✓</span>Aceite</span></div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Padrões de interação</div>
+        <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5;color:#3D4249">
+          <li>Validação no envio; depois do primeiro erro, cada campo revalida ao digitar. Nada é apagado.</li>
+          <li>Criar e editar usam o mesmo bottom sheet — só o título e o botão mudam.</li>
+          <li>Mudança de status: bottom sheet com opções exclusivas e descrição do efeito.</li>
+          <li>Ação destrutiva: diálogo central com ícone, aviso e botão vermelho; Cancelar sempre visível.</li>
+          <li>Após salvar, alerta de sucesso no topo da lista por 3 s.</li>
+          <li>Lista de animais só aparece para contas de ONG/abrigo.</li>
+          <li>Seleção múltipla (turnos, áreas) usa chips; escolha única usa segmentos.</li>
+          <li>Aprovar e Rejeitar têm o mesmo peso visual; só Rejeitar pede confirmação.</li>
+          <li>Recusar os termos leva a um retorno neutro (cinza), nunca a um erro.</li>
+        </ul>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;usuarioLogado&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;mostrarPaineis&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Apresentação&quot;},&quot;validarAoDigitar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;},&quot;exigirSenhaForte&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;}}">
+const C = { border: '#E4E3DE', blue: '#2A56D6', prim: '#F5B820', err: '#C9382C', acc: '#F5B820', accStrong: '#B98300' };
+const box = (state) => ({
+  display: 'flex', alignItems: 'center', gap: 8, borderRadius: 12, padding: '0 14px',
+  border: '1.5px solid ' + (state === 'error' ? C.err : C.border),
+  background: state === 'error' ? '#FDF0EE' : '#fff',
+  transition: 'border-color .15s ease, background .15s ease',
+});
+
+const onlyDigits = (s) => (s || '').replace(/\D/g, '');
+const maskPhone = (s) => {
+  const d = onlyDigits(s).slice(0, 11);
+  if (d.length <= 2) return d.length ? '(' + d : '';
+  if (d.length <= 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+  if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+  return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+};
+const maskCnpj = (s) => {
+  const d = onlyDigits(s).slice(0, 14);
+  let o = d.slice(0, 2);
+  if (d.length > 2) o += '.' + d.slice(2, 5);
+  if (d.length > 5) o += '.' + d.slice(5, 8);
+  if (d.length > 8) o += '/' + d.slice(8, 12);
+  if (d.length > 12) o += '-' + d.slice(12);
+  return o;
+};
+
+const RULES = {
+  nome: (v) => (v.trim().split(/\s+/).filter(Boolean).length < 2 ? 'Informe nome e sobrenome.' : ''),
+  email: (v) => (/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.trim()) ? '' : 'E-mail inválido. Exemplo: nome@email.com'),
+  senha: (v) => (v.length < 8 ? 'A senha precisa ter no mínimo 8 caracteres.' : (/\d/.test(v) ? '' : 'Inclua pelo menos 1 número na senha.')),
+  telefone: (v) => (onlyDigits(v).length < 10 ? 'Telefone incompleto. Informe DDD + número.' : ''),
+  nomeOng: (v) => (v.trim().length < 3 ? 'Informe o nome da organização.' : ''),
+  cnpj: (v) => (onlyDigits(v).length !== 14 ? 'CNPJ inválido. Informe os 14 dígitos.' : ''),
+  endereco: (v) => (v.trim().length < 8 ? 'Informe o endereço completo com número e cidade.' : ''),
+  responsavel: (v) => (v.trim().length < 3 ? 'Informe o nome do responsável legal.' : ''),
+};
+
+const STEPS = [
+  { key: 'landing', label: 'Início' },
+  { key: 'tipo', label: 'Tipo de conta' },
+  { key: 'formUser', label: 'Cadastro · Usuário' },
+  { key: 'formOng', label: 'Cadastro · ONG' },
+  { key: 'erro', label: 'Erro de validação' },
+  { key: 'sucesso', label: 'Conta criada' },
+  { key: 'login', label: 'Login' },
+];
+const STEPS2 = [
+  { key: 'animais', label: 'Lista de animais' },
+  { key: 'novoAnimal', label: 'Cadastrar animal' },
+  { key: 'editarAnimal', label: 'Editar animal' },
+  { key: 'statusAnimal', label: 'Alterar status' },
+  { key: 'removerAnimal', label: 'Confirmar remoção' },
+  { key: 'mais', label: 'Mais (menu)' },
+];
+
+const STATUS = {
+  'Disponível': { bg: '#E8F6F0', fg: '#16694A', dot: '#1E8A5F', desc: 'Aparece nas buscas e pode receber pedidos de adoção.' },
+  'Em processo de adoção': { bg: '#FFF3D1', fg: '#7A5600', dot: '#D99A00', desc: 'Há um pedido em análise. Novos pedidos ficam pausados.' },
+  'Adotado': { bg: '#EEF2FE', fg: '#1C3EA0', dot: '#2A56D6', desc: 'Adoção concluída. O perfil sai das buscas.' },
+  'Indisponível': { bg: '#F0EFEB', fg: '#4A4E55', dot: '#8A8D93', desc: 'Fora das buscas por um tempo (tratamento, quarentena etc.).' },
+};
+const STATUS_KEYS = Object.keys(STATUS);
+
+const SEED = [
+  { id: 1, nome: 'Thor', especie: 'Cão', raca: 'SRD', idade: '3 anos', porte: 'Grande', sexo: 'Macho', castrado: true, microchip: true, descricao: 'Brincalhão e muito carinhoso. Convive bem com outros cães e adora passear.', status: 'Disponível' },
+  { id: 2, nome: 'Mel', especie: 'Gato', raca: 'Siamês', idade: '8 meses', porte: 'Pequeno', sexo: 'Fêmea', castrado: true, microchip: false, descricao: 'Tranquila e curiosa. Resgatada ainda filhote, já usa a caixa de areia.', status: 'Em processo de adoção' },
+  { id: 3, nome: 'Paçoca', especie: 'Cão', raca: 'Vira-lata caramelo', idade: '5 anos', porte: 'Médio', sexo: 'Macho', castrado: true, microchip: true, descricao: 'Companheiro fiel, calmo dentro de casa e ótimo com crianças.', status: 'Adotado' },
+  { id: 4, nome: 'Luna', especie: 'Gato', raca: 'SRD', idade: '2 anos', porte: 'Pequeno', sexo: 'Fêmea', castrado: false, microchip: false, descricao: 'Em tratamento de pele, com previsão de alta em 3 semanas. Muito dócil.', status: 'Indisponível' },
+  { id: 5, nome: 'Bento', especie: 'Cão', raca: 'Labrador', idade: '7 anos', porte: 'Grande', sexo: 'Macho', castrado: true, microchip: true, descricao: 'Idoso, sereno e obediente. Ideal para quem busca um companheiro tranquilo.', status: 'Disponível' },
+];
+const emptyDraft = (id) => ({ id, nome: '', especie: '', raca: '', idade: '', porte: '', sexo: '', castrado: false, microchip: false, descricao: '', status: 'Disponível' });
+const fem = (a) => a && a.sexo === 'Fêmea';
+
+const HOJE = '28/09/2026';
+const STEPS3 = [
+  { key: 'vHome', label: 'Início · Quero ser Voluntário' },
+  { key: 'vOngs', label: 'ONGs com vagas' },
+  { key: 'vOngDetalhe', label: 'Detalhes da ONG' },
+  { key: 'vConfirmar', label: 'Confirmação de interesse' },
+  { key: 'vForm', label: 'Formulário de candidatura' },
+  { key: 'vTermos', label: 'Termos e condições' },
+  { key: 'vSucesso', label: 'Candidatura enviada' },
+  { key: 'vCancelada', label: 'Candidatura cancelada' },
+];
+const STEPS4 = [
+  { key: 'volSolicitacoes', label: 'Solicitações pendentes' },
+  { key: 'solDetalhe', label: 'Detalhes da solicitação' },
+  { key: 'solRejeitar', label: 'Rejeitar · confirmação' },
+  { key: 'volAtivos', label: 'Voluntários ativos' },
+];
+const ONGS = [
+  { id: 1, nome: 'Abrigo Patas Felizes', local: 'Pinheiros, São Paulo', dist: '2,1 km', vagas: 6,
+    sobre: 'Abrigo fundado em 2012 que acolhe cerca de 120 cães e gatos resgatados das ruas e de situações de maus-tratos. Todos são vacinados, castrados e preparados para adoção.',
+    atividades: ['Passeios com cães', 'Limpeza e alimentação', 'Feiras de adoção', 'Socialização de gatos'],
+    turnos: ['Manhã', 'Tarde', 'Fins de semana'],
+    requisitos: ['Ter 18 anos ou mais', 'Disponibilidade mínima de 4 h por semana', 'Participar de uma integração de 1 h'] },
+  { id: 2, nome: 'Instituto Miau Seguro', local: 'Vila Mariana, São Paulo', dist: '4,8 km', vagas: 3,
+    sobre: 'Organização dedicada ao resgate e à reabilitação de gatos. Mantém um gatil com 60 animais e uma rede de lares temporários.',
+    atividades: ['Socialização de gatos', 'Transporte ao veterinário', 'Lar temporário'],
+    turnos: ['Tarde', 'Noite'],
+    requisitos: ['Ter 18 anos ou mais', 'Não ter alergia a gatos', 'Compromisso mínimo de 3 meses'] },
+  { id: 3, nome: 'ONG Focinho Amigo', local: 'Santo André', dist: '12 km', vagas: 10,
+    sobre: 'Grupo de protetores independentes que organiza feiras de adoção e campanhas de arrecadação na região do ABC.',
+    atividades: ['Feiras de adoção', 'Campanhas de doação', 'Fotografia dos animais'],
+    turnos: ['Fins de semana'],
+    requisitos: ['Ter 16 anos ou mais (menores com autorização)', 'Disponibilidade em 2 sábados por mês'] },
+];
+const TERMOS = [
+  { titulo: 'Natureza do voluntariado', texto: 'A atividade é voluntária e não remunerada, sem vínculo empregatício, conforme a Lei nº 9.608/1998.' },
+  { titulo: 'Compromisso', texto: 'Você se compromete a cumprir os turnos combinados e a avisar a ONG com pelo menos 24 horas de antecedência em caso de ausência.' },
+  { titulo: 'Bem-estar animal', texto: 'Siga as orientações da equipe no manejo dos animais. É proibido qualquer ato que cause dor, medo ou estresse desnecessário.' },
+  { titulo: 'Segurança', texto: 'A ONG oferece integração e equipamentos de proteção. Informe alergias ou condições de saúde relevantes.' },
+  { titulo: 'Uso de dados', texto: 'Seus dados serão compartilhados apenas com esta ONG para análise da candidatura, conforme a LGPD (Lei nº 13.709/2018).' },
+  { titulo: 'Desligamento', texto: 'Você ou a ONG podem encerrar o voluntariado a qualquer momento, mediante aviso.' },
+];
+const SOL_SEED = [
+  { id: 's1', nome: 'Rafael Lima', data: '24/09/2026', telefone: '(11) 98765-4321', email: 'rafael.lima@email.com', disp: ['Fins de semana'], areas: ['Passeios com cães', 'Feiras de adoção'], exp: 'Alguma', motivo: 'Tive cães a vida toda e hoje moro em apartamento. Quero ajudar nos passeios e nas feiras aos sábados.' },
+  { id: 's2', nome: 'Juliana Costa', data: '22/09/2026', telefone: '(11) 97654-3210', email: 'ju.costa@email.com', disp: ['Manhã', 'Tarde'], areas: ['Socialização de gatos', 'Limpeza e alimentação'], exp: 'Bastante', motivo: 'Sou estudante de veterinária e quero ganhar experiência no cuidado diário de animais resgatados.' },
+  { id: 's3', nome: 'Carlos Mendes', data: '19/09/2026', telefone: '(11) 96543-2109', email: 'carlos.mendes@email.com', disp: ['Tarde'], areas: ['Limpeza e alimentação'], exp: 'Nenhuma', motivo: 'Estou aposentado e tenho as tardes livres. Gostaria de ser útil e aprender a lidar com os animais.' },
+];
+const ATIVOS_SEED = [
+  { id: 'a1', nome: 'Beatriz Rocha', desde: 'mar/2026', data: '02/03/2026', telefone: '(11) 95432-1098', email: 'bia.rocha@email.com', disp: ['Manhã'], areas: ['Passeios com cães'], exp: 'Bastante', motivo: 'Trabalho remoto e quero começar o dia fazendo algo bom pelos animais.' },
+  { id: 'a2', nome: 'Pedro Alves', desde: 'jan/2026', data: '10/01/2026', telefone: '(11) 94321-0987', email: 'pedro.alves@email.com', disp: ['Fins de semana'], areas: ['Feiras de adoção', 'Fotografia dos animais'], exp: 'Alguma', motivo: 'Sou fotógrafo e acredito que boas fotos ajudam os animais a encontrar um lar.' },
+  { id: 'a3', nome: 'Camila Nunes', desde: 'nov/2025', data: '15/11/2025', telefone: '(11) 93210-9876', email: 'camila.nunes@email.com', disp: ['Tarde'], areas: ['Socialização de gatos'], exp: 'Alguma', motivo: 'Adotei dois gatos daqui e quero retribuir ajudando outros a serem adotados.' },
+];
+const CAND = {
+  'Pendente': { bg: '#FFF3D1', fg: '#7A5600', dot: '#D99A00', texto: 'A ONG responde em até 5 dias úteis.' },
+  'Aprovada': { bg: '#E8F6F0', fg: '#16694A', dot: '#1E8A5F', texto: 'Parabéns! A ONG vai entrar em contato para agendar a integração.' },
+  'Rejeitada': { bg: '#FDF0EE', fg: '#8E2A20', dot: '#C9382C', texto: 'A ONG não pôde aceitar sua candidatura agora. Que tal conhecer outras ONGs?' },
+};
+const iniciaisDe = (n) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+
+const URL_ADOCAO = 'Adotae%20-%20Ado%C3%A7%C3%A3o.dc.html';
+const URL_RESGATES = 'Adotae%20-%20Resgates%20-%20Cadastro.dc.html';
+const HOME_ANIMAIS = [
+  { id: 1, nome: 'Thor', especie: 'Cão', porte: 'Grande', idade: '3 anos' },
+  { id: 2, nome: 'Mel', especie: 'Gato', porte: 'Pequeno', idade: '8 meses' },
+  { id: 5, nome: 'Bento', especie: 'Cão', porte: 'Grande', idade: '7 anos' },
+  { id: 6, nome: 'Nina', especie: 'Gato', porte: 'Pequeno', idade: '1 ano' },
+  { id: 7, nome: 'Fred', especie: 'Cão', porte: 'Médio', idade: '4 anos' },
+  { id: 8, nome: 'Amora', especie: 'Cão', porte: 'Pequeno', idade: '2 anos' },
+];
+const URL_DOACOES = 'Adotae%20-%20Doa%C3%A7%C3%B5es.dc.html';
+const DESTAQUE = [
+  { id: 1, tipo: 'Monetária', titulo: 'Cirurgia da Luna', meta: 500000, arrecadado: 342000, status: 'Ativa' },
+  { id: 2, tipo: 'Itens', titulo: 'Inverno sem frio', itens: 'Cobertores, mantas de lã, ração para cães de porte grande, areia higiênica, caminhas', status: 'Ativa' },
+  { id: 3, tipo: 'Eventos', titulo: 'Feira de adoção de outubro', data_evento: '18/10/2026', local_evento: 'Parque Villa-Lobos, portão 2', status: 'Ativa' },
+  { id: 4, tipo: 'Monetária', titulo: 'Reforma do gatil', meta: 1200000, arrecadado: 1235000, status: 'Encerrada' },
+];
+const TIPO_TAG = { 'Monetária': ['#EEF2FE', '#1C3EA0'], 'Itens': ['#FFF3D1', '#7A5600'], 'Eventos': ['#F1EDFC', '#5B3DB5'] };
+const GATE_TXT = { resgates: 'Faça login para solicitar um resgate.', voluntariado: 'Faça login para se candidatar como voluntário.', denuncia: 'Faça login para enviar uma denúncia.' };
+
+const ONG_URLS = { main: 'Adotae%20-%20Cadastro%20e%20Login.dc.html', resg: 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html', camp: 'Adotae%20-%20Campanhas.dc.html' };
+const ONG_GO = {
+  animais: () => { window.location.href = ONG_URLS.main + '#ong=animais'; },
+  resgates: () => { window.location.href = ONG_URLS.resg; },
+  voluntarios: () => { window.location.href = ONG_URLS.main + '#ong=voluntarios'; },
+  campanhas: () => { window.location.href = ONG_URLS.camp; },
+  mais: () => { window.location.href = ONG_URLS.main + '#ong=mais'; },
+};
+const ongTabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? '#2A56D6' : '#6B6F76', minHeight: 48, minWidth: 0 });
+const ongNav = (active, go, nResg, nVol) => ({
+  go, nResg, nVol, resgBadge: nResg > 0, volBadge: nVol > 0,
+  st: { animais: ongTabSt(active === 'animais'), resgates: ongTabSt(active === 'resgates'), voluntarios: ongTabSt(active === 'voluntarios'), campanhas: ongTabSt(active === 'campanhas'), mais: ongTabSt(active === 'mais') },
+});
+
+class Component extends DCLogic {
+  state = {
+    screen: 'landing', tipo: null, submitted: false, loginSubmitted: false,
+    showSenha: false, showLoginSenha: false, recuperacao: '', errs: {},
+    v: { nome: '', email: '', senha: '', telefone: '', nomeOng: '', cnpj: '', endereco: '', responsavel: '' },
+    login: { email: '', senha: '' },
+    animais: SEED, nextId: 6, sheet: null, editId: null, targetId: null,
+    draft: emptyDraft(6), afSubmitted: false, statusPick: null, filtro: 'Todos', toast: '',
+    sessao: null, destino: null, filtroHome: 'Todos',
+    vOngId: 1, vSheet: null, vDraft: { nome: '', telefone: '', disp: [], areas: [], exp: '', motivo: '' }, vSubmitted: false, vAceite: false, candidatura: null,
+    volTab: 'solicitacoes', solId: null, volDialog: null, solicitacoes: SOL_SEED, ativos: ATIVOS_SEED,
+  };
+
+  componentWillUnmount() { clearTimeout(this._t); }
+  componentDidMount() {
+    const hs = window.location.hash || '';
+    const og = /ong=(animais|voluntarios|mais)/.exec(hs);
+    if (og) return this.go(og[1])();
+    const t = /tab=(inicio|resgates|voluntariado|perfil|denuncia)/.exec(hs);
+    if (!t) return;
+    const l = /logado=([01])/.exec(hs);
+    const an = /animal=(\d+)/.exec(hs);
+    const st = l ? { sessao: l[1] === '1' } : {};
+    st.denunciaAnimal = an ? an[1] : null;
+    this.setState(st, () => this.tab(t[1])());
+  }
+  componentDidUpdate(prev) { if (prev.usuarioLogado !== this.props.usuarioLogado && this.state.sessao !== null) this.setState({ sessao: null }); }
+
+  logado = () => (this.state.sessao !== null ? this.state.sessao : (this.props.usuarioLogado ?? false));
+  irPara = (dest) => {
+    if (dest === 'resgates') { window.location.href = URL_RESGATES + '#logado=1'; return; }
+    if (dest === 'denuncia') { window.location.href = 'Adotae%20-%20Den%C3%BAncias.dc.html#logado=1' + (this.state.denunciaAnimal ? '&animal=' + this.state.denunciaAnimal : ''); return; }
+    if (dest === 'voluntariado') return this.setState({ screen: 'vHome', tipo: 'user', vSheet: null, destino: null });
+    if (dest === 'perfil') return this.setState({ screen: 'perfil', destino: null });
+    this.setState({ screen: 'landing', destino: null });
+  };
+  tab = (dest) => () => {
+    if (dest === 'inicio') return this.setState({ screen: 'landing' });
+    if (this.logado()) return this.irPara(dest);
+    this.setState({ screen: 'login', destino: dest === 'perfil' ? null : dest, loginSubmitted: false, recuperacao: '' });
+  };
+  entrar = () => this.setState({ screen: 'login', destino: null, loginSubmitted: false, recuperacao: '' });
+  sair = () => this.setState({ sessao: false, screen: 'landing', destino: null });
+
+  set = (k, mask) => (e) => {
+    const raw = e.target.value;
+    const val = mask ? mask(raw) : raw;
+    this.setState((s) => ({ v: Object.assign({}, s.v, { [k]: val }) }));
+  };
+  setLogin = (k) => (e) => {
+    const val = e.target.value;
+    this.setState((s) => ({ login: Object.assign({}, s.login, { [k]: val }) }));
+  };
+  setDraft = (k, val) => this.setState((s) => ({ draft: Object.assign({}, s.draft, { [k]: val }) }));
+
+  ensureAnimais = (s) => (s.animais.length ? s.animais : SEED);
+
+  go = (screen) => () => {
+    if (this.goVol(screen)) return;
+    if (screen === 'formUser') return this.setState({ screen: 'form', tipo: 'user', submitted: false });
+    if (screen === 'formOng') return this.setState({ screen: 'form', tipo: 'ong', submitted: false });
+    if (screen === 'erro') return this.demoErro();
+    if (screen === 'animais') return this.setState((s) => ({ screen: 'animais', tipo: 'ong', sheet: null, animais: this.ensureAnimais(s) }));
+    if (screen === 'novoAnimal') return this.openNovo();
+    if (screen === 'editarAnimal') return this.withFirst(this.openEdit);
+    if (screen === 'statusAnimal') return this.withFirst(this.openStatus);
+    if (screen === 'removerAnimal') return this.withFirst(this.openRemover);
+    this.setState({ screen, submitted: false, loginSubmitted: false, recuperacao: '', sheet: null, destino: null });
+  };
+
+  withFirst = (fn) => {
+    const list = this.ensureAnimais(this.state);
+    this.setState({ animais: list, filtro: 'Todos' }, () => fn(list[0].id));
+  };
+
+  openNovo = () => this.setState((s) => ({ screen: 'animais', tipo: 'ong', sheet: 'form', editId: null, draft: emptyDraft(s.nextId), afSubmitted: false }));
+  openEdit = (id) => this.setState((s) => ({ screen: 'animais', tipo: 'ong', sheet: 'form', editId: id, draft: Object.assign({}, s.animais.find((a) => a.id === id)), afSubmitted: false }));
+  openStatus = (id) => this.setState((s) => ({ screen: 'animais', tipo: 'ong', sheet: 'status', targetId: id, statusPick: s.animais.find((a) => a.id === id).status }));
+  openRemover = (id) => this.setState({ screen: 'animais', tipo: 'ong', sheet: 'remover', targetId: id });
+  closeSheet = () => this.setState({ sheet: null });
+
+  goVol = (k) => {
+    const S = (o) => this.setState(o);
+    const volBase = { screen: 'voluntarios', tipo: 'ong', sheet: null, volDialog: null };
+    switch (k) {
+      case 'vHome': S({ screen: 'vHome', tipo: 'user', vSheet: null }); return true;
+      case 'vOngs': S({ screen: 'vOngs', tipo: 'user', vSheet: null }); return true;
+      case 'vOngDetalhe': S({ screen: 'vOngDetalhe', tipo: 'user', vSheet: null }); return true;
+      case 'vConfirmar': S({ screen: 'vOngDetalhe', tipo: 'user', vSheet: 'confirmar' }); return true;
+      case 'vForm': S((s) => ({ screen: 'vForm', tipo: 'user', vSheet: null, vDraft: s.vDraft.nome || !s.v.nome ? s.vDraft : Object.assign({}, s.vDraft, { nome: s.v.nome, telefone: s.v.telefone }) })); return true;
+      case 'vTermos': S({ screen: 'vTermos', tipo: 'user' }); return true;
+      case 'vSucesso': S({ screen: 'vSucesso', tipo: 'user' }); return true;
+      case 'vCancelada': S({ screen: 'vCancelada', tipo: 'user' }); return true;
+      case 'voluntarios': S(Object.assign({}, volBase, { solId: null })); return true;
+      case 'volSolicitacoes': S(Object.assign({}, volBase, { solId: null, volTab: 'solicitacoes' })); return true;
+      case 'volAtivos': S(Object.assign({}, volBase, { solId: null, volTab: 'ativos' })); return true;
+      case 'solDetalhe': this.ensureSol(() => S((s) => Object.assign({}, volBase, { volTab: 'solicitacoes', solId: s.solicitacoes[0].id }))); return true;
+      case 'solRejeitar': this.ensureSol(() => S((s) => Object.assign({}, volBase, { volTab: 'solicitacoes', solId: s.solicitacoes[0].id, volDialog: { kind: 'rejeitar', id: s.solicitacoes[0].id } }))); return true;
+    }
+    return false;
+  };
+  ensureSol = (cb) => { if (this.state.solicitacoes.length) return cb(); this.setState({ solicitacoes: SOL_SEED }, cb); };
+
+  setV = (k, val) => this.setState((s) => ({ vDraft: Object.assign({}, s.vDraft, { [k]: val }) }));
+  toggleVMulti = (k, o) => this.setState((s) => {
+    const cur = s.vDraft[k];
+    const nx = cur.indexOf(o) >= 0 ? cur.filter((x) => x !== o) : cur.concat([o]);
+    return { vDraft: Object.assign({}, s.vDraft, { [k]: nx }) };
+  });
+  openOng = (id) => this.setState((s) => ({
+    screen: 'vOngDetalhe', vOngId: id, vSheet: null,
+    vSubmitted: s.vOngId === id ? s.vSubmitted : false,
+    vDraft: s.vOngId === id ? s.vDraft : Object.assign({}, s.vDraft, { disp: [], areas: [] }),
+  }));
+  closeVSheet = () => this.setState({ vSheet: null });
+  vErrors = (d) => {
+    const e = {};
+    if (d.nome.trim().split(/\s+/).filter(Boolean).length < 2) e.nome = 'Informe nome e sobrenome.';
+    if (onlyDigits(d.telefone).length < 10) e.telefone = 'Telefone incompleto. Informe DDD + número.';
+    if (!d.disp.length) e.disp = 'Escolha ao menos um turno.';
+    if (!d.areas.length) e.areas = 'Escolha ao menos uma área de interesse.';
+    if (!d.exp) e.exp = 'Selecione sua experiência com animais.';
+    if (d.motivo.trim().length < 20) e.motivo = 'Conte em ao menos 20 caracteres por que quer ser voluntário.';
+    return e;
+  };
+  submitVForm = () => {
+    if (Object.keys(this.vErrors(this.state.vDraft)).length) return this.setState({ vSubmitted: true });
+    this.setState({ screen: 'vTermos', vAceite: false });
+  };
+  toggleAceite = () => this.setState((s) => ({ vAceite: !s.vAceite }));
+  aceitarTermos = () => {
+    if (!this.state.vAceite) return;
+    this.setState((s) => {
+      const d = s.vDraft;
+      const me = { id: 'me', nome: d.nome.trim() || 'Marina Souza', data: HOJE, desde: 'set/2026', telefone: d.telefone || '(11) 91234-5678', email: s.v.email || 'marina.souza@email.com', disp: d.disp.slice(), areas: d.areas.slice(), exp: d.exp || 'Alguma', motivo: d.motivo };
+      const sols = s.solicitacoes.filter((p) => p.id !== 'me');
+      return { screen: 'vSucesso', candidatura: { ongId: s.vOngId, status: 'Pendente' }, solicitacoes: s.vOngId === 1 ? [me].concat(sols) : sols, ativos: s.ativos.filter((p) => p.id !== 'me') };
+    });
+  };
+  recusarTermos = () => this.setState({ screen: 'vCancelada', vAceite: false });
+  closeSol = () => this.setState({ solId: null });
+  closeVolDialog = () => this.setState({ volDialog: null });
+  aprovarSol = (id) => {
+    const p = this.state.solicitacoes.find((x) => x.id === id);
+    if (!p) return;
+    this.setState((s) => ({
+      solicitacoes: s.solicitacoes.filter((x) => x.id !== id),
+      ativos: [Object.assign({}, p, { desde: 'set/2026' })].concat(s.ativos),
+      solId: null, volTab: 'ativos',
+      candidatura: id === 'me' && s.candidatura ? Object.assign({}, s.candidatura, { status: 'Aprovada' }) : s.candidatura,
+    }));
+    this.showToast('Candidatura de ' + p.nome.split(' ')[0] + ' aprovada. Enviamos uma notificação.');
+  };
+  confirmVolDialog = () => {
+    const dg = this.state.volDialog;
+    if (!dg) return;
+    const p = this.state.solicitacoes.concat(this.state.ativos).find((x) => x.id === dg.id);
+    const first = p ? p.nome.split(' ')[0] : '';
+    if (dg.kind === 'rejeitar') {
+      this.setState((s) => ({ solicitacoes: s.solicitacoes.filter((x) => x.id !== dg.id), solId: null, volDialog: null, candidatura: dg.id === 'me' && s.candidatura ? Object.assign({}, s.candidatura, { status: 'Rejeitada' }) : s.candidatura }));
+      this.showToast('Candidatura de ' + first + ' rejeitada.');
+    } else {
+      this.setState((s) => ({ ativos: s.ativos.filter((x) => x.id !== dg.id), solId: null, volDialog: null }));
+      this.showToast(first + ' não faz mais parte dos voluntários ativos.');
+    }
+  };
+
+  showToast = (msg) => {
+    clearTimeout(this._t);
+    this.setState({ toast: msg });
+    this._t = setTimeout(() => this.setState({ toast: '' }), 3200);
+  };
+
+  animalErrors = (d) => {
+    const e = {};
+    if (d.nome.trim().length < 2) e.nome = 'Informe o nome do animal.';
+    if (!d.especie) e.especie = 'Selecione a espécie.';
+    if (!d.raca.trim()) e.raca = 'Informe a raça (use “SRD” se não souber)';
+    if (!d.idade.trim()) e.idade = 'a idade aproximada';
+    if (!d.porte) e.porte = 'Selecione o porte.';
+    if (!d.sexo) e.sexo = 'Selecione o sexo.';
+    if (d.descricao.trim().length < 20) e.descricao = 'Escreva ao menos 20 caracteres sobre temperamento e história.';
+    return e;
+  };
+
+  saveAnimal = () => {
+    const d = this.state.draft;
+    if (Object.keys(this.animalErrors(d)).length) return this.setState({ afSubmitted: true });
+    const editing = this.state.editId != null;
+    this.setState((s) => ({
+      animais: editing ? s.animais.map((a) => (a.id === s.editId ? Object.assign({}, d) : a)) : [Object.assign({}, d)].concat(s.animais),
+      nextId: editing ? s.nextId : s.nextId + 1,
+      sheet: null, afSubmitted: false, filtro: editing ? s.filtro : 'Todos',
+    }));
+    this.showToast(editing ? 'Alterações de ' + d.nome + ' salvas.' : d.nome + ' foi ' + (fem(d) ? 'cadastrada' : 'cadastrado') + ' com sucesso.');
+  };
+
+  saveStatus = () => {
+    const { targetId, statusPick, animais } = this.state;
+    const a = animais.find((x) => x.id === targetId);
+    this.setState((s) => ({ animais: s.animais.map((x) => (x.id === targetId ? Object.assign({}, x, { status: statusPick }) : x)), sheet: null }));
+    this.showToast('Status de ' + a.nome + ' alterado para “' + statusPick + '”.');
+  };
+
+  confirmRemove = () => {
+    const { targetId, animais } = this.state;
+    const a = animais.find((x) => x.id === targetId);
+    this.setState((s) => ({ animais: s.animais.filter((x) => x.id !== targetId), sheet: null }));
+    this.showToast(a.nome + ' foi ' + (fem(a) ? 'removida' : 'removido') + ' da sua lista.');
+  };
+
+  demoErro = () => this.setState((s) => ({
+    screen: 'form', tipo: s.tipo === 'ong' ? 'ong' : 'user', submitted: true, sheet: null,
+    v: s.tipo === 'ong'
+      ? Object.assign({}, s.v, { nomeOng: 'Patas', cnpj: '12.345.678/00', endereco: 'Rua 12', responsavel: '' })
+      : Object.assign({}, s.v, { nome: 'Marina', email: 'marina@email', senha: 'adotae', telefone: '(11) 9987' }),
+  }));
+
+  reset = () => this.setState({
+    screen: 'landing', tipo: null, submitted: false, loginSubmitted: false, recuperacao: '', sheet: null, vSheet: null, solId: null, volDialog: null, sessao: null, destino: null,
+    v: { nome: '', email: '', senha: '', telefone: '', nomeOng: '', cnpj: '', endereco: '', responsavel: '' },
+    login: { email: '', senha: '' },
+  });
+
+  keysFor = (tipo) => (tipo === 'ong' ? ['nomeOng', 'cnpj', 'endereco', 'responsavel'] : ['nome', 'email', 'senha', 'telefone']);
+
+  errorsFor = () => {
+    const out = {};
+    const forte = this.props.exigirSenhaForte ?? true;
+    this.keysFor(this.state.tipo).forEach((k) => {
+      let m = RULES[k](this.state.v[k] || '');
+      if (k === 'senha' && !forte) m = (this.state.v[k] || '').length < 6 ? 'A senha precisa ter no mínimo 6 caracteres.' : '';
+      if (m) out[k] = m;
+    });
+    return out;
+  };
+
+  submitForm = () => {
+    const errs = this.errorsFor();
+    if (Object.keys(errs).length) return this.setState({ submitted: true, errs });
+    this.setState({ screen: 'sucesso', submitted: false, errs: {} });
+  };
+
+  submitLogin = () => {
+    const { email, senha } = this.state.login;
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email.trim()) || senha.length < 8) return this.setState({ loginSubmitted: true });
+    const d = this.state.destino;
+    this.setState({ sessao: true, loginSubmitted: false, sheet: null });
+    if (d) return this.irPara(d);
+    this.setState((s) => ({ screen: s.tipo === 'ong' ? 'animais' : 'landing' }));
+  };
+
+  esqueciSenha = () => this.setState((s) => ({
+    recuperacao: s.login.email.trim()
+      ? 'Enviamos um link de recuperação para ' + s.login.email.trim() + '. Verifique sua caixa de entrada.'
+      : 'Informe seu e-mail acima para receber o link de recuperação.',
+  }));
+
+  renderVals() {
+    const s = this.state;
+    const live = this.props.validarAoDigitar ?? true;
+    const errs = s.submitted ? (live ? this.errorsFor() : (s.errs || this.errorsFor())) : {};
+    const ong = s.tipo === 'ong';
+    const forte = this.props.exigirSenhaForte ?? true;
+
+    const meta = {
+      nome: { label: 'Nome', placeholder: 'Ex.: Marina Souza' },
+      email: { label: 'E-mail', placeholder: 'nome@email.com', type: 'email', mode: 'email' },
+      senha: { label: 'Senha', placeholder: forte ? 'Mínimo de 8 caracteres' : 'Mínimo de 6 caracteres', pw: true, hint: forte ? 'Use ao menos 8 caracteres e 1 número.' : 'Use ao menos 6 caracteres.' },
+      telefone: { label: 'Telefone', placeholder: '(11) 91234-5678', mode: 'tel', mask: maskPhone },
+      nomeOng: { label: 'Nome da ONG', placeholder: 'Ex.: Abrigo Patas Felizes' },
+      cnpj: { label: 'CNPJ', placeholder: '00.000.000/0000-00', mode: 'numeric', mask: maskCnpj },
+      endereco: { label: 'Endereço', placeholder: 'Rua, número, bairro, cidade' },
+      responsavel: { label: 'Nome do responsável', placeholder: 'Quem responde legalmente pela ONG' },
+    };
+
+    const fields = this.keysFor(s.tipo).map((k) => {
+      const m = meta[k];
+      const error = errs[k] || '';
+      return {
+        key: k, label: m.label, placeholder: m.placeholder,
+        type: m.pw ? (s.showSenha ? 'text' : 'password') : (m.type || 'text'),
+        mode: m.mode || 'text', value: s.v[k], set: this.set(k, m.mask),
+        box: box(error ? 'error' : 'idle'), error, hint: !error && m.hint ? m.hint : '',
+        toggle: m.pw ? (() => this.setState((p) => ({ showSenha: !p.showSenha }))) : null,
+        toggleLabel: s.showSenha ? 'Ocultar' : 'Mostrar',
+      };
+    });
+
+    const lErrEmail = s.loginSubmitted && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(s.login.email.trim()) ? 'E-mail inválido. Exemplo: nome@email.com' : '';
+    const lErrSenha = s.loginSubmitted && s.login.senha.length < 8 ? 'Senha incorreta ou muito curta (mínimo de 8 caracteres).' : '';
+    const loginFields = [
+      { label: 'E-mail', placeholder: 'nome@email.com', type: 'email', mode: 'email', value: s.login.email, set: this.setLogin('email'), box: box(lErrEmail ? 'error' : 'idle'), error: lErrEmail, toggle: null, toggleLabel: '' },
+      { label: 'Senha', placeholder: 'Sua senha', type: s.showLoginSenha ? 'text' : 'password', mode: 'text', value: s.login.senha, set: this.setLogin('senha'), box: box(lErrSenha ? 'error' : 'idle'), error: lErrSenha, toggle: () => this.setState((p) => ({ showLoginSenha: !p.showLoginSenha })), toggleLabel: s.showLoginSenha ? 'Ocultar' : 'Mostrar' },
+    ];
+
+    let activeStep = s.screen === 'form' ? (s.submitted ? 'erro' : (ong ? 'formOng' : 'formUser')) : s.screen;
+    if (s.screen === 'animais') {
+      activeStep = s.sheet === 'form' ? (s.editId != null ? 'editarAnimal' : 'novoAnimal') : s.sheet === 'status' ? 'statusAnimal' : s.sheet === 'remover' ? 'removerAnimal' : 'animais';
+    }
+    if (s.screen === 'vOngDetalhe') activeStep = s.vSheet === 'confirmar' ? 'vConfirmar' : 'vOngDetalhe';
+    if (s.screen === 'voluntarios') activeStep = s.volDialog && s.volDialog.kind === 'rejeitar' ? 'solRejeitar' : s.solId ? 'solDetalhe' : s.volTab === 'ativos' ? 'volAtivos' : 'volSolicitacoes';
+    const stepStyle = (on) => ({
+      display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left',
+      fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer',
+      padding: '9px 10px', borderRadius: 10, border: '1px solid ' + (on ? '#F2DC9E' : 'transparent'),
+      background: on ? '#FFF8E3' : 'transparent', color: on ? '#2A56D6' : '#3D4249',
+    });
+    const steps = STEPS.map((st, i) => ({ n: i + 1, label: st.label, go: this.go(st.key), style: stepStyle(st.key === activeStep) }));
+    const steps2 = STEPS2.map((st, i) => ({ n: STEPS.length + i + 1, label: st.label, go: this.go(st.key), style: stepStyle(st.key === activeStep) }));
+    const steps3 = STEPS3.map((st, i) => ({ n: STEPS.length + STEPS2.length + i + 1, label: st.label, go: this.go(st.key), style: stepStyle(st.key === activeStep) }));
+    const steps4 = STEPS4.map((st, i) => ({ n: STEPS.length + STEPS2.length + STEPS3.length + i + 1, label: st.label, go: this.go(st.key), style: stepStyle(st.key === activeStep) }));
+
+    const nErr = Object.keys(errs).length;
+    const selStyle = (sel, ring, bg, bd) => ({
+      border: '1.5px solid ' + (sel ? bd : C.border), background: sel ? bg : '#fff',
+      borderRadius: 16, padding: 16, cursor: 'pointer', fontFamily: 'inherit', width: '100%',
+      boxShadow: sel ? '0 0 0 3px ' + ring : 'none', transition: 'all .15s ease',
+    });
+    const radio = (sel, accent) => ({
+      width: 22, height: 22, borderRadius: '50%', flex: 'none', marginTop: 2, boxSizing: 'border-box',
+      border: '2px solid ' + (sel ? accent : '#CFCEC8'), background: sel ? accent : '#fff',
+      boxShadow: sel ? 'inset 0 0 0 3.5px #fff' : 'none',
+    });
+
+    // ---- Gestão de animais
+    const badge = (st) => ({ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 999, fontSize: 12.5, fontWeight: 700, background: STATUS[st].bg, color: STATUS[st].fg, whiteSpace: 'nowrap' });
+    const dot = (st) => ({ width: 7, height: 7, borderRadius: '50%', background: STATUS[st].dot, flex: 'none' });
+
+    const counts = { Todos: s.animais.length };
+    STATUS_KEYS.forEach((k) => { counts[k] = s.animais.filter((a) => a.status === k).length; });
+    const filtros = ['Todos'].concat(STATUS_KEYS).map((k) => {
+      const on = s.filtro === k;
+      return {
+        label: k, count: counts[k], pick: () => this.setState({ filtro: k }),
+        style: { flex: 'none', whiteSpace: 'nowrap', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, padding: '9px 14px', borderRadius: 999, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : C.border), background: on ? '#FFF8E3' : '#fff', color: on ? '#14161A' : '#3D4249' },
+      };
+    });
+    const animaisVis = s.animais.filter((a) => s.filtro === 'Todos' || a.status === s.filtro).map((a) => ({
+      id: a.id, nome: a.nome, slot: 'animal-' + a.id + '-1',
+      sub: a.especie + ' · ' + a.raca,
+      meta: [a.idade, a.porte, a.sexo].join(' · '),
+      status: a.status, badge: badge(a.status), dot: dot(a.status),
+      edit: () => this.openEdit(a.id), changeStatus: () => this.openStatus(a.id), remove: () => this.openRemover(a.id),
+    }));
+
+    const d = s.draft;
+    const ae = s.afSubmitted ? this.animalErrors(d) : {};
+    const segStyle = (sel, err) => ({
+      flex: 1, minWidth: 0, fontFamily: 'inherit', fontSize: 15, fontWeight: 600, padding: '12px 6px', borderRadius: 12, cursor: 'pointer',
+      border: '1.5px solid ' + (sel ? C.prim : err ? C.err : C.border), background: sel ? '#FFF8E3' : err ? '#FDF0EE' : '#fff', color: sel ? '#14161A' : '#3D4249',
+    });
+    const seg = (key, opts) => opts.map((o) => ({ label: o, pick: () => this.setDraft(key, o), style: segStyle(d[key] === o, !!ae[key]) }));
+    const track = (on) => ({ width: 51, height: 31, borderRadius: 16, background: on ? C.prim : '#D9D8D2', position: 'relative', flex: 'none', transition: 'background .2s ease' });
+    const knob = (on) => ({ position: 'absolute', top: 2, left: on ? 22 : 2, width: 27, height: 27, borderRadius: '50%', background: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,.2)', transition: 'left .2s ease' });
+    const nAe = Object.keys(ae).length;
+    const riErr = ae.raca && ae.idade ? ae.raca + ' e ' + ae.idade + '.' : ae.raca ? ae.raca + '.' : ae.idade ? 'Informe ' + ae.idade + '. Ex.: 2 anos' : '';
+    const slotBase = 'animal-' + d.id;
+    const af = {
+      showBanner: nAe > 0, bannerTitle: nAe === 1 ? 'Revise 1 campo.' : 'Revise ' + nAe + ' campos.',
+      slot1: slotBase + '-1', slot2: slotBase + '-2', slot3: slotBase + '-3',
+      nome: { value: d.nome, set: (e) => this.setDraft('nome', e.target.value), box: box(ae.nome ? 'error' : 'idle'), error: ae.nome || '' },
+      raca: { value: d.raca, set: (e) => this.setDraft('raca', e.target.value), box: box(ae.raca ? 'error' : 'idle') },
+      idade: { value: d.idade, set: (e) => this.setDraft('idade', e.target.value), box: box(ae.idade ? 'error' : 'idle') },
+      racaIdadeErr: riErr,
+      desc: { value: d.descricao, set: (e) => this.setDraft('descricao', e.target.value), box: Object.assign(box(ae.descricao ? 'error' : 'idle'), { alignItems: 'stretch' }), error: ae.descricao || '', hint: ae.descricao ? '' : 'Ajuda adotantes a conhecer o animal.' },
+      descCount: d.descricao.length + '/500',
+      especieOpts: seg('especie', ['Cão', 'Gato', 'Outro']), especieErr: ae.especie || '',
+      porteOpts: seg('porte', ['Pequeno', 'Médio', 'Grande']), porteErr: ae.porte || '',
+      sexoOpts: seg('sexo', ['Macho', 'Fêmea']), sexoErr: ae.sexo || '',
+      toggleCastrado: () => this.setDraft('castrado', !d.castrado), castradoTxt: d.castrado ? 'Sim' : 'Não',
+      castradoTrack: track(d.castrado), castradoKnob: knob(d.castrado),
+      toggleChip: () => this.setDraft('microchip', !d.microchip), chipTxt: d.microchip ? 'Sim' : 'Não',
+      chipTrack: track(d.microchip), chipKnob: knob(d.microchip),
+      statusOpts: STATUS_KEYS.map((k) => {
+        const on = d.status === k;
+        return {
+          label: k, pick: () => this.setDraft('status', k), dot: dot(k),
+          style: { display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, lineHeight: 1.25, padding: '12px', borderRadius: 12, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : C.border), background: on ? '#FFF8E3' : '#fff', color: on ? '#14161A' : '#3D4249' },
+        };
+      }),
+    };
+
+    const target = s.animais.find((a) => a.id === s.targetId);
+    const statusSheetOpts = STATUS_KEYS.map((k) => {
+      const on = s.statusPick === k;
+      return {
+        label: k, desc: STATUS[k].desc, badge: badge(k), dot: dot(k), radio: radio(on, C.blue),
+        pick: () => this.setState({ statusPick: k }),
+        style: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', rowGap: 8, width: '100%', fontFamily: 'inherit', padding: 14, borderRadius: 14, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : C.border), background: on ? '#FFFBEF' : '#fff', boxShadow: on ? '0 0 0 3px rgba(245,184,32,.12)' : 'none' },
+      };
+    });
+
+    const ongNome = s.v.nomeOng.trim() || 'Abrigo Patas Felizes';
+    const vazioFiltro = s.animais.length > 0;
+
+    const vo = ONGS.find((o) => o.id === s.vOngId) || ONGS[0];
+    const vd = s.vDraft;
+    const ve = s.vSubmitted ? this.vErrors(vd) : {};
+    const nVe = Object.keys(ve).length;
+    const chipSel = (sel, err) => ({ flex: 'none', fontFamily: 'inherit', fontSize: 14.5, fontWeight: 600, padding: '10px 14px', borderRadius: 999, cursor: 'pointer', border: '1.5px solid ' + (sel ? C.prim : err ? C.err : C.border), background: sel ? '#FFF8E3' : err ? '#FDF0EE' : '#fff', color: sel ? '#14161A' : '#3D4249' });
+    const multi = (key, opts) => opts.map((o) => { const on = vd[key].indexOf(o) >= 0; return { label: (on ? '✓ ' : '') + o, pick: () => this.toggleVMulti(key, o), style: chipSel(on, !!ve[key]) }; });
+    const lbl = (arr) => arr.map((x) => ({ label: x }));
+    const cand = s.candidatura ? { ong: (ONGS.find((o) => o.id === s.candidatura.ongId) || ONGS[0]).nome, status: s.candidatura.status, badge: Object.assign(badge('Disponível'), { background: CAND[s.candidatura.status].bg, color: CAND[s.candidatura.status].fg }), dot: Object.assign(dot('Disponível'), { background: CAND[s.candidatura.status].dot }), texto: CAND[s.candidatura.status].texto } : { ong: '', status: '', badge: {}, dot: {}, texto: '' };
+    const userNome = s.v.nome.trim() || s.vDraft.nome.trim() || 'Marina Souza';
+    const segTab = (on) => ({ flex: 1, border: 'none', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, padding: '10px 8px', borderRadius: 9, cursor: 'pointer', background: on ? '#fff' : 'transparent', color: on ? '#14161A' : '#4A4E55', boxShadow: on ? '0 1px 3px rgba(20,22,26,.12)' : 'none' });
+    const tabBtn = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12.5, fontWeight: 700, color: on ? C.blue : '#6B6F76', cursor: 'pointer', padding: '0 0 6px' });
+    const tabInd = (on) => ({ width: 36, height: 3, borderRadius: '0 0 3px 3px', background: on ? C.prim : 'transparent' });
+    const findP = (id) => s.solicitacoes.find((p) => p.id === id) || s.ativos.find((p) => p.id === id);
+    const solP = s.solId ? findP(s.solId) : null;
+    const solPend = !!(solP && s.solicitacoes.find((p) => p.id === s.solId));
+    const sol = solP ? {
+      nome: solP.nome, first: solP.nome.split(' ')[0], iniciais: iniciaisDe(solP.nome), data: solP.data, telefone: solP.telefone, email: solP.email, exp: solP.exp, motivo: solP.motivo,
+      disp: lbl(solP.disp), areas: lbl(solP.areas), pendente: solPend,
+      statusLabel: solPend ? 'Pendente' : 'Ativo', badge: badge(solPend ? 'Em processo de adoção' : 'Disponível'), dot: dot(solPend ? 'Em processo de adoção' : 'Disponível'),
+      sub: solPend ? 'Enviada em ' + solP.data : 'Voluntário desde ' + solP.desde,
+      avatar: { width: 64, height: 64, borderRadius: '50%', background: solPend ? '#FFF8E3' : '#E8F6F0', color: solPend ? C.blue : '#16694A', fontSize: 20, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' },
+      aprovar: () => this.aprovarSol(solP.id), rejeitar: () => this.setState({ volDialog: { kind: 'rejeitar', id: solP.id } }),
+    } : { disp: [], areas: [], badge: {}, dot: {}, avatar: {} };
+    const dlgP = s.volDialog ? findP(s.volDialog.id) : null;
+    const dFirst = dlgP ? dlgP.nome.split(' ')[0] : '';
+    const vdlg = !dlgP ? { titulo: '', texto: '', confirmar: '' } : s.volDialog.kind === 'rejeitar'
+      ? { titulo: 'Rejeitar candidatura de ' + dFirst + '?', texto: dFirst + ' será notificado(a) de que a candidatura não foi aceita desta vez. Esta ação não pode ser desfeita.', confirmar: 'Rejeitar candidatura' }
+      : { titulo: 'Desligar ' + dFirst + '?', texto: dFirst + ' deixará de aparecer entre os voluntários ativos e perderá acesso à agenda da ONG. Esta ação não pode ser desfeita.', confirmar: 'Desligar voluntário' };
+    const tabAtivos = s.volTab === 'ativos';
+    const nSol = s.solicitacoes.length;
+    const volVals = {
+      steps3, steps4,
+      isVHome: s.screen === 'vHome', isVOngs: s.screen === 'vOngs', isVOngDetalhe: s.screen === 'vOngDetalhe', isVForm: s.screen === 'vForm',
+      isVTermos: s.screen === 'vTermos', isVSucesso: s.screen === 'vSucesso', isVCancelada: s.screen === 'vCancelada', isVoluntarios: s.screen === 'voluntarios',
+      userFirst: userNome.split(' ')[0], userIniciais: iniciaisDe(userNome),
+      vagasResumo: ONGS.length + ' ONGs perto de você estão com vagas abertas para voluntários.',
+      hasCand: !!s.candidatura, cand,
+      ongsCount: ONGS.length,
+      ongsVis: ONGS.map((o) => ({ nome: o.nome, local: o.local + ' · ' + o.dist, vagas: o.vagas + ' vagas abertas', slot: 'ong-' + o.id, badge: badge('Disponível'), dot: dot('Disponível'), open: () => this.openOng(o.id), atividades: o.atividades.slice(0, 2).join(' · ') + (o.atividades.length > 2 ? ' +' + (o.atividades.length - 2) : '') })),
+      vong: { nome: vo.nome, local: vo.local + ' · ' + vo.dist, sobre: vo.sobre, slot: 'ong-' + vo.id, vagas: vo.vagas + ' vagas abertas', badge: badge('Disponível'), dot: dot('Disponível'), atividades: lbl(vo.atividades), turnos: lbl(vo.turnos), requisitos: lbl(vo.requisitos) },
+      vSheetConfirmar: s.vSheet === 'confirmar', openConfirmar: () => this.setState({ vSheet: 'confirmar' }), closeVSheet: this.closeVSheet,
+      vf: {
+        showBanner: nVe > 0, bannerTitle: nVe === 1 ? 'Revise 1 campo.' : 'Revise ' + nVe + ' campos.',
+        nome: { value: vd.nome, set: (e) => this.setV('nome', e.target.value), box: box(ve.nome ? 'error' : 'idle'), error: ve.nome || '' },
+        telefone: { value: vd.telefone, set: (e) => this.setV('telefone', maskPhone(e.target.value)), box: box(ve.telefone ? 'error' : 'idle'), error: ve.telefone || '' },
+        dispOpts: multi('disp', vo.turnos), dispErr: ve.disp || '',
+        areasOpts: multi('areas', vo.atividades), areasErr: ve.areas || '',
+        expOpts: ['Nenhuma', 'Alguma', 'Bastante'].map((o) => ({ label: o, pick: () => this.setV('exp', o), style: segStyle(vd.exp === o, !!ve.exp) })), expErr: ve.exp || '',
+        motivo: { value: vd.motivo, set: (e) => this.setV('motivo', e.target.value), box: Object.assign(box(ve.motivo ? 'error' : 'idle'), { alignItems: 'stretch' }), error: ve.motivo || '', hint: ve.motivo ? '' : 'A ONG lê isso primeiro.' },
+        motivoCount: vd.motivo.length + '/400',
+      },
+      submitVForm: this.submitVForm,
+      termos: TERMOS.map((t, i) => Object.assign({ n: i + 1 }, t)),
+      toggleAceite: this.toggleAceite, aceiteCheck: s.vAceite ? '✓' : '',
+      aceiteBox: { width: 24, height: 24, boxSizing: 'border-box', borderRadius: 7, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: '#14161A', border: '2px solid ' + (s.vAceite ? C.blue : '#CFCEC8'), background: s.vAceite ? C.prim : '#fff' },
+      btnAceitar: { width: '100%', border: 'none', borderRadius: 14, padding: 17, fontFamily: 'inherit', fontSize: 17, fontWeight: 700, background: s.vAceite ? C.blue : '#F0EFEB', color: s.vAceite ? '#fff' : '#A6A9AE', cursor: s.vAceite ? 'pointer' : 'not-allowed', boxShadow: s.vAceite ? '0 8px 20px rgba(42,86,214,.28)' : 'none' },
+      aceitarTermos: this.aceitarTermos, recusarTermos: this.recusarTermos,
+      tabAtivos, tabSol: !tabAtivos,
+      volTabAtivos: () => this.setState({ volTab: 'ativos' }), volTabSol: () => this.setState({ volTab: 'solicitacoes' }),
+      segAtivos: segTab(tabAtivos), segSol: segTab(!tabAtivos),
+      nAtivos: s.ativos.length, nSol, nSolBadge: nSol > 0,
+      solicitacoesVis: s.solicitacoes.map((p) => ({ nome: p.nome, iniciais: iniciaisDe(p.nome), data: p.data, open: () => this.setState({ solId: p.id }), badge: badge('Em processo de adoção'), dot: dot('Em processo de adoção') })),
+      ativosVis: s.ativos.map((p) => ({ nome: p.nome, iniciais: iniciaisDe(p.nome), areas: p.areas.join(' · '), meta: p.disp.join(', ') + ' · desde ' + p.desde, open: () => this.setState({ solId: p.id }), desligar: () => this.setState({ volDialog: { kind: 'desligar', id: p.id } }), badge: badge('Disponível'), dot: dot('Disponível') })),
+      volVazio: tabAtivos ? s.ativos.length === 0 : nSol === 0,
+      volVazioTitulo: tabAtivos ? 'Nenhum voluntário ativo' : 'Nenhuma solicitação pendente',
+      volVazioTexto: tabAtivos ? 'Aprove uma solicitação para que ela apareça aqui.' : 'Novas candidaturas aparecem aqui assim que forem enviadas.',
+      solAberta: !!solP, sol, closeSol: this.closeSol, solBackLabel: solPend ? '← Solicitações' : '← Ativos',
+      volDialogOpen: !!dlgP, vdlg, confirmVolDialog: this.confirmVolDialog, closeVolDialog: this.closeVolDialog,
+      tabR: tabBtn(false), tabRInd: tabInd(false), tabA: tabBtn(s.screen === 'animais'), tabV: tabBtn(s.screen === 'voluntarios'), tabAInd: tabInd(s.screen === 'animais'), tabVInd: tabInd(s.screen === 'voluntarios'),
+    };
+
+    const logado = this.logado();
+    const tabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? C.blue : '#6B6F76', minHeight: 48 });
+    const tabAtivo = s.screen === 'landing' ? 'inicio' : s.screen === 'perfil' ? 'perfil' : /^v[A-Z]/.test(s.screen) ? 'voluntariado' : '';
+    const homeList = HOME_ANIMAIS.filter((x) => s.filtroHome === 'Todos' || (s.filtroHome === 'Cães' ? x.especie === 'Cão' : x.especie === 'Gato'));
+    const nomeConta = s.v.nome.trim() || 'Marina Souza';
+    const homeVals = {
+      homeLogado: logado, homeDeslogado: !logado,
+      homeIniciais: nomeConta.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join(''),
+      homeCount: HOME_ANIMAIS.length + ' animais esperando por um lar',
+      homeFiltros: ['Todos', 'Cães', 'Gatos'].map((k) => {
+        const on = s.filtroHome === k;
+        return { label: k, pick: () => this.setState({ filtroHome: k }), style: { flex: 'none', whiteSpace: 'nowrap', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, padding: '9px 16px', borderRadius: 999, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : C.border), background: on ? '#FFF8E3' : '#fff', color: on ? '#14161A' : '#3D4249' } };
+      }),
+      nCampanhas: DESTAQUE.filter((c) => c.status === 'Ativa').length,
+      homeCampanhas: DESTAQUE.filter((c) => c.status === 'Ativa').map((c) => {
+        const pct = c.meta ? Math.min(100, Math.round((c.arrecadado / c.meta) * 100)) : 0;
+        return {
+          slot: 'campanha-' + c.id, tipo: c.tipo, titulo: c.titulo,
+          tipoTag: { padding: '3px 8px', borderRadius: 6, fontSize: 12, fontWeight: 700, background: TIPO_TAG[c.tipo][0], color: TIPO_TAG[c.tipo][1], whiteSpace: 'nowrap' },
+          isMon: c.tipo === 'Monetária', bar: { width: pct + '%', height: 8, borderRadius: 4, background: '#1E8A5F' },
+          arrecadado: c.meta ? 'R$ ' + Math.round(c.arrecadado / 100).toLocaleString('pt-BR') : '', meta: c.meta ? 'R$ ' + Math.round(c.meta / 100).toLocaleString('pt-BR') : '', pct: pct + '%',
+          isItens: c.tipo === 'Itens', itens: c.itens || '',
+          eventoTxt: c.tipo === 'Eventos' ? [c.data_evento ? 'Evento em ' + c.data_evento : '', c.local_evento].filter(Boolean).join(' · ') : '',
+          open: () => { window.location.href = URL_DOACOES + '#campanha=' + c.id + '&logado=' + (logado ? 1 : 0); },
+        };
+      }),
+      homeAnimais: homeList.map((x) => ({ nome: x.nome, slot: 'animal-' + x.id + '-1', linha1: x.especie + ' · ' + x.porte, idade: x.idade, open: () => { window.location.href = URL_ADOCAO + '#animal=' + x.id + '&logado=' + (logado ? 1 : 0); } })),
+      tabs: { inicio: this.tab('inicio'), resgates: this.tab('resgates'), voluntariado: this.tab('voluntariado'), perfil: this.tab('perfil') },
+      tabStyle: { inicio: tabSt(tabAtivo === 'inicio'), resgates: tabSt(tabAtivo === 'resgates'), voluntariado: tabSt(tabAtivo === 'voluntariado'), perfil: tabSt(tabAtivo === 'perfil') },
+      entrar: this.entrar, sair: this.sair, isPerfil: s.screen === 'perfil',
+      loginGate: !!s.destino, loginGateTxt: GATE_TXT[s.destino] || '',
+      txtLogado: logado ? 'Sim' : 'Não',
+      chipLogado: { fontWeight: 700, fontSize: 12, padding: '2px 8px', borderRadius: 999, background: logado ? '#E8F6F0' : '#F0EFEB', color: logado ? '#16694A' : '#4A4E55' },
+    };
+
+    const ongAtivo = s.screen === 'animais' ? 'animais' : s.screen === 'voluntarios' ? 'voluntarios' : s.screen === 'mais' ? 'mais' : '';
+    const ongVals = {
+      ong: ongNav(ongAtivo, Object.assign({}, ONG_GO, { animais: this.go('animais'), voluntarios: this.go('voluntarios'), mais: this.go('mais') }), 3, s.solicitacoes.length),
+      isMais: s.screen === 'mais',
+      fazerDenuncia: this.tab('denuncia'),
+      maisItens: [
+        { tile: { width: 40, height: 40, borderRadius: 12, background: '#FEF6E4', color: '#2A56D6', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }, label: 'Solicitações de adoção', sub: 'Pedidos de adoção dos seus animais', count: '4', icon: 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10zM9.5 11.5l1.8 1.8 3.4-3.6', open: () => { window.location.href = 'Adotae%20-%20Solicita%C3%A7%C3%B5es%20de%20Ado%C3%A7%C3%A3o.dc.html'; } },
+        { tile: { width: 40, height: 40, borderRadius: 12, background: '#EAF0FD', color: '#2A56D6', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }, label: 'Doações', sub: 'Doações recebidas e confirmação de recebimento', count: '3', icon: 'M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18zM14.5 9.5c-.4-.9-1.4-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1.1 0-2.1-.6-2.5-1.5M12 6.5V8M12 16v1.5', open: () => { window.location.href = 'Adotae%20-%20Doa%C3%A7%C3%B5es.dc.html#ong=doacoes'; } },
+        { tile: { width: 40, height: 40, borderRadius: 12, background: '#FEF6E4', color: '#2A56D6', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }, label: 'Denúncias', sub: 'Denúncias de maus-tratos para análise', count: '2', icon: 'M5 21V4M5 4h11l-2 4 2 4H5', open: () => { window.location.href = 'Adotae%20-%20Den%C3%BAncias.dc.html#ong=denuncias'; } },
+        { tile: { width: 40, height: 40, borderRadius: 12, background: '#EAF0FD', color: '#2A56D6', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }, label: 'Assinatura', sub: 'Seu plano, benefícios e faturas', count: '', icon: 'M3 6h18v12H3zM3 10h18M7 15h4', open: () => { window.location.href = 'Adotae%20-%20Assinaturas.dc.html'; } },
+      ],
+    };
+
+    return {
+      ...homeVals, ...volVals, ...ongVals, steps, steps2, fields, loginFields,
+      nav: { landing: this.go('landing'), tipo: this.go('tipo'), login: this.go('login'), animais: this.go('animais'), voluntarios: this.go('voluntarios'), vHome: this.go('vHome'), ongResgates: () => { window.location.href = 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html'; }, ongCampanhas: () => { window.location.href = 'Adotae%20-%20Campanhas.dc.html'; }, ongDoacoes: () => { window.location.href = 'Adotae%20-%20Doa%C3%A7%C3%B5es.dc.html' + '#ong=doacoes'; }, vOngs: this.go('vOngs'), vOngDetalhe: this.go('vOngDetalhe'), vForm: this.go('vForm'), vTermos: this.go('vTermos') },
+      reset: this.reset, demoErro: this.demoErro,
+      submitForm: this.submitForm, submitLogin: this.submitLogin, esqueciSenha: this.esqueciSenha,
+      isLanding: s.screen === 'landing', isTipo: s.screen === 'tipo', isForm: s.screen === 'form',
+      isSucesso: s.screen === 'sucesso', isLogin: s.screen === 'login', isHome: s.screen === 'home', isAnimais: s.screen === 'animais',
+      pickUser: () => this.setState({ tipo: 'user' }), pickOng: () => this.setState({ tipo: 'ong' }),
+      cardUser: selStyle(s.tipo === 'user', 'rgba(42,86,214,.12)', '#F7F9FF', C.blue),
+      cardOng: selStyle(s.tipo === 'ong', 'rgba(245,184,32,.28)', '#FFFBEF', C.accStrong),
+      radioUser: radio(s.tipo === 'user', C.blue), radioOng: radio(s.tipo === 'ong', C.accStrong),
+      continuarTipo: s.tipo ? this.go(s.tipo === 'ong' ? 'formOng' : 'formUser') : (() => {}),
+      btnContinuar: {
+        width: '100%', border: 'none', borderRadius: 14, padding: 17, fontFamily: 'inherit', fontSize: 17, fontWeight: 700,
+        background: s.tipo ? '#2A56D6' : '#F0EFEB', color: s.tipo ? '#fff' : '#A6A9AE',
+        cursor: s.tipo ? 'pointer' : 'not-allowed', boxShadow: s.tipo ? '0 8px 20px rgba(42,86,214,.28)' : 'none',
+      },
+      formTitle: ong ? 'Cadastre sua ONG' : 'Criar sua conta',
+      formSub: ong ? 'Precisamos desses dados para verificar a organização.' : 'Leva menos de um minuto.',
+      showBanner: nErr > 0,
+      bannerTitle: nErr === 1 ? 'Revise 1 campo.' : 'Revise ' + nErr + ' campos.',
+      bannerText: 'Corrija os itens destacados abaixo para continuar. Nada do que você digitou foi perdido.',
+      successTitle: ong ? 'ONG cadastrada!' : 'Boas-vindas ao Adotaê!',
+      successText: ong ? 'O cadastro de ' + (s.v.nomeOng || 'sua organização') + ' foi criado com sucesso.' : 'Sua conta foi criada com sucesso, ' + ((s.v.nome || 'tutor').split(' ')[0]) + '.',
+      successNote: ong ? 'A verificação do CNPJ leva até 2 dias úteis. Avisaremos por e-mail assim que for aprovada.' : 'Enviamos um e-mail de confirmação para ' + (s.v.email || 'seu endereço de e-mail') + '.',
+      recuperacao: s.recuperacao,
+      paineis: this.props.mostrarPaineis ?? true,
+
+      ongNome, ongIniciais: ongNome.split(/\s+/).filter((w) => w.length > 2).slice(0, 2).map((w) => w[0].toUpperCase()).join('') || 'ON',
+      filtros, animaisVis, toast: s.toast,
+      listaVazia: animaisVis.length === 0,
+      vazioTitulo: vazioFiltro ? 'Nenhum animal com este status' : 'Nenhum animal cadastrado',
+      vazioTexto: vazioFiltro ? 'Escolha outro filtro ou altere o status de um animal.' : 'Toque em “+ Cadastrar animal” para publicar o primeiro perfil do abrigo.',
+      openNovo: this.openNovo, closeSheet: this.closeSheet,
+      sheetForm: s.sheet === 'form', sheetStatus: s.sheet === 'status' && !!target, sheetRemover: s.sheet === 'remover' && !!target,
+      af, saveAnimal: this.saveAnimal,
+      formAnimalTitulo: s.editId != null ? 'Editar animal' : 'Cadastrar animal',
+      formAnimalBotao: s.editId != null ? 'Salvar alterações' : 'Cadastrar animal',
+      statusSub: target ? target.nome + ' · ' + target.especie + ' · ' + target.raca : '',
+      statusSheetOpts, saveStatus: this.saveStatus,
+      removerTitulo: target ? 'Remover ' + target.nome + '?' : '',
+      confirmRemove: this.confirmRemove,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

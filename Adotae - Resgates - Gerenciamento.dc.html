@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2A56D6}a:hover{color:#1C3EA0}
+input::placeholder,textarea::placeholder{color:#A6A9AE}
+@keyframes popIn{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:28px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;max-width:1360px;width:100%;margin:0 auto">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · React Native · Área da ONG</div>
+      <h1 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Fluxo de Gerenciamento de Resgates</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#6B6F76;max-width:56ch;text-wrap:pretty">A decisão “Resgate viável?” é tomada pela ONG no detalhe da solicitação: Aceitar resgate (Sim) ou Recusar (Não).</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onClick="{{ reset }}" style="border:1px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#F5F4F0">Reiniciar fluxo</button>
+    </div>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:center;max-width:1360px;width:100%;margin:0 auto">
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <nav style="flex:0 0 232px;display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:4px 8px 8px">Gerenciamento de Resgates</div>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;font-size:12px;line-height:1.5;color:#6B6F76">Componentes base: <a href="Adotae%20-%20Cadastro%20e%20Login.dc.html">Cadastro e Login</a>. iPhone 390 × 844 pt.</div>
+    </nav>
+    </sc-if>
+
+    <div style="flex:none">
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 390 }}" height="{{ 844 }}" hint-size="390px,844px">
+        <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;background:#F7F7F5">
+
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column">
+            <sc-if value="{{ isLista }}" hint-placeholder-val="{{ true }}">
+              <div style="height:100%;box-sizing:border-box;padding:62px 0 0;display:flex;flex-direction:column">
+                <div style="margin-top:-62px;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:12px">
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:600;color:#3D4249">Abrigo Patas Felizes</div>
+                    <h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Resgates</h2>
+                  </div>
+                  <div style="width:44px;height:44px;border-radius:50%;background:#fff;color:#2A56D6;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">PF</div>
+                </div>
+                <div style="padding:16px 20px 0"><div style="display:flex;gap:4px;background:#F0EFEB;border-radius:12px;padding:4px">
+                  <button onClick="{{ tabSol }}" style="{{ segSol }}">Solicitações · {{ nSol }}</button>
+                  <button onClick="{{ tabAtend }}" style="{{ segAtend }}">Em atendimento · {{ nAtend }}</button>
+                </div></div>
+
+                <sc-if value="{{ toast }}">
+                  <div style="margin:10px 20px 0;display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                    <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                    <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toast }}</div>
+                  </div>
+                </sc-if>
+
+                <div style="flex:1;overflow-y:auto;padding:12px 20px 24px;display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ lista }}" as="r" hint-placeholder-count="3">
+                    <button onClick="{{ r.open }}" style="width:100%;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;flex:none" style-hover="border-color:#C9D6FA">
+                      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="{{ r.badge }}"><span style="{{ r.dot }}"></span>{{ r.status }}</span>
+                        <sc-if value="{{ r.prioridade }}"><span style="{{ r.prioBadge }}">{{ r.prioridade }}</span></sc-if>
+                        <sc-if value="{{ r.concluido }}"><span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid #C3E6D6;background:#fff;color:#16694A;font-size:12px;font-weight:700">✓ Concluído</span></sc-if>
+                        <span style="flex:1"></span>
+                        <span style="font-size:12.5px;color:#6B6F76;white-space:nowrap">{{ r.data }}</span>
+                      </div>
+                      <div style="font-size:16px;font-weight:700;color:#14161A;line-height:1.3">{{ r.localizacao }}</div>
+                      <div style="font-size:14px;line-height:1.45;color:#3D4249;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ r.descricao }}</div>
+                    </button>
+                  </sc-for>
+                  <sc-if value="{{ vazio }}">
+                    <div style="background:#fff;border:1.5px dashed #D9D8D2;border-radius:16px;padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center">
+                      <div style="font-size:16px;font-weight:700;color:#14161A">{{ vazioTitulo }}</div>
+                      <div style="font-size:14px;line-height:1.5;color:#6B6F76;max-width:30ch">{{ vazioTexto }}</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isDetalhe }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#F7F7F5">
+                <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 20px 24px;display:flex;flex-direction:column;gap:14px">
+                  <button onClick="{{ fecharDetalhe }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">{{ backLabel }}</button>
+                  <div style="display:flex;flex-direction:column;gap:8px;flex:none">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                      <span style="{{ d.badge }}"><span style="{{ d.dot }}"></span>{{ d.status }}</span>
+                      <sc-if value="{{ d.prioridade }}"><span style="{{ d.prioBadge }}">Prioridade {{ d.prioridade }}</span></sc-if>
+                      <sc-if value="{{ d.concluido }}"><span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid #C3E6D6;background:#fff;color:#16694A;font-size:12px;font-weight:700">✓ Concluído</span></sc-if>
+                    </div>
+                    <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Resgate {{ d.protocolo }}</h2>
+                    <div style="font-size:14px;color:#6B6F76">Solicitado em {{ d.data }}</div>
+                  </div>
+
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;flex:none">
+                    <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Descrição</div>
+                    <div style="font-size:15px;line-height:1.55;color:#14161A">{{ d.descricao }}</div>
+                  </div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;flex:none">
+                    <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Localização</div>
+                    <div style="font-size:15px;line-height:1.5;color:#14161A">{{ d.localizacao }}</div>
+                  </div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none">
+                    <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Quem solicitou</div>
+                    <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#6B6F76">Nome</span><span style="color:#14161A;font-weight:600">{{ d.nome }}</span></div>
+                    <div style="height:1px;background:#EFEEEA"></div>
+                    <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#6B6F76">Telefone</span><span style="color:#14161A;font-weight:600;white-space:nowrap">{{ d.telefone }}</span></div>
+                  </div>
+
+                  <sc-if value="{{ d.aprovada }}">
+                    <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;flex:none">
+                      <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Atendimento</div>
+                      <sc-for list="{{ d.atendimento }}" as="a" hint-placeholder-count="3">
+                        <div style="display:flex;align-items:baseline;gap:12px;font-size:15px;padding-bottom:10px;border-bottom:1px solid #EFEEEA">
+                          <span style="color:#6B6F76;flex:none;width:96px">{{ a.label }}</span>
+                          <span style="color:#14161A;font-weight:600;text-align:right;flex:1;min-width:0;overflow-wrap:break-word">{{ a.value }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ d.rejeitada }}">
+                    <div style="background:#F7F7F5;border:1px solid #E4E3DE;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.45;color:#3D4249;flex:none">Solicitação recusada em {{ d.dataDecisao }}. A pessoa que pediu o resgate já foi avisada.</div>
+                  </sc-if>
+                </div>
+
+                <sc-if value="{{ d.pendente }}">
+                  <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px;display:flex;flex-direction:column;gap:10px">
+                    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:10px">
+                      <button onClick="{{ abrirRecusar }}" style="border:none;background:#C9382C;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#AE2E23">Recusar</button>
+                      <button onClick="{{ abrirAceitar }}" style="border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Aceitar resgate</button>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ d.podeConcluir }}">
+                  <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px">
+                    <button onClick="{{ abrirConcluir }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Marcar como concluído</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 6px 28px"><button onClick="{{ ong.go.animais }}" style="{{ ong.st.animais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5.5" cy="10.5" r="1.8"></circle><circle cx="9.5" cy="6" r="1.8"></circle><circle cx="14.5" cy="6" r="1.8"></circle><circle cx="18.5" cy="10.5" r="1.8"></circle><path d="M12 12.5c-3 0-5.5 3-5.5 5.3 0 1.5 1.2 2.2 2.6 2.2 1.1 0 1.9-.6 2.9-.6s1.8.6 2.9.6c1.4 0 2.6-.7 2.6-2.2 0-2.3-2.5-5.3-5.5-5.3z"></path></svg></span><span>Animais</span></button><button onClick="{{ ong.go.resgates }}" style="{{ ong.st.resgates }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><sc-if value="{{ ong.resgBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nResg }}</span></sc-if></span><span>Resgates</span></button><button onClick="{{ ong.go.voluntarios }}" style="{{ ong.st.voluntarios }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><sc-if value="{{ ong.volBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nVol }}</span></sc-if></span><span>Voluntários</span></button><button onClick="{{ ong.go.campanhas }}" style="{{ ong.st.campanhas }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M4 10v4h3l8 4.5V5.5L7 10H4z"></path><path d="M18.5 9a4 4 0 0 1 0 6"></path></svg></span><span>Campanhas</span></button><button onClick="{{ ong.go.mais }}" style="{{ ong.st.mais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span><span>Mais</span></button></div>
+
+          <sc-if value="{{ sheetAceitar }}">
+            <div style="position:absolute;inset:0;background:rgba(20,22,26,.45);animation:fadeIn .2s ease;z-index:5">
+              <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;display:flex;flex-direction:column;animation:sheetUp .28s cubic-bezier(.2,.8,.2,1)">
+                <div style="width:40px;height:5px;border-radius:3px;background:#D9D8D2;margin:8px auto 0"></div>
+                <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 20px 4px">
+                  <div style="flex:1;min-width:0">
+                    <h3 style="margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em;color:#14161A">Aceitar resgate</h3>
+                    <p style="margin:4px 0 0;font-size:14.5px;color:#6B6F76">{{ d.protocolo }} · {{ d.localizacaoCurta }}</p>
+                  </div>
+                  <button onClick="{{ fecharSheet }}" style="border:none;background:#F0EFEB;width:36px;height:36px;border-radius:50%;font-family:inherit;font-size:16px;color:#3D4249;cursor:pointer;flex:none">✕</button>
+                </div>
+                <div style="padding:14px 20px 0;display:flex;flex-direction:column;gap:18px">
+                  <div>
+                    <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Prioridade</label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                      <sc-for list="{{ prioOpts }}" as="o" hint-placeholder-count="4">
+                        <button onClick="{{ o.pick }}" style="{{ o.style }}"><span style="{{ o.dot }}"></span><span>{{ o.label }}</span></button>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{ prioErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ prioErr }}</div></div></sc-if>
+                    <sc-if value="{{ prioHint }}"><div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:7px">{{ prioHint }}</div></sc-if>
+                  </div>
+                  <div>
+                    <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Observação <span style="font-weight:500;color:#6B6F76">(opcional)</span></label>
+                    <div style="display:flex;align-items:stretch;gap:8px;border-radius:12px;padding:0 14px;border:1.5px solid #E4E3DE;background:#fff">
+                      <textarea value="{{ obs }}" onChange="{{ setObs }}" rows="3" maxLength="300" placeholder="Ex.: Equipe sai às 15h com caixa de transporte." style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:1.45;color:#14161A;padding:14px 0;resize:none"></textarea>
+                    </div>
+                    <div style="font-size:12.5px;color:#6B6F76;margin-top:7px;text-align:right">{{ obsCount }}</div>
+                  </div>
+                </div>
+                <div style="padding:14px 20px 34px;display:flex;flex-direction:column;gap:6px">
+                  <button onClick="{{ confirmarAceite }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Confirmar resgate</button>
+                  <button onClick="{{ fecharSheet }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ dialogRecusar }}">
+            <div style="position:absolute;inset:0;background:rgba(20,22,26,.5);animation:fadeIn .2s ease;z-index:6;display:flex;align-items:center;justify-content:center;padding:24px">
+              <div style="width:100%;background:#fff;border-radius:20px;padding:26px 22px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;animation:popIn .22s cubic-bezier(.2,1.1,.3,1)">
+                <div style="width:60px;height:60px;border-radius:50%;background:#FDF0EE;display:flex;align-items:center;justify-content:center"><div style="width:32px;height:32px;border-radius:50%;background:#C9382C;color:#fff;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center">!</div></div>
+                <h3 style="margin:6px 0 0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#14161A">Recusar solicitação?</h3>
+                <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76;text-wrap:pretty">{{ d.primeiroNome }} será avisado(a) de que a ONG não poderá atender este resgate. Esta ação não pode ser desfeita.</p>
+                <div style="width:100%;display:flex;flex-direction:column;gap:10px;margin-top:10px">
+                  <button onClick="{{ confirmarRecusa }}" style="width:100%;border:none;background:#C9382C;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#AE2E23">Recusar solicitação</button>
+                  <button onClick="{{ fecharSheet }}" style="width:100%;border:1.5px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:17px;font-weight:700;padding:15px;border-radius:14px;cursor:pointer" style-hover="background:#F5F4F0">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ sheetConcluir }}">
+            <div style="position:absolute;inset:0;background:rgba(20,22,26,.45);animation:fadeIn .2s ease;z-index:5">
+              <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 22px 34px;animation:sheetUp .28s cubic-bezier(.2,.8,.2,1)">
+                <div style="width:40px;height:5px;border-radius:3px;background:#D9D8D2;margin:8px auto 18px"></div>
+                <div style="width:60px;height:60px;border-radius:50%;background:#E8F6F0;display:flex;align-items:center;justify-content:center"><div style="width:32px;height:32px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:17px;font-weight:800;display:flex;align-items:center;justify-content:center">✓</div></div>
+                <h3 style="margin:14px 0 0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#14161A;line-height:1.3">Marcar resgate como concluído?</h3>
+                <p style="margin:8px 0 0;font-size:15px;line-height:1.5;color:#6B6F76;text-wrap:pretty">Confirme que o animal já está sob os cuidados da ONG. A data e a hora de agora serão registradas como data de atendimento.</p>
+                <div style="width:100%;display:flex;flex-direction:column;gap:6px;margin-top:18px">
+                  <button onClick="{{ confirmarConclusao }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Confirmar conclusão</button>
+                  <button onClick="{{ fecharSheet }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </x-import>
+    </div>
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:1 1 300px;min-width:280px;max-width:420px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Status e marcadores</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#FFF3D1;color:#7A5600"><span style="width:7px;height:7px;border-radius:50%;background:#D99A00"></span>Pendente</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#E8F6F0;color:#16694A"><span style="width:7px;height:7px;border-radius:50%;background:#1E8A5F"></span>Aprovada</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#FDF0EE;color:#8E2A20"><span style="width:7px;height:7px;border-radius:50%;background:#C9382C"></span>Rejeitada</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.5;color:#6B6F76">Status: pílula com ponto. Mesmo enum de Adoção e Voluntários.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid #EFEEEA;padding-top:12px">
+          <span style="padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;background:#F0EFEB;color:#4A4E55">Baixa</span>
+          <span style="padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;background:#FFF8E3;color:#1C3EA0">Média</span>
+          <span style="padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;background:#FFF3D1;color:#7A5600">Alta</span>
+          <span style="padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;background:#C9382C;color:#fff">Urgente</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid #C3E6D6;background:#fff;color:#16694A;font-size:12px;font-weight:700">✓ Concluído</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.5;color:#6B6F76">Prioridade e “Concluído”: etiqueta retangular, para não serem lidas como status. “Concluído” deriva de <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">data_atendimento</span> preenchida.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Regras deste fluxo</div>
+        <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5;color:#3D4249">
+          <li>Uma única lista filtrada: “Solicitações” = Pendente + Rejeitada; “Em atendimento” = Aprovada.</li>
+          <li>Prioridade é definida só aqui, ao aceitar, e é obrigatória. Observação é opcional.</li>
+          <li>Em atendimento ordena por prioridade (Urgente primeiro); concluídos vão para o fim.</li>
+          <li>Recusar usa o diálogo destrutivo; concluir usa uma confirmação leve.</li>
+        </ul>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mostrarPaineis&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Apresentação&quot;}}">
+const C = { border: '#E4E3DE', blue: '#2A56D6', prim: '#F5B820', err: '#C9382C' };
+const URL_MAIN = 'Adotae%20-%20Cadastro%20e%20Login.dc.html';
+const REQ = {
+  Pendente: { bg: '#FFF3D1', fg: '#7A5600', dot: '#D99A00' },
+  Aprovada: { bg: '#E8F6F0', fg: '#16694A', dot: '#1E8A5F' },
+  Rejeitada: { bg: '#FDF0EE', fg: '#8E2A20', dot: '#C9382C' },
+};
+const PRIO = {
+  Baixa: { bg: '#F0EFEB', fg: '#4A4E55', dot: '#8A8D93', hint: 'Animal estável, sem risco imediato.' },
+  'Média': { bg: '#EEF2FE', fg: '#1C3EA0', dot: '#2A56D6', hint: 'Precisa de ajuda nos próximos dias.' },
+  Alta: { bg: '#FFF3D1', fg: '#7A5600', dot: '#D99A00', hint: 'Ferido ou exposto a perigo; atender hoje.' },
+  Urgente: { bg: '#C9382C', fg: '#fff', dot: '#C9382C', hint: 'Risco de vida; atender imediatamente.' },
+};
+const PRIO_KEYS = ['Baixa', 'Média', 'Alta', 'Urgente'];
+const SEED = [
+  { id: 'r1', protocolo: '#RS-2026-0142', status: 'Pendente', data_solicitacao: '01/10/2026 · 14:32', localizacao: 'Rua Augusta, 1200 — em frente à padaria, São Paulo', descricao: 'Cachorro de porte médio, mancando da pata traseira e sem coleira. Está assustado embaixo de um carro.', nome: 'Marina Souza', telefone: '(11) 91234-5678', prioridade: null, observacao: '', data_decisao: null, data_atendimento: null },
+  { id: 'r2', protocolo: '#RS-2026-0141', status: 'Pendente', data_solicitacao: '01/10/2026 · 09:15', localizacao: 'Praça Benedito Calixto — perto do coreto, Pinheiros', descricao: 'Ninhada de 4 filhotes de gato abandonada em uma caixa de papelão. Parecem ter poucas semanas de vida.', nome: 'Rafael Lima', telefone: '(11) 98765-4321', prioridade: null, observacao: '', data_decisao: null, data_atendimento: null },
+  { id: 'r3', protocolo: '#RS-2026-0139', status: 'Pendente', data_solicitacao: '30/09/2026 · 18:40', localizacao: 'Rua Cardeal Arcoverde, 845 — Pinheiros', descricao: 'Cadela idosa presa no quintal de uma casa vazia há alguns dias, sem água visível. Late muito à noite.', nome: 'Juliana Costa', telefone: '(11) 97654-3210', prioridade: null, observacao: '', data_decisao: null, data_atendimento: null },
+  { id: 'r4', protocolo: '#RS-2026-0137', status: 'Aprovada', data_solicitacao: '30/09/2026 · 10:20', localizacao: 'Av. Sumaré, 300 — canteiro central', descricao: 'Gato preso no alto de uma árvore há mais de 24 horas, miando muito e sem conseguir descer.', nome: 'Carlos Mendes', telefone: '(11) 96543-2109', prioridade: 'Urgente', observacao: 'Equipe a caminho com escada e caixa de transporte.', data_decisao: '30/09/2026 · 11:05', data_atendimento: null },
+  { id: 'r5', protocolo: '#RS-2026-0133', status: 'Aprovada', data_solicitacao: '29/09/2026 · 13:02', localizacao: 'Rua Teodoro Sampaio, 1500 — Pinheiros', descricao: 'Cachorro atropelado na calçada, consciente mas sem conseguir andar.', nome: 'Beatriz Rocha', telefone: '(11) 95432-1098', prioridade: 'Alta', observacao: 'Levado à clínica parceira para raio-x.', data_decisao: '29/09/2026 · 13:20', data_atendimento: '29/09/2026 · 16:20' },
+  { id: 'r6', protocolo: '#RS-2026-0130', status: 'Rejeitada', data_solicitacao: '28/09/2026 · 08:47', localizacao: 'Rua Oscar Freire, 900 — Jardins', descricao: 'Pombo com a asa machucada na janela do prédio, não consegue voar.', nome: 'Pedro Alves', telefone: '(11) 94321-0987', prioridade: null, observacao: '', data_decisao: '28/09/2026 · 10:10', data_atendimento: null },
+];
+const STEPS = [
+  { key: 'lista', label: 'Lista de solicitações' },
+  { key: 'detPend', label: 'Detalhe · Pendente' },
+  { key: 'aceitar', label: 'Aceitar resgate' },
+  { key: 'recusar', label: 'Recusar solicitação' },
+  { key: 'detAprov', label: 'Detalhe · Aprovada' },
+  { key: 'concluir', label: 'Confirmar conclusão' },
+];
+const agora = () => {
+  const d = new Date(); const p = (n) => String(n).padStart(2, '0');
+  return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear() + ' · ' + p(d.getHours()) + ':' + p(d.getMinutes());
+};
+const badge = (t) => ({ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 999, fontSize: 12.5, fontWeight: 700, background: t.bg, color: t.fg, whiteSpace: 'nowrap' });
+const dot = (c) => ({ width: 7, height: 7, borderRadius: '50%', background: c, flex: 'none' });
+const prioBadge = (p) => ({ padding: '3px 8px', borderRadius: 6, fontSize: 12, fontWeight: 700, background: PRIO[p].bg, color: PRIO[p].fg, whiteSpace: 'nowrap' });
+
+const ONG_URLS = { main: 'Adotae%20-%20Cadastro%20e%20Login.dc.html', resg: 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html', camp: 'Adotae%20-%20Campanhas.dc.html' };
+const ONG_GO = {
+  animais: () => { window.location.href = ONG_URLS.main + '#ong=animais'; },
+  resgates: () => { window.location.href = ONG_URLS.resg; },
+  voluntarios: () => { window.location.href = ONG_URLS.main + '#ong=voluntarios'; },
+  campanhas: () => { window.location.href = ONG_URLS.camp; },
+  mais: () => { window.location.href = ONG_URLS.main + '#ong=mais'; },
+};
+const ongTabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? '#2A56D6' : '#6B6F76', minHeight: 48, minWidth: 0 });
+const ongNav = (active, go, nResg, nVol) => ({
+  go, nResg, nVol, resgBadge: nResg > 0, volBadge: nVol > 0,
+  st: { animais: ongTabSt(active === 'animais'), resgates: ongTabSt(active === 'resgates'), voluntarios: ongTabSt(active === 'voluntarios'), campanhas: ongTabSt(active === 'campanhas'), mais: ongTabSt(active === 'mais') },
+});
+
+class Component extends DCLogic {
+  state = { itens: SEED, tab: 'solicitacoes', screen: 'lista', selId: null, sheet: null, prio: null, obs: '', aceiteTentado: false, toast: '' };
+
+  componentWillUnmount() { clearTimeout(this._t); }
+
+  showToast = (msg) => { clearTimeout(this._t); this.setState({ toast: msg }); this._t = setTimeout(() => this.setState({ toast: '' }), 3200); };
+  sel = () => this.state.itens.find((x) => x.id === this.state.selId);
+  firstWhere = (fn) => (this.state.itens.find(fn) || SEED.find(fn));
+
+  ensure = (fn, cb) => {
+    if (this.state.itens.some(fn)) return cb();
+    this.setState({ itens: SEED }, cb);
+  };
+
+  go = (k) => () => {
+    const pend = (x) => x.status === 'Pendente';
+    const ativo = (x) => x.status === 'Aprovada' && !x.data_atendimento;
+    if (k === 'lista') return this.setState({ screen: 'lista', sheet: null });
+    if (k === 'detPend' || k === 'aceitar' || k === 'recusar') {
+      return this.ensure(pend, () => {
+        const it = this.state.itens.find(pend);
+        this.setState({ screen: 'detalhe', selId: it.id, tab: 'solicitacoes', sheet: k === 'aceitar' ? 'aceitar' : k === 'recusar' ? 'recusar' : null, prio: null, obs: '', aceiteTentado: false });
+      });
+    }
+    return this.ensure(ativo, () => {
+      const it = this.state.itens.find(ativo);
+      this.setState({ screen: 'detalhe', selId: it.id, tab: 'atendimento', sheet: k === 'concluir' ? 'concluir' : null });
+    });
+  };
+
+  abrir = (id) => this.setState({ screen: 'detalhe', selId: id, sheet: null });
+  fecharDetalhe = () => this.setState({ screen: 'lista', sheet: null });
+  fecharSheet = () => this.setState({ sheet: null });
+  abrirAceitar = () => this.setState({ sheet: 'aceitar', prio: null, obs: '', aceiteTentado: false });
+
+  update = (id, patch) => this.setState((s) => ({ itens: s.itens.map((x) => (x.id === id ? Object.assign({}, x, patch) : x)) }));
+
+  confirmarAceite = () => {
+    if (!this.state.prio) return this.setState({ aceiteTentado: true });
+    const it = this.sel();
+    this.update(it.id, { status: 'Aprovada', prioridade: this.state.prio, observacao: this.state.obs.trim(), data_decisao: agora() });
+    this.setState({ sheet: null, screen: 'lista', tab: 'atendimento' });
+    this.showToast('Resgate ' + it.protocolo + ' aceito com prioridade ' + this.state.prio + '.');
+  };
+  confirmarRecusa = () => {
+    const it = this.sel();
+    this.update(it.id, { status: 'Rejeitada', data_decisao: agora() });
+    this.setState({ sheet: null, screen: 'lista', tab: 'solicitacoes' });
+    this.showToast('Solicitação ' + it.protocolo + ' recusada. ' + it.nome.split(' ')[0] + ' foi avisado(a).');
+  };
+  confirmarConclusao = () => {
+    const it = this.sel();
+    this.update(it.id, { data_atendimento: agora() });
+    this.setState({ sheet: null, screen: 'lista', tab: 'atendimento' });
+    this.showToast('Resgate ' + it.protocolo + ' marcado como concluído.');
+  };
+
+  reset = () => this.setState({ itens: SEED, tab: 'solicitacoes', screen: 'lista', selId: null, sheet: null, prio: null, obs: '', aceiteTentado: false, toast: '' });
+
+  renderVals() {
+    const s = this.state;
+    const isSol = s.tab === 'solicitacoes';
+    const solic = s.itens.filter((x) => x.status === 'Pendente' || x.status === 'Rejeitada')
+      .sort((a, b) => (a.status === b.status ? 0 : a.status === 'Pendente' ? -1 : 1));
+    const atend = s.itens.filter((x) => x.status === 'Aprovada')
+      .sort((a, b) => (!!a.data_atendimento - !!b.data_atendimento) || (PRIO_KEYS.indexOf(b.prioridade) - PRIO_KEYS.indexOf(a.prioridade)));
+    const vis = isSol ? solic : atend;
+    const nPend = s.itens.filter((x) => x.status === 'Pendente').length;
+
+    const it = this.sel() || SEED[0];
+    const st = REQ[it.status];
+    const p = it.prioridade;
+    const segTab = (on) => ({ flex: 1, border: 'none', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, padding: '10px 8px', borderRadius: 9, cursor: 'pointer', background: on ? '#fff' : 'transparent', color: on ? '#14161A' : '#4A4E55', boxShadow: on ? '0 1px 3px rgba(20,22,26,.12)' : 'none' });
+    const tabBtn = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12.5, fontWeight: 700, color: on ? C.blue : '#6B6F76', cursor: 'pointer', padding: '0 0 6px' });
+    const tabInd = (on) => ({ width: 36, height: 3, borderRadius: '0 0 3px 3px', background: on ? C.prim : 'transparent' });
+
+    let active = 'lista';
+    if (s.screen === 'detalhe') {
+      if (it.status === 'Pendente') active = s.sheet === 'aceitar' ? 'aceitar' : s.sheet === 'recusar' ? 'recusar' : 'detPend';
+      else if (it.status === 'Aprovada') active = s.sheet === 'concluir' ? 'concluir' : 'detAprov';
+      else active = '';
+    }
+    const steps = STEPS.map((x, i) => {
+      const on = x.key === active;
+      return { n: i + 1, label: x.label, go: this.go(x.key), style: { display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', padding: '9px 10px', borderRadius: 10, border: '1px solid ' + (on ? '#F2DC9E' : 'transparent'), background: on ? '#FFF8E3' : 'transparent', color: on ? '#14161A' : '#3D4249' } };
+    });
+
+    const prioErr = s.aceiteTentado && !s.prio ? 'Selecione a prioridade para aceitar o resgate.' : '';
+    return {
+      steps, paineis: this.props.mostrarPaineis ?? true, reset: this.reset,
+      isLista: s.screen === 'lista', isDetalhe: s.screen === 'detalhe',
+      tabSol: () => this.setState({ tab: 'solicitacoes' }), tabAtend: () => this.setState({ tab: 'atendimento' }),
+      segSol: segTab(isSol), segAtend: segTab(!isSol), nSol: solic.length, nAtend: atend.length,
+      toast: s.toast,
+      lista: vis.map((x) => ({
+        open: () => this.abrir(x.id), status: x.status, badge: badge(REQ[x.status]), dot: dot(REQ[x.status].dot),
+        prioridade: x.prioridade || '', prioBadge: x.prioridade ? prioBadge(x.prioridade) : {},
+        concluido: x.status === 'Aprovada' && !!x.data_atendimento,
+        data: x.data_solicitacao.split(' · ')[0], localizacao: x.localizacao, descricao: x.descricao,
+      })),
+      vazio: vis.length === 0,
+      vazioTitulo: isSol ? 'Nenhuma solicitação nova' : 'Nenhum resgate em atendimento',
+      vazioTexto: isSol ? 'Novos pedidos de resgate da sua região aparecem aqui.' : 'Aceite uma solicitação para que ela apareça aqui.',
+      backLabel: it.status === 'Aprovada' ? '← Em atendimento' : '← Solicitações',
+      fecharDetalhe: this.fecharDetalhe,
+      d: {
+        protocolo: it.protocolo, status: it.status, badge: badge(st), dot: dot(st.dot),
+        prioridade: p || '', prioBadge: p ? prioBadge(p) : {},
+        concluido: it.status === 'Aprovada' && !!it.data_atendimento,
+        data: it.data_solicitacao, descricao: it.descricao, localizacao: it.localizacao,
+        localizacaoCurta: it.localizacao.split(' — ')[0],
+        nome: it.nome, primeiroNome: it.nome.split(' ')[0], telefone: it.telefone,
+        pendente: it.status === 'Pendente', aprovada: it.status === 'Aprovada', rejeitada: it.status === 'Rejeitada',
+        podeConcluir: it.status === 'Aprovada' && !it.data_atendimento,
+        dataDecisao: it.data_decisao || '',
+        atendimento: [
+          { label: 'Prioridade', value: p || '—' },
+          { label: 'Observação', value: it.observacao || '—' },
+          { label: 'Aceito em', value: it.data_decisao || '—' },
+          { label: 'Concluído em', value: it.data_atendimento || 'Em andamento' },
+        ],
+      },
+      abrirAceitar: this.abrirAceitar, abrirRecusar: () => this.setState({ sheet: 'recusar' }), abrirConcluir: () => this.setState({ sheet: 'concluir' }),
+      fecharSheet: this.fecharSheet,
+      sheetAceitar: s.sheet === 'aceitar', dialogRecusar: s.sheet === 'recusar', sheetConcluir: s.sheet === 'concluir',
+      prioOpts: PRIO_KEYS.map((k) => {
+        const on = s.prio === k;
+        return {
+          label: k, pick: () => this.setState({ prio: k }), dot: dot(PRIO[k].dot),
+          style: { display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left', fontFamily: 'inherit', fontSize: 15, fontWeight: 600, padding: '13px 12px', borderRadius: 12, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : prioErr ? C.err : C.border), background: on ? '#FFF8E3' : prioErr ? '#FDF0EE' : '#fff', color: on ? '#14161A' : '#3D4249' },
+        };
+      }),
+      prioErr, prioHint: !prioErr && s.prio ? PRIO[s.prio].hint : '',
+      obs: s.obs, setObs: (e) => this.setState({ obs: e.target.value }), obsCount: s.obs.length + '/300',
+      confirmarAceite: this.confirmarAceite, confirmarRecusa: this.confirmarRecusa, confirmarConclusao: this.confirmarConclusao,
+      tabOn: tabBtn(true), tabOff: tabBtn(false), indOn: tabInd(true), indOff: tabInd(false),
+      ong: ongNav('resgates', Object.assign({}, ONG_GO, { resgates: () => this.setState({ screen: 'lista', sheet: null }) }), nPend, 3),
+      nPend, nPendBadge: nPend > 0,
+      irAnimais: () => { window.location.href = URL_MAIN + '#ong=animais'; },
+      irVoluntarios: () => { window.location.href = URL_MAIN + '#ong=voluntarios'; },
+      irLista: () => this.setState({ screen: 'lista', sheet: null }),
+      irCampanhas: () => { window.location.href = 'Adotae%20-%20Campanhas.dc.html'; },
+      irDoacoes: () => { window.location.href = 'Adotae%20-%20Doa%C3%A7%C3%B5es.dc.html' + '#ong=doacoes'; },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

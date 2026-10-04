@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2A56D6}a:hover{color:#1C3EA0}
+@keyframes popIn{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:28px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;max-width:1360px;width:100%;margin:0 auto">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · React Native · Área da ONG</div>
+      <h1 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Assinaturas</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#6B6F76;max-width:56ch;text-wrap:pretty">Plano da ONG: Free, Pro e Pro Anual. Use o tweak <span style="font-weight:600;color:#3D4249">planoAtual</span> para começar em qualquer plano.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onClick="{{ reset }}" style="border:1px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#F5F4F0">Reiniciar fluxo</button>
+    </div>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:center;max-width:1360px;width:100%;margin:0 auto">
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <nav style="flex:0 0 232px;display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:4px 8px 8px">Assinatura · ONG (Mais → Assinatura)</div>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Estado</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;line-height:1.3;color:#3D4249;white-space:nowrap"><span>Plano atual</span><span style="font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#FFF8E3;color:#1C3EA0">{{ planoNome }}</span></div>
+      </div>
+      <div style="border-top:1px solid #EFEEEA;padding:12px 8px 4px;font-size:12px;line-height:1.5;color:#6B6F76">Componentes base: <a href="Adotae%20-%20Cadastro%20e%20Login.dc.html">Cadastro e Login</a>. iPhone 390 × 844 pt.</div>
+    </nav>
+    </sc-if>
+
+    <div style="flex:none">
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 390 }}" height="{{ 844 }}" hint-size="390px,844px">
+        <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;background:#F7F7F5">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column">
+
+            <sc-if value="{{ isMeu }}" hint-placeholder-val="{{ true }}">
+              <div style="height:100%;overflow-y:auto;box-sizing:border-box;padding:62px 20px 24px;display:flex;flex-direction:column;gap:14px">
+                <button onClick="{{ irMais }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Mais</button>
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:#6B6F76">Abrigo Patas Felizes</div>
+                  <h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Meu plano</h2>
+                </div>
+                <sc-if value="{{ toast }}">
+                  <div style="display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                    <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                    <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toast }}</div>
+                  </div>
+                </sc-if>
+
+                <div style="{{ planCard }}">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                    <div style="font-size:24px;font-weight:800;letter-spacing:-.02em;color:{{ planInk }}">{{ planoNome }}</div>
+                    <span style="{{ planBadge }}">{{ planBadgeTxt }}</span>
+                  </div>
+                  <div style="display:flex;align-items:baseline;gap:4px"><span style="font-size:20px;font-weight:700;color:{{ planInk }}">{{ preco }}</span><span style="font-size:14px;color:{{ planSub }}">{{ precoSufixo }}</span></div>
+                  <sc-for list="{{ planRows }}" as="r" hint-placeholder-count="2">
+                    <div style="{{ r.style }}"><span style="opacity:.85;white-space:nowrap;flex:none">{{ r.label }}</span><span style="font-weight:700;text-align:right;white-space:nowrap;min-width:0">{{ r.value }}</span></div>
+                  </sc-for>
+                </div>
+
+                <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+                  <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Incluído no seu plano</div>
+                  <sc-for list="{{ beneficios }}" as="b" hint-placeholder-count="5">
+                    <div style="display:flex;gap:10px;align-items:flex-start">
+                      <span style="{{ b.mark }}">{{ b.sym }}</span>
+                      <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600;color:#14161A">{{ b.label }}</div><div style="font-size:13px;line-height:1.4;color:#6B6F76;margin-top:1px">{{ b.value }}</div></div>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+                  <button onClick="{{ nav.planos }}" style="{{ verPlanosStyle }}">Ver planos disponíveis</button>
+                  <sc-if value="{{ temFaturas }}">
+                    <button onClick="{{ nav.faturas }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #E4E3DE;background:#fff;font-family:inherit;font-size:15.5px;font-weight:600;color:#14161A;padding:15px 16px;border-radius:14px;cursor:pointer" style-hover="background:#FFFBEF"><span>Histórico de faturas</span><span style="color:#A6A9AE;font-size:20px">›</span></button>
+                  </sc-if>
+                  <sc-if value="{{ isPago }}">
+                    <button onClick="{{ abrirCancelar }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:15px;font-weight:600;color:#C9382C;padding:10px;cursor:pointer">Cancelar assinatura</button>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isPlanos }}">
+              <div style="height:100%;overflow-y:auto;box-sizing:border-box;padding:62px 20px 24px;display:flex;flex-direction:column;gap:14px">
+                <button onClick="{{ nav.meu }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Meu plano</button>
+                <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Planos disponíveis</h2>
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px">
+                  <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                  <div style="font-size:13.5px;line-height:1.45;color:#16694A"><span style="font-weight:700">Sem taxa sobre doações, em nenhum plano.</span> A Adotaê nunca fica com parte do que a sua ONG recebe.</div>
+                </div>
+
+                <div style="background:#FEF6E4;border:1.5px solid #F2DC9E;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px">
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><div style="font-size:20px;font-weight:800;color:#14161A">Free</div><div><span style="font-size:20px;font-weight:800;color:#14161A">R$ 0</span></div></div>
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <sc-for list="{{ featFree }}" as="b" hint-placeholder-count="8">
+                      <div style="display:flex;gap:10px;align-items:flex-start"><span style="{{ b.mark }}">{{ b.sym }}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#14161A">{{ b.label }}</div><div style="{{ b.valStyle }}">{{ b.value }}</div></div></div>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ freeBtn.go }}" style="{{ freeBtn.style }}">{{ freeBtn.label }}</button>
+                </div>
+
+                <div style="background:#FEF6E4;border:2px solid #F5B820;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(245,184,32,.12)">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><div style="font-size:20px;font-weight:800;color:#14161A">Pro</div><span style="{{ proTagStyle }}">{{ proTag }}</span></div>
+                  <div style="display:flex;gap:4px;background:#FFF1C7;border-radius:12px;padding:4px">
+                    <button onClick="{{ cicloMensal }}" style="{{ segMensal }}">Mensal</button>
+                    <button onClick="{{ cicloAnual }}" style="{{ segAnual }}">Anual</button>
+                  </div>
+                  <div><div style="display:flex;align-items:baseline;gap:4px"><span style="font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">{{ proPreco }}</span><span style="font-size:15px;color:#6B6F76">{{ proSufixo }}</span></div><div style="font-size:13px;color:#4A4E55;margin-top:2px">{{ proNota }}</div></div>
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <sc-for list="{{ featPro }}" as="b" hint-placeholder-count="8">
+                      <div style="display:flex;gap:10px;align-items:flex-start"><span style="{{ b.mark }}">{{ b.sym }}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#14161A">{{ b.label }}</div><div style="{{ b.valStyle }}">{{ b.value }}</div></div></div>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ proBtn.go }}" style="{{ proBtn.style }}">{{ proBtn.label }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isCheckout }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#fff">
+                <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 24px 24px;display:flex;flex-direction:column;gap:16px">
+                  <button onClick="{{ nav.planos }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Planos</button>
+                  <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Confirmar assinatura</h2>
+                  <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:6px 16px">
+                    <sc-for list="{{ ckRows }}" as="r" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #F2DC9E;font-size:15px"><span style="color:#4A4E55">{{ r.label }}</span><span style="{{ r.style }}">{{ r.value }}</span></div>
+                    </sc-for>
+                  </div>
+                  <div style="{{ ckNotaStyle }}">{{ ckNota }}</div>
+                  <div>
+                    <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Forma de pagamento</label>
+                    <sc-if value="{{ temCartao }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;align-items:center;gap:12px;border:1.5px solid #E4E3DE;border-radius:12px;padding:12px 14px">
+                      <div style="width:40px;height:28px;border-radius:5px;background:#14161A;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;letter-spacing:.04em">CARD</div>
+                      <div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600;color:#14161A">Cartão de crédito •••• {{ cartaoFinal }}</div><div style="font-size:12.5px;color:#6B6F76;margin-top:1px">Vence em {{ cartaoVenc }}</div></div>
+                      <button onClick="{{ abrirCartao }}" style="border:none;background:none;padding:8px 0 8px 8px;font-family:inherit;font-size:14px;font-weight:600;color:#2A56D6;cursor:pointer;flex:none">Alterar</button>
+                    </div>
+                    </sc-if>
+                    <sc-if value="{{ semCartao }}">
+                    <button onClick="{{ abrirCartao }}" style="width:100%;display:flex;align-items:center;gap:12px;text-align:left;font-family:inherit;cursor:pointer;border:1.5px dashed #D9D8D2;background:#fff;border-radius:12px;padding:12px 14px" style-hover="border-color:#2A56D6">
+                      <div style="width:40px;height:28px;border-radius:5px;background:#EAF0FD;color:#2A56D6;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">+</div>
+                      <div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:600;color:#14161A">Adicionar cartão de crédito</div><div style="font-size:12.5px;color:#6B6F76;margin-top:1px">Nenhum cartão cadastrado</div></div>
+                      <span style="font-size:22px;color:#A6A9AE;flex:none">›</span>
+                    </button>
+                    </sc-if>
+                  </div>
+                  <div style="font-size:13px;line-height:1.5;color:#6B6F76">Cancele quando quiser em Meu plano. Doações continuam sem taxa da plataforma.</div>
+                </div>
+                <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px">
+                  <button onClick="{{ confirmarCk }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">{{ ckBtnTxt }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isCartao }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#fff">
+                <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 24px 24px;display:flex;flex-direction:column;gap:16px">
+                  <button onClick="{{ voltarCheckout }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Confirmar assinatura</button>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ cartaoTitulo }}</h2>
+                    <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76;text-wrap:pretty">Usado só para cobrar a assinatura da sua ONG. Você pode trocar de cartão quando quiser.</p>
+                  </div>
+
+                  <div style="flex:none;background:#14161A;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:18px;color:#fff;position:relative;overflow:hidden">
+                    <div style="position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:#2A56D6;opacity:.55"></div>
+                    <div style="position:relative;display:flex;justify-content:space-between;align-items:center">
+                      <div style="width:36px;height:26px;border-radius:5px;background:#F5B820"></div>
+                      <div style="font-size:12px;font-weight:700;letter-spacing:.08em;color:#D9D8D2">CRÉDITO</div>
+                    </div>
+                    <div style="position:relative;font-size:19px;font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums">{{ pvNum }}</div>
+                    <div style="position:relative;display:flex;justify-content:space-between;gap:12px;font-size:12px">
+                      <div style="min-width:0"><div style="color:#A6A9AE;font-size:10.5px;letter-spacing:.08em">NOME</div><div style="font-weight:700;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pvNome }}</div></div>
+                      <div style="flex:none;text-align:right"><div style="color:#A6A9AE;font-size:10.5px;letter-spacing:.08em">VALIDADE</div><div style="font-weight:700;margin-top:2px">{{ pvVal }}</div></div>
+                    </div>
+                  </div>
+
+                  <sc-if value="{{ cBanner }}">
+                    <div style="flex:none;display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                      <div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                      <div style="font-size:13.5px;line-height:1.45;color:#8E2A20"><span style="font-weight:700;color:#C9382C">{{ cBanner }}</span> Corrija os itens destacados abaixo para salvar. Nada do que você digitou foi perdido.</div>
+                    </div>
+                  </sc-if>
+
+                  <div style="flex:none;display:flex;flex-direction:column;gap:18px">
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Número do cartão</label>
+                      <div style="{{ numBox }}"><input value="{{ cNum }}" onChange="{{ setNum }}" inputMode="numeric" autoComplete="cc-number" placeholder="0000 0000 0000 0000" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0;font-variant-numeric:tabular-nums"></div>
+                      <sc-if value="{{ numErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ numErr }}</div></div></sc-if>
+                    </div>
+                    <div>
+                      <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Nome no cartão</label>
+                      <div style="{{ nomeBox }}"><input value="{{ cNome }}" onChange="{{ setNome }}" autoComplete="cc-name" placeholder="Como está impresso no cartão" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                      <sc-if value="{{ nomeErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ nomeErr }}</div></div></sc-if>
+                    </div>
+                    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px">
+                      <div>
+                        <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Validade</label>
+                        <div style="{{ valBox }}"><input value="{{ cVal }}" onChange="{{ setVal }}" inputMode="numeric" autoComplete="cc-exp" placeholder="MM/AA" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                        <sc-if value="{{ valErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ valErr }}</div></div></sc-if>
+                      </div>
+                      <div>
+                        <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">CVV</label>
+                        <div style="{{ cvvBox }}"><input value="{{ cCvv }}" onChange="{{ setCvv }}" inputMode="numeric" autoComplete="cc-csc" placeholder="123" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;color:#14161A;padding:15px 0"></div>
+                        <sc-if value="{{ cvvErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:7px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ cvvErr }}</div></div></sc-if>
+                        <sc-if value="{{ cvvHint }}"><div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:7px">3 ou 4 dígitos no verso</div></sc-if>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px">
+                  <button onClick="{{ salvarCartao }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">{{ cartaoBtnTxt }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isAtivada }}">
+              <div style="height:100%;box-sizing:border-box;padding:76px 24px 20px;display:flex;flex-direction:column;background:linear-gradient(180deg,#EAF7F1 0%,#FFFFFF 36%);overflow-y:auto">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+                  <div style="width:80px;height:80px;border-radius:50%;background:#1E8A5F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:700;animation:popIn .32s cubic-bezier(.2,1.2,.3,1);box-shadow:0 12px 28px rgba(30,138,95,.28)">✓</div>
+                  <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ atvTitulo }}</h2>
+                  <p style="margin:0;font-size:15.5px;line-height:1.55;color:#6B6F76;max-width:31ch;text-wrap:pretty">{{ atvTexto }}</p>
+                </div>
+                <div style="margin-top:22px;background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:11px">
+                  <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Liberado agora</div>
+                  <sc-for list="{{ liberados }}" as="b" hint-placeholder-count="6">
+                    <div style="display:flex;gap:10px;align-items:center"><span style="width:20px;height:20px;border-radius:50%;background:#E8F6F0;color:#1E8A5F;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">✓</span><span style="font-size:14.5px;color:#14161A"><span style="font-weight:600">{{ b.label }}</span> <span style="color:#4A4E55">· {{ b.value }}</span></span></div>
+                  </sc-for>
+                </div>
+                <div style="flex:1;min-height:24px"></div>
+                <button onClick="{{ nav.meu }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Ir para Meu plano</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isFaturas }}">
+              <div style="height:100%;overflow-y:auto;box-sizing:border-box;padding:62px 20px 24px;display:flex;flex-direction:column;gap:14px">
+                <button onClick="{{ nav.meu }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Meu plano</button>
+                <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2;display:flex;align-items:center;gap:10px"><span style="width:36px;height:36px;border-radius:10px;background:#FEF6E4;color:#2A56D6;display:inline-flex;align-items:center;justify-content:center;flex:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M6 3h9l3 3v15H6zM9 9h6M9 13h6M9 17h4"></path></svg></span>Histórico de faturas</h2>
+                <sc-if value="{{ toastFat }}">
+                  <div style="display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                    <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                    <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toastFat }}</div>
+                  </div>
+                </sc-if>
+                <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden">
+                  <sc-for list="{{ faturas }}" as="x" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #EFEEEA">
+                      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+                        <div style="font-size:15px;font-weight:700;color:#14161A">{{ x.periodo }}</div>
+                        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:14px;color:#3D4249">{{ x.plano }} · {{ x.valor }}</span><span style="display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#E8F6F0;color:#16694A"><span style="width:6px;height:6px;border-radius:50%;background:#1E8A5F"></span>Pago</span></div>
+                      </div>
+                      <button onClick="{{ x.recibo }}" style="flex:none;display:flex;align-items:center;gap:6px;border:1.5px solid #C9D6FA;background:#fff;color:#2A56D6;font-family:inherit;font-size:13.5px;font-weight:700;padding:9px 12px;border-radius:10px;cursor:pointer" style-hover="background:#FFF8E3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 4v11"></path><path d="m7 10 5 5 5-5"></path><path d="M5 20h14"></path></svg>Recibo</button>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 6px 28px">
+            <button onClick="{{ ong.go.animais }}" style="{{ ong.st.animais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5.5" cy="10.5" r="1.8"></circle><circle cx="9.5" cy="6" r="1.8"></circle><circle cx="14.5" cy="6" r="1.8"></circle><circle cx="18.5" cy="10.5" r="1.8"></circle><path d="M12 12.5c-3 0-5.5 3-5.5 5.3 0 1.5 1.2 2.2 2.6 2.2 1.1 0 1.9-.6 2.9-.6s1.8.6 2.9.6c1.4 0 2.6-.7 2.6-2.2 0-2.3-2.5-5.3-5.5-5.3z"></path></svg></span><span>Animais</span></button>
+            <button onClick="{{ ong.go.resgates }}" style="{{ ong.st.resgates }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">3</span></span><span>Resgates</span></button>
+            <button onClick="{{ ong.go.voluntarios }}" style="{{ ong.st.voluntarios }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">3</span></span><span>Voluntários</span></button>
+            <button onClick="{{ ong.go.campanhas }}" style="{{ ong.st.campanhas }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M4 10v4h3l8 4.5V5.5L7 10H4z"></path><path d="M18.5 9a4 4 0 0 1 0 6"></path></svg></span><span>Campanhas</span></button>
+            <button onClick="{{ ong.go.mais }}" style="{{ ong.st.mais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span><span>Mais</span></button>
+          </div>
+
+          <sc-if value="{{ dialogCancelar }}">
+            <div style="position:absolute;inset:0;background:rgba(20,22,26,.5);animation:fadeIn .2s ease;z-index:6;display:flex;align-items:center;justify-content:center;padding:20px">
+              <div style="width:100%;background:#fff;border-radius:20px;padding:24px 20px 18px;display:flex;flex-direction:column;gap:12px;animation:popIn .22s cubic-bezier(.2,1.1,.3,1)">
+                <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px">
+                  <div style="width:56px;height:56px;border-radius:50%;background:#FFF3D1;display:flex;align-items:center;justify-content:center"><div style="width:30px;height:30px;border-radius:50%;background:#D99A00;color:#14161A;font-size:17px;font-weight:800;display:flex;align-items:center;justify-content:center">!</div></div>
+                  <h3 style="margin:2px 0 0;font-size:20px;font-weight:800;letter-spacing:-.01em;color:#14161A">Cancelar o {{ planoNome }}?</h3>
+                  <p style="margin:0;font-size:14.5px;line-height:1.5;color:#6B6F76;text-wrap:pretty">Sua ONG volta para o plano Free. Você pode assinar de novo quando quiser.</p>
+                </div>
+                <div style="background:#F7F7F5;border:1px solid #EFEEEA;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:9px">
+                  <div style="font-size:12.5px;font-weight:700;color:#3D4249">O que muda</div>
+                  <sc-for list="{{ perdas }}" as="p" hint-placeholder-count="5">
+                    <div style="display:flex;gap:9px;align-items:flex-start;font-size:13.5px;line-height:1.4;color:#14161A"><span style="width:6px;height:6px;border-radius:50%;background:#D99A00;flex:none;margin-top:6px"></span><span>{{ p.t }}</span></div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+                  <button onClick="{{ fecharDialog }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:14px;cursor:pointer" style-hover="background:#1C3EA0">Manter {{ planoNome }}</button>
+                  <button onClick="{{ confirmarCancelar }}" style="width:100%;border:1.5px solid #C9382C;background:#fff;color:#C9382C;font-family:inherit;font-size:16px;font-weight:700;padding:14px;border-radius:14px;cursor:pointer" style-hover="background:#FDF0EE">Cancelar assinatura</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </x-import>
+    </div>
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:1 1 300px;min-width:280px;max-width:420px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Regras de assinatura</div>
+        <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5;color:#3D4249">
+          <li>Free R$ 0 · Pro R$ 69,90/mês com 14 dias grátis · Pro Anual R$ 699,00/ano (12 meses pelo preço de 10).</li>
+          <li>Nenhum plano tem taxa da plataforma sobre doações.</li>
+          <li>O teste grátis vale só para o Pro mensal e uma vez por ONG.</li>
+          <li>Cancelar pede confirmação de peso intermediário (aviso amarelo, botão vermelho com contorno), porque é reversível.</li>
+          <li>Histórico de faturas aparece sempre que houver cobranças, mesmo depois de voltar ao Free.</li>
+        </ul>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;planoAtual&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Free&quot;,&quot;Pro&quot;,&quot;Pro Anual&quot;],&quot;default&quot;:&quot;Pro&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Estado inicial&quot;},&quot;cartaoCadastrado&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Estado inicial&quot;},&quot;mostrarPaineis&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Apresentação&quot;}}">
+const C = { border: '#E4E3DE', blue: '#2A56D6', prim: '#F5B820' };
+const ONG_URLS = { main: 'Adotae%20-%20Cadastro%20e%20Login.dc.html', resg: 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html', camp: 'Adotae%20-%20Campanhas.dc.html' };
+const ONG_GO = {
+  animais: () => { window.location.href = ONG_URLS.main + '#ong=animais'; },
+  resgates: () => { window.location.href = ONG_URLS.resg; },
+  voluntarios: () => { window.location.href = ONG_URLS.main + '#ong=voluntarios'; },
+  campanhas: () => { window.location.href = ONG_URLS.camp; },
+  mais: () => { window.location.href = ONG_URLS.main + '#ong=mais'; },
+};
+const ongTabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? '#2A56D6' : '#6B6F76', minHeight: 48, minWidth: 0 });
+const FEATURES = [
+  { label: 'Cadastro de animais', free: 'Até 20 ativos', freeOk: 'parcial', pro: 'Ilimitado' },
+  { label: 'Adoções, resgates e denúncias', free: 'Ilimitado', freeOk: 'sim', pro: 'Ilimitado' },
+  { label: 'Notícias e eventos', free: 'Até 2 por mês', freeOk: 'parcial', pro: 'Ilimitado' },
+  { label: 'Campanhas de arrecadação', free: 'Não disponível', freeOk: 'nao', pro: 'Ilimitadas' },
+  { label: 'Recebimento de doações (Pix)', free: 'Só chave Pix colada manualmente: visível aos usuários, mas não processada pela plataforma (sem confirmação automática)', freeOk: 'parcial', pro: 'Sim, processado pela plataforma' },
+  { label: 'Taxa da plataforma sobre doações', free: 'Nenhuma', freeOk: 'taxa', pro: 'Nenhuma', taxa: true },
+  { label: 'Voluntários', free: 'Não disponível', freeOk: 'nao', pro: 'Ilimitado' },
+  { label: 'Relatório mensal de doações/adoções', free: 'Não disponível', freeOk: 'nao', pro: 'Ilimitado' },
+];
+const PERDAS = [
+  'Campanhas ativas são pausadas',
+  'Voluntários ficam indisponíveis',
+  'Cadastro de animais passa a ser limitado a 20 ativos',
+  'Notícias e eventos limitados a 2 por mês',
+  'Relatório mensal fica indisponível',
+];
+const PLANOS = {
+  Free: { preco: 'R$ 0', sufixo: '', valor: 0 },
+  Pro: { preco: 'R$ 69,90', sufixo: '/mês', valor: 6990 },
+  'Pro Anual': { preco: 'R$ 699,00', sufixo: '/ano', valor: 69900 },
+};
+const FAT_PRO = [
+  { periodo: '15/09/2026 – 14/10/2026', plano: 'Pro', valor: 'R$ 69,90' },
+  { periodo: '15/08/2026 – 14/09/2026', plano: 'Pro', valor: 'R$ 69,90' },
+  { periodo: '15/07/2026 – 14/08/2026', plano: 'Pro', valor: 'R$ 69,90' },
+];
+const FAT_ANUAL = [
+  { periodo: '10/03/2026 – 09/03/2027', plano: 'Pro Anual', valor: 'R$ 699,00' },
+  { periodo: '10/02/2026 – 09/03/2026', plano: 'Pro', valor: 'R$ 69,90' },
+];
+const STEPS = [
+  { key: 'meu', label: 'Meu plano' },
+  { key: 'planos', label: 'Planos disponíveis' },
+  { key: 'checkout', label: 'Confirmar assinatura' },
+  { key: 'cartao', label: 'Cadastrar cartão' },
+  { key: 'cartaoErro', label: 'Cartão · erro de validação' },
+  { key: 'ativada', label: 'Assinatura ativada' },
+  { key: 'cancelar', label: 'Cancelar assinatura' },
+  { key: 'faturas', label: 'Histórico de faturas' },
+];
+const p2 = (n) => String(n).padStart(2, '0');
+const CARD0 = { final: '4821', venc: '08/2029' };
+const CVAZIO = { cNum: '', cNome: '', cVal: '', cCvv: '', cTried: false };
+const digits = (v, n) => v.replace(/\D/g, '').slice(0, n);
+const cardErrs = (s) => {
+  const e = {}; const d = s.cNum.replace(/\D/g, '');
+  if (!d) e.num = 'Informe o número do cartão.'; else if (d.length < 13) e.num = 'Número incompleto. Confira os dígitos do cartão.';
+  if (!s.cNome.trim()) e.nome = 'Informe o nome como está impresso no cartão.';
+  const m = /^(\d{2})\/(\d{2})$/.exec(s.cVal);
+  if (!s.cVal) e.val = 'Informe a validade.';
+  else if (!m || +m[1] < 1 || +m[1] > 12) e.val = 'Use o formato MM/AA.';
+  else { const now = new Date(); const y = 2000 + +m[2]; if (y < now.getFullYear() || (y === now.getFullYear() && +m[1] < now.getMonth() + 1)) e.val = 'Este cartão está vencido.'; }
+  if (s.cCvv.length < 3) e.cvv = s.cCvv ? 'O CVV tem 3 ou 4 dígitos.' : 'Informe o CVV.';
+  return e;
+};
+const fmt = (d) => p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + '/' + d.getFullYear();
+const addDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return fmt(d); };
+const addMonths = (n) => { const d = new Date(); d.setMonth(d.getMonth() + n); return fmt(d); };
+const mark = (k) => {
+  const base = { width: 20, height: 20, borderRadius: '50%', fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none', marginTop: 1 };
+  if (k === 'nao') return Object.assign(base, { background: '#F0EFEB', color: '#8A8D93' });
+  if (k === 'parcial') return Object.assign(base, { background: '#FFF3D1', color: '#7A5600' });
+  return Object.assign(base, { background: '#E8F6F0', color: '#1E8A5F' });
+};
+const sym = (k) => (k === 'nao' ? '–' : k === 'parcial' ? '~' : '✓');
+const initial = (plano) => {
+  if (plano === 'Pro') return { plano: 'Pro', emTeste: false, renova: '15/10/2026', faturas: FAT_PRO, trialUsado: true };
+  if (plano === 'Pro Anual') return { plano: 'Pro Anual', emTeste: false, renova: '10/03/2027', faturas: FAT_ANUAL, trialUsado: true };
+  return { plano: 'Free', emTeste: false, renova: '', faturas: [], trialUsado: false };
+};
+
+class Component extends DCLogic {
+  state = Object.assign({ screen: 'meu', ciclo: 'mensal', alvo: 'Pro', dialog: false, toast: '', toastFat: '', cartao: (this.props.cartaoCadastrado ?? true) ? CARD0 : null, depois: null }, CVAZIO, initial(this.props.planoAtual ?? 'Pro'));
+
+  componentDidUpdate(prev) {
+    if (prev.cartaoCadastrado !== this.props.cartaoCadastrado) this.setState({ cartao: (this.props.cartaoCadastrado ?? true) ? CARD0 : null });
+    if (prev.planoAtual !== this.props.planoAtual) this.setState(Object.assign({ screen: 'meu', dialog: false, toast: '' }, initial(this.props.planoAtual ?? 'Pro')));
+  }
+  componentWillUnmount() { clearTimeout(this._t); }
+  flash = (k, m) => { clearTimeout(this._t); this.setState({ [k]: m }); this._t = setTimeout(() => this.setState({ toast: '', toastFat: '' }), 3200); };
+
+  go = (k) => () => {
+    const s = this.state;
+    if (k === 'meu' || k === 'planos') return this.setState({ screen: k, dialog: false });
+    if (k === 'checkout') return this.setState({ screen: 'checkout', dialog: false, alvo: s.plano === 'Free' ? (s.ciclo === 'anual' ? 'Pro Anual' : 'Pro') : (s.plano === 'Pro' ? 'Pro Anual' : 'Pro') });
+    if (k === 'cartao') return this.setState(Object.assign({ screen: 'cartao', dialog: false, depois: null }, CVAZIO));
+    if (k === 'cartaoErro') return this.setState(Object.assign({ screen: 'cartao', dialog: false, depois: null }, CVAZIO, { cTried: true }));
+    if (k === 'ativada') {
+      if (s.plano === 'Free') return this.setState({ alvo: 'Pro' }, () => this.confirmar());
+      return this.setState({ screen: 'ativada', dialog: false });
+    }
+    if (k === 'cancelar') {
+      if (s.plano === 'Free') return this.setState(Object.assign(initial('Pro'), { screen: 'meu', dialog: true }));
+      return this.setState({ screen: 'meu', dialog: true });
+    }
+    if (k === 'faturas') {
+      if (!s.faturas.length) return this.setState(Object.assign(initial('Pro'), { screen: 'faturas', dialog: false }));
+      return this.setState({ screen: 'faturas', dialog: false });
+    }
+  };
+
+  assinar = (alvo) => () => this.setState({ alvo, screen: 'checkout' });
+
+  confirmar = () => {
+    const s = this.state, alvo = s.alvo;
+    const teste = alvo === 'Pro' && !s.trialUsado;
+    const novaFatura = teste ? [] : [{ periodo: fmt(new Date()) + ' – ' + (alvo === 'Pro' ? addDays(29) : addDays(364)), plano: alvo, valor: PLANOS[alvo].preco }];
+    this.setState({
+      plano: alvo, emTeste: teste, trialUsado: s.trialUsado || alvo === 'Pro',
+      renova: teste ? addDays(14) : alvo === 'Pro' ? addMonths(1) : addMonths(12),
+      faturas: novaFatura.concat(s.faturas), screen: 'ativada',
+    });
+  };
+
+  abrirCartao = (depois) => this.setState(Object.assign({ screen: 'cartao', depois: depois || null }, CVAZIO));
+  confirmarCk = () => { if (this.state.cartao) this.confirmar(); else this.abrirCartao('confirmar'); };
+  salvarCartao = () => {
+    const s = this.state;
+    if (Object.keys(cardErrs(s)).length) return this.setState({ cTried: true });
+    const d = s.cNum.replace(/\D/g, '');
+    const cartao = { final: d.slice(-4), venc: s.cVal.slice(0, 3) + '20' + s.cVal.slice(3) };
+    if (s.depois === 'confirmar') return this.setState({ cartao }, () => this.confirmar());
+    this.setState(Object.assign({ cartao, screen: 'checkout' }, CVAZIO));
+  };
+  confirmarCancelar = () => {
+    const ant = this.state.plano;
+    this.setState({ plano: 'Free', emTeste: false, renova: '', dialog: false, screen: 'meu' });
+    this.flash('toast', 'Assinatura do ' + ant + ' cancelada. Sua ONG agora está no plano Free.');
+  };
+
+  reset = () => this.setState(Object.assign({ screen: 'meu', ciclo: 'mensal', alvo: 'Pro', dialog: false, toast: '', toastFat: '' }, initial(this.props.planoAtual ?? 'Pro')));
+
+  renderVals() {
+    const s = this.state;
+    const pago = s.plano !== 'Free';
+    const P = PLANOS[s.plano];
+    let active = s.screen;
+    if (s.screen === 'meu' && s.dialog) active = 'cancelar';
+    const ce = cardErrs(s); const cErr = s.cTried ? ce : {};
+    if (s.screen === 'cartao' && s.cTried && Object.keys(ce).length) active = 'cartaoErro';
+    const box = (err) => ({ display: 'flex', alignItems: 'center', gap: 8, borderRadius: 12, padding: '0 14px', border: '1.5px solid ' + (err ? '#C9382C' : C.border), background: err ? '#FDF0EE' : '#fff', transition: 'border-color .15s ease, background .15s ease' });
+    const nCe = Object.keys(cErr).length;
+    const stepStyle = (on) => ({ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', padding: '9px 10px', borderRadius: 10, border: '1px solid ' + (on ? '#F2DC9E' : 'transparent'), background: on ? '#FFF8E3' : 'transparent', color: on ? '#14161A' : '#3D4249' });
+    const btnPrim = { width: '100%', border: 'none', background: '#2A56D6', color: '#fff', fontFamily: 'inherit', fontSize: 17, fontWeight: 700, padding: 16, borderRadius: 14, cursor: 'pointer', boxShadow: '0 8px 20px rgba(42,86,214,.28)' };
+    const btnSec = { width: '100%', border: '1.5px solid #2A56D6', background: '#fff', color: '#2A56D6', fontFamily: 'inherit', fontSize: 17, fontWeight: 700, padding: 15, borderRadius: 14, cursor: 'pointer' };
+    const btnOff = { width: '100%', border: 'none', background: '#F0EFEB', color: '#6B6F76', fontFamily: 'inherit', fontSize: 16, fontWeight: 700, padding: 16, borderRadius: 14, cursor: 'default' };
+    const rowSt = (onBlue) => ({ flex: 'none', alignItems: 'baseline', display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 14.5, paddingTop: 10, borderTop: '1px solid ' + (onBlue ? 'rgba(20,22,26,.15)' : '#F2DC9E'), color: onBlue ? '#14161A' : '#14161A' });
+    const feat = (pro) => FEATURES.map((f) => {
+      const k = pro ? 'sim' : f.freeOk;
+      return { label: f.label, value: pro ? f.pro : f.free, mark: mark(k === 'taxa' ? 'sim' : k), sym: sym(k), valStyle: { fontSize: 13, lineHeight: 1.4, marginTop: 1, color: f.taxa ? '#16694A' : k === 'nao' ? '#6B6F76' : '#4A4E55', fontWeight: f.taxa ? 700 : 400 } };
+    });
+    const anual = s.ciclo === 'anual';
+    const proSel = anual ? 'Pro Anual' : 'Pro';
+    const trialOk = !anual && !s.trialUsado;
+    const freeBtn = s.plano === 'Free'
+      ? { label: 'Seu plano atual', style: btnOff, go: () => {} }
+      : { label: 'Mudar para o Free', style: btnSec, go: () => this.setState({ screen: 'meu', dialog: true }) };
+    const proBtn = s.plano === proSel
+      ? { label: 'Seu plano atual', style: btnOff, go: () => {} }
+      : { label: s.plano === 'Free' ? (trialOk ? 'Testar Pro grátis por 14 dias' : 'Assinar ' + proSel) : 'Mudar para ' + proSel, style: btnPrim, go: this.assinar(proSel) };
+    const alvo = s.alvo;
+    const teste = alvo === 'Pro' && !s.trialUsado;
+    const free = FEATURES;
+
+    return {
+      paineis: this.props.mostrarPaineis ?? true, reset: this.reset,
+      steps: STEPS.map((x, i) => ({ n: i + 1, label: x.label, go: this.go(x.key), style: stepStyle(x.key === active) })),
+      nav: { meu: this.go('meu'), planos: this.go('planos'), faturas: this.go('faturas') },
+      irMais: ONG_GO.mais,
+      isMeu: s.screen === 'meu', isPlanos: s.screen === 'planos', isCheckout: s.screen === 'checkout', isAtivada: s.screen === 'ativada', isFaturas: s.screen === 'faturas',
+      planoNome: s.plano, toast: s.toast, toastFat: s.toastFat,
+      planCard: { background: pago ? '#F5B820' : '#FEF6E4', border: pago ? 'none' : '1px solid #F2DC9E', borderRadius: 18, padding: 18, display: 'flex', flexDirection: 'column', gap: 10 },
+      planInk: pago ? '#14161A' : '#14161A', planSub: pago ? '#3D4249' : '#4A4E55',
+      planBadge: { padding: '4px 10px', borderRadius: 999, fontSize: 12.5, fontWeight: 700, background: pago ? (s.emTeste ? '#F5B820' : '#E8F6F0') : '#F0EFEB', color: pago ? (s.emTeste ? '#14161A' : '#16694A') : '#4A4E55' },
+      planBadgeTxt: pago ? (s.emTeste ? 'Teste grátis' : 'Ativo') : 'Gratuito',
+      preco: P.preco, precoSufixo: P.sufixo,
+      planRows: pago ? [
+        { label: s.emTeste ? 'Teste grátis até' : 'Próxima renovação', value: s.renova, style: rowSt(true) },
+        { label: s.emTeste ? 'Primeira cobrança' : 'Pagamento', value: s.emTeste ? s.renova + ' · R$ 69,90' : 'Cartão •••• 4821', style: rowSt(true) },
+      ] : [{ label: 'Cobrança', value: 'Nenhuma', style: rowSt(false) }],
+      beneficios: FEATURES.filter((f) => pago || f.freeOk !== 'nao').map((f) => {
+        const k = pago ? 'sim' : f.freeOk;
+        return { label: f.label, value: pago ? f.pro : f.free, mark: mark(k === 'taxa' ? 'sim' : k), sym: sym(k) };
+      }),
+      verPlanosStyle: pago ? btnSec : btnPrim,
+      temFaturas: s.faturas.length > 0, isPago: pago,
+      abrirCancelar: () => this.setState({ dialog: true }),
+      featFree: feat(false), featPro: feat(true),
+      cicloMensal: () => this.setState({ ciclo: 'mensal' }), cicloAnual: () => this.setState({ ciclo: 'anual' }),
+      segMensal: { flex: 1, border: 'none', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, padding: '9px 8px', borderRadius: 9, cursor: 'pointer', background: !anual ? '#fff' : 'transparent', color: !anual ? '#14161A' : '#4A4E55', boxShadow: !anual ? '0 1px 3px rgba(20,22,26,.12)' : 'none' },
+      segAnual: { flex: 1, border: 'none', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, padding: '9px 8px', borderRadius: 9, cursor: 'pointer', background: anual ? '#fff' : 'transparent', color: anual ? '#14161A' : '#4A4E55', boxShadow: anual ? '0 1px 3px rgba(20,22,26,.12)' : 'none' },
+      proPreco: anual ? 'R$ 699,00' : 'R$ 69,90', proSufixo: anual ? '/ano' : '/mês',
+      proNota: anual ? 'Equivale a R$ 58,25/mês: 12 meses pelo preço de 10.' : (trialOk ? '14 dias grátis, depois R$ 69,90/mês.' : 'Cobrado mensalmente.'),
+      proTag: anual ? '2 meses grátis' : '14 dias grátis',
+      proTagStyle: { padding: '4px 10px', borderRadius: 999, fontSize: 12.5, fontWeight: 800, background: '#F5B820', color: '#14161A', whiteSpace: 'nowrap' },
+      freeBtn, proBtn,
+      ckRows: [
+        { label: 'Plano', value: alvo, style: { color: '#14161A', fontWeight: 700 } },
+        { label: 'Valor', value: PLANOS[alvo].preco + PLANOS[alvo].sufixo, style: { color: '#14161A', fontWeight: 600 } },
+        { label: 'Cobrado hoje', value: teste ? 'R$ 0,00' : PLANOS[alvo].preco, style: { color: teste ? '#16694A' : '#14161A', fontWeight: 800 } },
+      ],
+      ckNota: teste
+        ? 'Você não será cobrado agora — primeira cobrança em ' + addDays(14) + ', após os 14 dias de teste.'
+        : alvo === 'Pro Anual' ? 'Cobrança única de R$ 699,00 hoje, válida por 12 meses. Renova em ' + addMonths(12) + '.' : 'Cobrança de R$ 69,90 hoje. Renova todo mês em ' + addMonths(1).slice(0, 2) + '.',
+      ckNotaStyle: { fontSize: 14, lineHeight: 1.5, padding: '12px 14px', borderRadius: 12, background: teste ? '#E8F6F0' : '#FFF8E3', border: '1px solid ' + (teste ? '#C3E6D6' : '#F2DC9E'), color: teste ? '#16694A' : '#1C3EA0' },
+      confirmar: this.confirmar, confirmarCk: this.confirmarCk,
+      temCartao: !!s.cartao, semCartao: !s.cartao, cartaoFinal: s.cartao ? s.cartao.final : '', cartaoVenc: s.cartao ? s.cartao.venc : '',
+      ckBtnTxt: s.cartao ? 'Confirmar assinatura' : 'Adicionar cartão e continuar',
+      abrirCartao: () => this.abrirCartao(null), voltarCheckout: () => this.setState({ screen: 'checkout' }),
+      isCartao: s.screen === 'cartao',
+      cartaoTitulo: s.cartao ? 'Alterar cartão' : 'Adicionar cartão',
+      cartaoBtnTxt: s.depois === 'confirmar' ? 'Salvar e confirmar assinatura' : 'Salvar cartão',
+      cBanner: nCe ? (nCe === 1 ? '1 campo precisa de atenção.' : nCe + ' campos precisam de atenção.') : '',
+      pvNum: s.cNum || '•••• •••• •••• ••••', pvNome: s.cNome.trim().toUpperCase() || 'NOME NO CARTÃO', pvVal: s.cVal || 'MM/AA',
+      cNum: s.cNum, cNome: s.cNome, cVal: s.cVal, cCvv: s.cCvv,
+      setNum: (e) => this.setState({ cNum: digits(e.target.value, 19).replace(/(\d{4})(?=\d)/g, '$1 ') }),
+      setNome: (e) => this.setState({ cNome: e.target.value.slice(0, 40) }),
+      setVal: (e) => { const d = digits(e.target.value, 4); this.setState({ cVal: d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d }); },
+      setCvv: (e) => this.setState({ cCvv: digits(e.target.value, 4) }),
+      numBox: box(!!cErr.num), nomeBox: box(!!cErr.nome), valBox: box(!!cErr.val), cvvBox: box(!!cErr.cvv),
+      numErr: cErr.num || '', nomeErr: cErr.nome || '', valErr: cErr.val || '', cvvErr: cErr.cvv || '', cvvHint: !cErr.cvv,
+      salvarCartao: this.salvarCartao,
+      atvTitulo: s.plano + ' ativado!',
+      atvTexto: s.emTeste ? 'Seu teste grátis vai até ' + s.renova + '. Cancele antes disso e nada é cobrado.' : 'Sua assinatura está ativa até ' + s.renova + '.',
+      liberados: free.filter((f) => f.freeOk === 'nao' || f.freeOk === 'parcial').map((f) => ({ label: f.label, value: f.pro })),
+      dialogCancelar: s.dialog && s.screen === 'meu' && pago, fecharDialog: () => this.setState({ dialog: false }), confirmarCancelar: this.confirmarCancelar,
+      perdas: PERDAS.map((t) => ({ t })),
+      faturas: s.faturas.map((x) => ({ periodo: x.periodo, plano: x.plano, valor: x.valor, recibo: () => this.flash('toastFat', 'Recibo de ' + x.periodo.split(' – ')[0] + ' baixado (PDF).') })),
+      ong: { go: ONG_GO, st: { animais: ongTabSt(false), resgates: ongTabSt(false), voluntarios: ongTabSt(false), campanhas: ongTabSt(false), mais: ongTabSt(true) } },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

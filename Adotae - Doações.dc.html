@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2A56D6}a:hover{color:#1C3EA0}
+input::placeholder,textarea::placeholder{color:#A6A9AE}
+@keyframes popIn{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:28px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;max-width:1360px;width:100%;margin:0 auto">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · React Native</div>
+      <h1 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Doações</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#6B6F76;max-width:56ch;text-wrap:pretty">Telas 1–5: doação pelo usuário a partir de uma campanha. Telas 6–7: gestão das doações recebidas pela ONG. Use os tweaks <span style="font-weight:600;color:#3D4249">formularioValido</span> e <span style="font-weight:600;color:#3D4249">pagamentoConfirmado</span>.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button onClick="{{ reset }}" style="border:1px solid #D9D8D2;background:#fff;color:#3D4249;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#F5F4F0">Reiniciar fluxo</button>
+      <button onClick="{{ nav.erro }}" style="border:1px solid #F0C9C2;background:#FDF0EE;color:#C9382C;font-family:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap" style-hover="background:#FBE5E1">Ver erro de validação</button>
+    </div>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:center;max-width:1360px;width:100%;margin:0 auto">
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <nav style="flex:0 0 232px;display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:4px 8px 8px">Doação · Usuário</div>
+      <sc-for list="{{ stepsUser }}" as="s" hint-placeholder-count="5">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="display:flex;gap:4px;padding:2px 8px 4px 38px;flex-wrap:wrap">
+        <sc-for list="{{ tipoLinks }}" as="t" hint-placeholder-count="3">
+          <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
+        </sc-for>
+      </div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:16px 8px 8px;border-top:1px solid #EFEEEA;margin-top:8px">Doações · ONG (Mais → Doações)</div>
+      <sc-for list="{{ stepsOng }}" as="s" hint-placeholder-count="2">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Decisões</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;line-height:1.3;color:#3D4249;white-space:nowrap"><span>Formulário válido?</span><span style="{{ chipValido }}">{{ txtValido }}</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;line-height:1.3;color:#3D4249;white-space:nowrap"><span>Pagamento confirmado?</span><span style="{{ chipPago }}">{{ txtPago }}</span></div>
+      </div>
+      <div style="border-top:1px solid #EFEEEA;padding:12px 8px 4px;font-size:12px;line-height:1.5;color:#6B6F76">Componentes base: <a href="Adotae%20-%20Cadastro%20e%20Login.dc.html">Cadastro e Login</a>. iPhone 390 × 844 pt.</div>
+    </nav>
+    </sc-if>
+
+    <div style="flex:none">
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 390 }}" height="{{ 844 }}" hint-size="390px,844px">
+        <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;background:#F7F7F5">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column">
+
+            <sc-if value="{{ isDetalhe }}" hint-placeholder-val="{{ true }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#fff">
+                <div style="flex:1;min-height:0;overflow-y:auto">
+                  <div style="position:relative;height:220px;background:#F0EFEB">
+                    <image-slot id="{{ cp.slot }}" shape="rect" placeholder="Imagem da campanha"></image-slot>
+                    <button onClick="{{ irInicio }}" style="position:absolute;top:58px;left:16px;z-index:2;border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:14.5px;font-weight:700;padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(20,22,26,.15)">← Início</button>
+                  </div>
+                  <div style="padding:20px 20px 24px;display:flex;flex-direction:column;gap:18px">
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="{{ cp.tipoTag }}">{{ cp.tipo }}</span><span style="{{ cp.badge }}"><span style="{{ cp.dot }}"></span>{{ cp.status }}</span></div>
+                      <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ cp.titulo }}</h2>
+                      <div style="font-size:14px;color:#6B6F76;display:flex;gap:4px;align-items:center;flex-wrap:wrap">por <button onClick="{{ irPerfilOng }}" style="border:none;background:none;padding:0;font-family:inherit;font-size:14px;font-weight:700;color:#2A56D6;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Abrigo Patas Felizes</button></div>
+                    </div>
+
+                    <sc-if value="{{ cp.isMon }}">
+                      <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span style="font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">{{ cp.arrecadado }}</span><span style="font-size:14.5px;color:#4A4E55">de {{ cp.meta }}</span></div>
+                        <div style="height:10px;border-radius:5px;background:#E4E3DE;overflow:hidden"><div style="{{ cp.bar }}"></div></div>
+                        <div style="display:flex;justify-content:space-between;gap:8px;font-size:13.5px;color:#3D4249"><span><span style="font-weight:700">{{ cp.pct }}</span> da meta</span><span>{{ cp.doacoes }} doações</span></div>
+                        <div style="font-size:13.5px;color:#4A4E55">{{ cp.periodo }}</div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ cp.isItens }}">
+                      <div style="display:flex;flex-direction:column;gap:10px">
+                        <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Itens que precisamos</h3>
+                        <div style="border:1px solid #E4E3DE;border-radius:14px;overflow:hidden">
+                          <sc-for list="{{ cp.itens }}" as="i" hint-placeholder-count="3">
+                            <div style="display:flex;gap:12px;align-items:center;padding:13px 14px;border-bottom:1px solid #EFEEEA"><div style="width:8px;height:8px;border-radius:50%;background:#D99A00;flex:none"></div><div style="font-size:15px;color:#14161A">{{ i.label }}</div></div>
+                          </sc-for>
+                        </div>
+                        <sc-if value="{{ cp.ate }}"><div style="font-size:13.5px;color:#6B6F76">Aceitando doações até {{ cp.ate }}</div></sc-if>
+                      </div>
+                      <div style="background:#FFF8E3;border:1px solid #F2DC9E;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px">
+                        <div style="font-size:15px;font-weight:700;color:#1C3EA0">Como doar</div>
+                        <div style="font-size:14px;line-height:1.5;color:#1C3EA0">Leve os itens até a sede do Abrigo Patas Felizes, na Rua dos Pinheiros, 1200 — Pinheiros, São Paulo. Recebemos de segunda a sábado, das 9h às 17h. Não é preciso agendar.</div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ cp.isDiv }}">
+                      <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                        <div style="font-size:13px;font-weight:700;color:#3D4249;display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:#F5B820;flex:none"></span>Evento</div>
+                        <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#4A4E55">Data</span><span style="color:#14161A;font-weight:600">{{ cp.dataEvento }}</span></div>
+                        <div style="height:1px;background:#E4E3DE"></div>
+                        <div style="display:flex;justify-content:space-between;gap:10px;font-size:15px"><span style="color:#4A4E55;flex:none">Local</span><span style="color:#14161A;font-weight:600;text-align:right">{{ cp.localEvento }}</span></div>
+                      </div>
+                    </sc-if>
+
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Sobre a campanha</h3>
+                      <p style="margin:0;font-size:15px;line-height:1.55;color:#3D4249;text-wrap:pretty">{{ cp.descricao }}</p>
+                    </div>
+                    <sc-if value="{{ cp.encerrada }}">
+                      <div style="background:#F7F7F5;border:1px solid #E4E3DE;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.45;color:#3D4249">Esta campanha foi encerrada e não recebe mais doações.</div>
+                    </sc-if>
+                  </div>
+                </div>
+                <sc-if value="{{ cp.podeContribuir }}" hint-placeholder-val="{{ true }}">
+                  <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px">
+                    <button onClick="{{ nav.contribuir }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">Contribuir</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isContribuir }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#fff">
+                <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 24px 24px;display:flex;flex-direction:column">
+                  <button onClick="{{ voltarContrib }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">{{ voltarContribLabel }}</button>
+                  <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+                    <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 1 de 2</div>
+                    <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Contribuir</h2>
+                    <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76">Para <span style="font-weight:600;color:#3D4249">{{ destNome }}</span>{{ destSufixo }}</p>
+                  </div>
+
+                  <sc-if value="{{ valorErr }}">
+                    <div style="margin-top:18px;display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:13px 14px;animation:slideUp .18s ease">
+                      <div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                      <div style="font-size:13.5px;line-height:1.45;color:#8E2A20"><span style="font-weight:700;color:#C9382C">Revise 1 campo.</span> Corrija o valor para gerar o código PIX.</div>
+                    </div>
+                  </sc-if>
+
+                  <div style="margin-top:22px">
+                    <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:9px">Valor</label>
+                    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+                      <sc-for list="{{ chips }}" as="o" hint-placeholder-count="4">
+                        <button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+                      </sc-for>
+                    </div>
+                    <button onClick="{{ pickOutro }}" style="{{ outroStyle }}">Outro valor</button>
+                    <sc-if value="{{ outroAberto }}">
+                      <div style="margin-top:10px;animation:slideUp .18s ease">
+                        <div style="{{ outroBox }}"><input value="{{ outro }}" onChange="{{ setOutro }}" placeholder="R$ 0,00" inputMode="numeric" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:20px;font-weight:700;color:#14161A;padding:14px 0"></div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ valorErr }}"><div style="display:flex;gap:6px;align-items:flex-start;margin-top:8px"><div style="width:14px;height:14px;border-radius:50%;background:#C9382C;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div><div style="font-size:13px;line-height:1.4;color:#C9382C">{{ valorErr }}</div></div></sc-if>
+                    <sc-if value="{{ valorHint }}"><div style="font-size:12.5px;line-height:1.4;color:#6B6F76;margin-top:8px">Valor mínimo de R$ 1,00.</div></sc-if>
+                  </div>
+
+                  <div style="margin-top:22px;background:#F7F7F5;border:1px solid #EFEEEA;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+                    <div><div style="font-size:12.5px;color:#6B6F76">Forma de pagamento</div><div style="font-size:15px;font-weight:600;color:#14161A;margin-top:2px">PIX</div></div>
+                    <div style="font-size:12.5px;color:#6B6F76;text-align:right">100% vai para a campanha</div>
+                  </div>
+                </div>
+                <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px">
+                  <button onClick="{{ gerarPix }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0" style-active="transform:translateY(1px)">{{ botaoPix }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isPix }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#fff">
+                <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 24px 24px;display:flex;flex-direction:column">
+                  <button onClick="{{ nav.contribuir }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Alterar valor</button>
+                  <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+                    <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B6F76">Passo 2 de 2</div>
+                    <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Pague com PIX</h2>
+                    <p style="margin:0;font-size:15px;line-height:1.5;color:#6B6F76"><span style="font-weight:700;color:#14161A">{{ valorFmt }}</span> para {{ destNome }}</p>
+                  </div>
+                  <div style="margin-top:20px;align-self:center;width:208px;height:208px;border-radius:16px;border:1.5px solid #E4E3DE;padding:12px;box-sizing:border-box;background:#fff">
+                    <image-slot id="pix-qrcode" shape="rounded" radius="8" placeholder="QR code PIX"></image-slot>
+                  </div>
+                  <div style="margin-top:20px">
+                    <label style="display:block;font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">PIX copia e cola</label>
+                    <div style="display:flex;align-items:center;gap:8px;border-radius:12px;padding:0 6px 0 14px;border:1.5px solid #E4E3DE;background:#F7F7F5">
+                      <div style="flex:1;min-width:0;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#3D4249;padding:15px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pixCode }}</div>
+                      <button onClick="{{ copiar }}" style="{{ copiarStyle }}">{{ copiarLabel }}</button>
+                    </div>
+                  </div>
+                  <div style="margin-top:18px;display:flex;gap:12px;align-items:center;background:#FFF8E3;border:1px solid #F2DC9E;border-radius:12px;padding:13px 14px">
+                    <div style="width:22px;height:22px;border-radius:50%;border:3px solid #F2DC9E;border-top-color:#D99A00;box-sizing:border-box;flex:none"></div>
+                    <div><div style="font-size:14.5px;font-weight:700;color:#7A5600">Aguardando confirmação do pagamento</div><div style="font-size:13px;color:#7A5600;margin-top:2px">O código expira em 30 minutos.</div></div>
+                  </div>
+                  <sc-if value="{{ pixMsg }}">
+                    <div style="margin-top:12px;display:flex;gap:10px;align-items:flex-start;background:#FDF0EE;border:1px solid #F0C9C2;border-left:4px solid #C9382C;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                      <div style="width:18px;height:18px;border-radius:50%;background:#C9382C;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">!</div>
+                      <div style="font-size:13.5px;line-height:1.45;color:#8E2A20">{{ pixMsg }}</div>
+                    </div>
+                  </sc-if>
+                  <div style="flex:1;min-height:20px"></div>
+                  <button onClick="{{ simular }}" style="width:100%;border:1.5px dashed #A6A9AE;background:#F7F7F5;color:#4A4E55;font-family:inherit;font-size:14px;font-weight:600;padding:12px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:10.5px;font-weight:800;letter-spacing:.08em;background:#4A4E55;color:#fff;padding:2px 6px;border-radius:4px">DEV</span>Simular confirmação</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isConfirmada }}">
+              <div style="height:100%;box-sizing:border-box;padding:76px 24px 20px;display:flex;flex-direction:column;background:linear-gradient(180deg,#EAF7F1 0%,#FFFFFF 40%);overflow-y:auto">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+                  <div style="width:80px;height:80px;border-radius:50%;background:#1E8A5F;display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:700;animation:popIn .32s cubic-bezier(.2,1.2,.3,1);box-shadow:0 12px 28px rgba(30,138,95,.28)">✓</div>
+                  <h2 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">Obrigado, {{ primeiroNome }}!</h2>
+                  <p style="margin:0;font-size:15.5px;line-height:1.55;color:#6B6F76;max-width:30ch;text-wrap:pretty">Sua doação de <span style="font-weight:700;color:#14161A">{{ ultimaFmt }}</span> para {{ destNome }} foi confirmada.</p>
+                </div>
+                <sc-if value="{{ showProgresso }}" hint-placeholder-val="{{ true }}"><div style="margin-top:22px;background:#FEF6E4;border:1px solid #F2DC9E;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span style="font-size:24px;font-weight:800;letter-spacing:-.02em;color:#14161A">{{ cp.arrecadado }}</span><span style="font-size:14.5px;color:#4A4E55">de {{ cp.meta }}</span></div>
+                  <div style="height:10px;border-radius:5px;background:#E4E3DE;overflow:hidden"><div style="{{ cp.bar }}"></div></div>
+                  <div style="display:flex;justify-content:space-between;gap:8px;font-size:13.5px;color:#3D4249"><span><span style="font-weight:700">{{ cp.pct }}</span> da meta</span><span style="color:#16694A;font-weight:700">+ {{ ultimaFmt }} seu</span></div>
+                </div></sc-if>
+                <div style="flex:1;min-height:24px"></div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <button onClick="{{ voltarFinal }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">{{ voltarFinalLabel }}</button>
+                  <button onClick="{{ irInicio }}" style="width:100%;border:none;background:none;font-family:inherit;font-size:14.5px;font-weight:600;color:#6B6F76;padding:8px;cursor:pointer">Ir para o Início</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isLista }}">
+              <div style="height:100%;box-sizing:border-box;padding:62px 0 0;display:flex;flex-direction:column">
+                <div style="margin-top:-62px;padding:62px 20px 20px;background:#F5B820;display:flex;align-items:center;gap:12px">
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:600;color:#3D4249">Abrigo Patas Felizes</div>
+                    <h2 style="margin:2px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em;color:#14161A">Doações</h2>
+                  </div>
+                  <div style="width:44px;height:44px;border-radius:50%;background:#fff;color:#2A56D6;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">PF</div>
+                </div>
+                <div style="padding:16px 20px 0"><div style="display:flex;gap:4px;background:#F0EFEB;border-radius:12px;padding:4px">
+                  <button onClick="{{ tabReg }}" style="{{ segReg }}">Registradas · {{ nReg }}</button>
+                  <button onClick="{{ tabConf }}" style="{{ segConf }}">Confirmadas · {{ nConf }}</button>
+                </div></div>
+                <sc-if value="{{ toast }}">
+                  <div style="margin:10px 20px 0;display:flex;gap:10px;align-items:flex-start;background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;animation:slideUp .18s ease">
+                    <div style="width:18px;height:18px;border-radius:50%;background:#1E8A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">✓</div>
+                    <div style="font-size:13.5px;line-height:1.45;color:#16694A">{{ toast }}</div>
+                  </div>
+                </sc-if>
+                <div style="flex:1;overflow-y:auto;padding:12px 20px 24px;display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ lista }}" as="x" hint-placeholder-count="3">
+                    <button onClick="{{ x.open }}" style="width:100%;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px;display:flex;gap:12px;align-items:flex-start;flex:none" style-hover="border-color:#C9D6FA">
+                      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                        <div style="font-size:20px;font-weight:800;letter-spacing:-.01em;color:#14161A">{{ x.valor }}</div>
+                        <div style="font-size:15px;font-weight:600;color:#14161A">{{ x.doador }}</div>
+                        <div style="{{ x.campStyle }}">{{ x.campanha }}</div>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none">
+                        <span style="{{ x.badge }}"><span style="{{ x.dot }}"></span>{{ x.status }}</span>
+                        <span style="font-size:12.5px;color:#6B6F76;white-space:nowrap">{{ x.data }}</span>
+                      </div>
+                    </button>
+                  </sc-for>
+                  <sc-if value="{{ vazio }}">
+                    <div style="background:#fff;border:1.5px dashed #D9D8D2;border-radius:16px;padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center">
+                      <div style="font-size:16px;font-weight:700;color:#14161A">{{ vazioTitulo }}</div>
+                      <div style="font-size:14px;line-height:1.5;color:#6B6F76;max-width:30ch">{{ vazioTexto }}</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isDoacao }}">
+              <div style="height:100%;display:flex;flex-direction:column;background:#F7F7F5">
+                <div style="flex:1;min-height:0;overflow-y:auto;padding:62px 20px 24px;display:flex;flex-direction:column;gap:14px">
+                  <button onClick="{{ fecharDoacao }}" style="align-self:flex-start;width:fit-content;white-space:nowrap;border:none;background:none;padding:6px 0;font-family:inherit;font-size:15px;font-weight:600;color:#2A56D6;cursor:pointer">← Doações</button>
+                  <div style="display:flex;flex-direction:column;gap:8px;flex:none">
+                    <div><span style="{{ dd.badge }}"><span style="{{ dd.dot }}"></span>{{ dd.status }}</span></div>
+                    <div style="font-size:34px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.1">{{ dd.valor }}</div>
+                    <div style="font-size:14px;color:#6B6F76">Recebida em {{ dd.data }}</div>
+                  </div>
+                  <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:6px 16px;flex:none">
+                    <sc-for list="{{ dd.rows }}" as="r" hint-placeholder-count="5">
+                      <div style="display:flex;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid #EFEEEA;font-size:15px">
+                        <span style="color:#6B6F76;flex:none;width:96px">{{ r.label }}</span>
+                        <span style="{{ r.style }}">{{ r.value }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ dd.confirmada }}">
+                    <div style="background:#E8F6F0;border:1px solid #C3E6D6;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.45;color:#16694A;flex:none">Recebimento confirmado em {{ dd.dataConf }}.</div>
+                  </sc-if>
+                  <sc-if value="{{ dd.registrada }}">
+                    <div style="font-size:13px;line-height:1.5;color:#6B6F76;flex:none">Confira o valor no extrato da conta da ONG antes de confirmar. O doador recebe um comprovante quando você confirmar.</div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ dd.registrada }}">
+                  <div style="flex:none;background:#fff;border-top:1px solid #EFEEEA;padding:12px 20px">
+                    <button onClick="{{ confirmarRecebimento }}" style="width:100%;border:none;background:#2A56D6;color:#fff;font-family:inherit;font-size:17px;font-weight:700;padding:17px;border-radius:14px;cursor:pointer;box-shadow:0 8px 20px rgba(42,86,214,.28)" style-hover="background:#1C3EA0">Confirmar recebimento</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{ userBar }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+              <button onClick="{{ tabs.inicio }}" style="{{ tabStyle.inicio }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+              <button onClick="{{ tabs.resgates }}" style="{{ tabStyle.resgates }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+              <button onClick="{{ tabs.voluntariado }}" style="{{ tabStyle.voluntariado }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+              <button onClick="{{ tabs.perfil }}" style="{{ tabStyle.perfil }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ongBar }}">
+            <div style="flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 6px 28px"><button onClick="{{ ong.go.animais }}" style="{{ ong.st.animais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5.5" cy="10.5" r="1.8"></circle><circle cx="9.5" cy="6" r="1.8"></circle><circle cx="14.5" cy="6" r="1.8"></circle><circle cx="18.5" cy="10.5" r="1.8"></circle><path d="M12 12.5c-3 0-5.5 3-5.5 5.3 0 1.5 1.2 2.2 2.6 2.2 1.1 0 1.9-.6 2.9-.6s1.8.6 2.9.6c1.4 0 2.6-.7 2.6-2.2 0-2.3-2.5-5.3-5.5-5.3z"></path></svg></span><span>Animais</span></button><button onClick="{{ ong.go.resgates }}" style="{{ ong.st.resgates }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><sc-if value="{{ ong.resgBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nResg }}</span></sc-if></span><span>Resgates</span></button><button onClick="{{ ong.go.voluntarios }}" style="{{ ong.st.voluntarios }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><sc-if value="{{ ong.volBadge }}"><span style="position:absolute;top:-5px;right:-11px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;border:2px solid #fff;background:#F5B820;color:#14161A;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">{{ ong.nVol }}</span></sc-if></span><span>Voluntários</span></button><button onClick="{{ ong.go.campanhas }}" style="{{ ong.st.campanhas }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M4 10v4h3l8 4.5V5.5L7 10H4z"></path><path d="M18.5 9a4 4 0 0 1 0 6"></path></svg></span><span>Campanhas</span></button><button onClick="{{ ong.go.mais }}" style="{{ ong.st.mais }}"><span style="position:relative;display:block"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span><span>Mais</span></button></div>
+          </sc-if>
+        </div>
+      </x-import>
+    </div>
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:1 1 300px;min-width:280px;max-width:420px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Status da doação</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#FFF3D1;color:#7A5600"><span style="width:7px;height:7px;border-radius:50%;background:#D99A00"></span>Registrada</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;background:#E8F6F0;color:#16694A"><span style="width:7px;height:7px;border-radius:50%;background:#1E8A5F"></span>Confirmada</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.5;color:#6B6F76">Enum próprio de doações. Registrada = pagamento identificado; Confirmada = ONG conferiu o recebimento.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Regras deste fluxo</div>
+        <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5;color:#3D4249">
+          <li>Só campanhas Monetárias e Ativas mostram “Contribuir”. Itens orienta a entrega presencial; Eventos é só informativa.</li>
+          <li>Valor mínimo de R$ 1,00, sem limite máximo. Um atalho selecionado e “Outro valor” são exclusivos.</li>
+          <li>Ao confirmar o pagamento, o total da campanha é atualizado e a doação aparece para a ONG como Registrada.</li>
+          <li>Doação sem <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">id_campanha</span> é exibida como “Doação avulsa”.</li>
+          <li>“Simular confirmação” existe só no protótipo, no lugar do retorno do banco.</li>
+        </ul>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;formularioValido&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;pagamentoConfirmado&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;usuarioLogado&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Decisões do fluxo&quot;},&quot;mostrarPaineis&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Apresentação&quot;}}">
+const C = { border: '#E4E3DE', blue: '#2A56D6', prim: '#F5B820', err: '#C9382C' };
+const URL_MAIN = 'Adotae%20-%20Cadastro%20e%20Login.dc.html';
+const URL_RESG_USER = 'Adotae%20-%20Resgates%20-%20Cadastro.dc.html';
+const URL_RESG_ONG = 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html';
+const URL_CAMP = 'Adotae%20-%20Campanhas.dc.html';
+const TIPOS = { 'Monetária': ['#EEF2FE', '#1C3EA0'], 'Itens': ['#FFF3D1', '#7A5600'], 'Eventos': ['#F1EDFC', '#5B3DB5'] };
+const CST = { Ativa: { bg: '#E8F6F0', fg: '#16694A', dot: '#1E8A5F' }, Encerrada: { bg: '#F0EFEB', fg: '#4A4E55', dot: '#8A8D93' } };
+const DST = { Registrada: { bg: '#FFF3D1', fg: '#7A5600', dot: '#D99A00' }, Confirmada: { bg: '#E8F6F0', fg: '#16694A', dot: '#1E8A5F' } };
+const CAMPS = [
+  { id: 1, tipo: 'Monetária', titulo: 'Cirurgia da Luna', descricao: 'A Luna foi resgatada com uma fratura na pata dianteira e precisa de cirurgia ortopédica. O valor cobre a operação, a internação e 30 dias de fisioterapia.', meta: 500000, arrecadado: 342000, doacoes: 47, data_inicio: '15/09/2026', data_fim: '31/10/2026', status: 'Ativa' },
+  { id: 2, tipo: 'Itens', titulo: 'Inverno sem frio', descricao: 'Estamos preparando o abrigo para o inverno. Toda doação pode ser deixada na nossa sede de segunda a sábado, das 9h às 17h.', itens_desejados: 'Cobertores, mantas de lã, ração para cães de porte grande, areia higiênica, caminhas', data_fim: '30/11/2026', status: 'Ativa' },
+  { id: 3, tipo: 'Eventos', titulo: 'Feira de adoção de outubro', descricao: 'Mais de 30 cães e gatos castrados, vacinados e prontos para um novo lar. Traga documento com foto e comprovante de residência.', data_evento: '18/10/2026', local_evento: 'Parque Villa-Lobos, portão 2 — São Paulo', status: 'Ativa' },
+  { id: 4, tipo: 'Monetária', titulo: 'Reforma do gatil', descricao: 'Troca do telhado e das telas de proteção do gatil, que abriga 60 gatos.', meta: 1200000, arrecadado: 1235000, doacoes: 182, data_inicio: '01/06/2026', data_fim: '31/08/2026', status: 'Encerrada' },
+];
+const DOACOES = [
+  { id: 'd1', valor: 5000, doador: 'Ana Ribeiro', id_campanha: 1, data: '01/10/2026 · 10:12', status: 'Registrada', txid: 'E18236120202610011012s7a9F', data_conf: '' },
+  { id: 'd2', valor: 2500, doador: 'Lucas Martins', id_campanha: null, data: '30/09/2026 · 21:40', status: 'Registrada', txid: 'E18236120202609302140k2LmQ', data_conf: '' },
+  { id: 'd3', valor: 10000, doador: 'Fernanda Dias', id_campanha: 1, data: '30/09/2026 · 16:05', status: 'Registrada', txid: 'E18236120202609301605p0XcB', data_conf: '' },
+  { id: 'd4', valor: 1000, doador: 'Patrícia Gomes', id_campanha: 1, data: '27/09/2026 · 14:22', status: 'Confirmada', txid: 'E18236120202609271422h4TnE', data_conf: '28/09/2026 · 09:10' },
+  { id: 'd5', valor: 5000, doador: 'Thiago Prado', id_campanha: null, data: '20/09/2026 · 11:00', status: 'Confirmada', txid: 'E18236120202609201100r8VwD', data_conf: '20/09/2026 · 15:42' },
+  { id: 'd6', valor: 25000, doador: 'Roberto Silva', id_campanha: 4, data: '28/08/2026 · 09:30', status: 'Confirmada', txid: 'E18236120202608280930m1QzA', data_conf: '28/08/2026 · 11:15' },
+];
+const URL_PERFIL = 'Adotae%20-%20Perfil%20da%20ONG.dc.html';
+const CHIPS = [1000, 2500, 5000, 10000];
+const STEPS_USER = [
+  { key: 'detalhe', label: 'Detalhe da campanha' },
+  { key: 'contribuir', label: 'Contribuir' },
+  { key: 'erro', label: 'Erro de validação' },
+  { key: 'pix', label: 'Confirmação PIX' },
+  { key: 'confirmada', label: 'Doação confirmada' },
+];
+const STEPS_ONG = [
+  { key: 'lista', label: 'Lista de doações' },
+  { key: 'doacao', label: 'Detalhe da doação' },
+];
+const digits = (s) => (s || '').replace(/\D/g, '');
+const brl = (c) => 'R$ ' + (c / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const brl0 = (c) => 'R$ ' + Math.round(c / 100).toLocaleString('pt-BR');
+const brlChip = (c) => 'R$ ' + (c / 100).toLocaleString('pt-BR');
+const maskMoney = (s) => { const d = digits(s).slice(0, 10); return d ? brl(parseInt(d, 10)) : ''; };
+const agora = () => { const d = new Date(); const p = (n) => String(n).padStart(2, '0'); return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear() + ' · ' + p(d.getHours()) + ':' + p(d.getMinutes()); };
+const tag = (t) => ({ padding: '3px 8px', borderRadius: 6, fontSize: 12, fontWeight: 700, background: TIPOS[t][0], color: TIPOS[t][1], whiteSpace: 'nowrap' });
+const badge = (m) => ({ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 999, fontSize: 12.5, fontWeight: 700, background: m.bg, color: m.fg, whiteSpace: 'nowrap' });
+const dot = (m) => ({ width: 7, height: 7, borderRadius: '50%', background: m.dot, flex: 'none' });
+const tabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? C.blue : '#6B6F76', minHeight: 48 });
+
+const ONG_URLS = { main: 'Adotae%20-%20Cadastro%20e%20Login.dc.html', resg: 'Adotae%20-%20Resgates%20-%20Gerenciamento.dc.html', camp: 'Adotae%20-%20Campanhas.dc.html' };
+const ONG_GO = {
+  animais: () => { window.location.href = ONG_URLS.main + '#ong=animais'; },
+  resgates: () => { window.location.href = ONG_URLS.resg; },
+  voluntarios: () => { window.location.href = ONG_URLS.main + '#ong=voluntarios'; },
+  campanhas: () => { window.location.href = ONG_URLS.camp; },
+  mais: () => { window.location.href = ONG_URLS.main + '#ong=mais'; },
+};
+const ongTabSt = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: on ? '#2A56D6' : '#6B6F76', minHeight: 48, minWidth: 0 });
+const ongNav = (active, go, nResg, nVol) => ({
+  go, nResg, nVol, resgBadge: nResg > 0, volBadge: nVol > 0,
+  st: { animais: ongTabSt(active === 'animais'), resgates: ongTabSt(active === 'resgates'), voluntarios: ongTabSt(active === 'voluntarios'), campanhas: ongTabSt(active === 'campanhas'), mais: ongTabSt(active === 'mais') },
+});
+
+class Component extends DCLogic {
+  state = {
+    screen: 'detalhe', campId: 1, camps: CAMPS, doacoes: DOACOES, chip: 2500, outro: '', submitted: false, forced: false,
+    copiado: false, pixMsg: '', ultima: 0, ongTab: 'registradas', doacaoId: 'd1', toast: '', sessao: null,
+  };
+
+  componentDidMount() {
+    const h = window.location.hash || '';
+    const st = {};
+    const lg = /logado=([01])/.exec(h); if (lg) st.sessao = lg[1] === '1';
+    const c = /campanha=(\d+)/.exec(h);
+    if (/geral=1/.test(h)) { st.geral = true; st.screen = 'contribuir'; }
+    else if (c && CAMPS.some((x) => x.id === +c[1])) { st.screen = 'detalhe'; st.campId = +c[1]; }
+    else if (/ong=doacoes/.test(h)) st.screen = 'lista';
+    this.setState(st);
+  }
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._c); }
+
+  logado = () => (this.state.sessao !== null ? this.state.sessao : (this.props.usuarioLogado ?? true));
+  camp = () => this.state.camps.find((x) => x.id === this.state.campId) || this.state.camps[0];
+  valorCents = () => (this.state.chip === 'outro' ? parseInt(digits(this.state.outro) || '0', 10) : this.state.chip || 0);
+
+  go = (k) => () => {
+    const S = (o) => this.setState(o);
+    const mon = this.state.geral || (this.camp().tipo === 'Monetária' && this.camp().status === 'Ativa') ? {} : { campId: 1 };
+    if (k === 'detalhe' && this.state.geral) return S({ screen: 'detalhe', geral: false });
+    if (k === 'detalhe') return S({ screen: 'detalhe' });
+    if (k === 'contribuir') return S(Object.assign({ screen: 'contribuir', submitted: false, forced: false }, mon));
+    if (k === 'erro') return S(Object.assign({ screen: 'contribuir', chip: null, outro: '', submitted: true, forced: false }, mon));
+    if (k === 'pix') return S(Object.assign({ screen: 'pix', pixMsg: '', chip: this.valorCents() >= 100 ? this.state.chip : 2500 }, mon));
+    if (k === 'confirmada') {
+      if (!this.state.ultima) return this.setState(Object.assign({ chip: this.valorCents() >= 100 ? this.state.chip : 2500 }, mon), () => this.registrar());
+      return S({ screen: 'confirmada' });
+    }
+    if (k === 'lista') return S({ screen: 'lista' });
+    if (k === 'doacao') {
+      const reg = this.state.doacoes.find((x) => x.status === 'Registrada');
+      if (reg) return S({ screen: 'doacao', doacaoId: reg.id });
+      return S({ doacoes: DOACOES, screen: 'doacao', doacaoId: 'd1' });
+    }
+  };
+
+  pick = (v) => () => this.setState({ chip: v, outro: '', forced: false });
+  pickOutro = () => this.setState({ chip: 'outro', forced: false });
+  setOutro = (e) => this.setState({ outro: maskMoney(e.target.value), forced: false });
+
+  erroValor = () => {
+    const s = this.state;
+    if (!s.submitted) return '';
+    const v = this.valorCents();
+    if (s.chip == null || (s.chip === 'outro' && !digits(s.outro))) return 'Escolha um valor ou digite outro valor.';
+    if (v < 100) return 'O valor mínimo é R$ 1,00.';
+    if (s.forced) return 'Não conseguimos validar este valor. Confira e tente novamente.';
+    return '';
+  };
+
+  gerarPix = () => {
+    const valido = this.props.formularioValido ?? true;
+    const v = this.valorCents();
+    const vazio = this.state.chip == null || (this.state.chip === 'outro' && !digits(this.state.outro));
+    if (vazio || v < 100) return this.setState({ submitted: true, forced: false });
+    if (!valido) return this.setState({ submitted: true, forced: true });
+    this.setState({ screen: 'pix', submitted: false, forced: false, pixMsg: '', copiado: false });
+  };
+
+  copiar = () => {
+    try { navigator.clipboard && navigator.clipboard.writeText(this.pixCode()); } catch (e) {}
+    clearTimeout(this._c);
+    this.setState({ copiado: true });
+    this._c = setTimeout(() => this.setState({ copiado: false }), 2000);
+  };
+  pixCode = () => '00020126580014BR.GOV.BCB.PIX0136a1f4c2e8-7b3d-4e19-9c55-adotae2026' + '5204000053039865406' + (this.valorCents() / 100).toFixed(2) + '5802BR5920ABRIGO PATAS FELIZES6009SAO PAULO6304A1B2';
+
+  registrar = () => {
+    const v = this.valorCents();
+    const id = this.state.geral ? null : this.state.campId;
+    const nome = this.logado() ? 'Marina Souza' : 'Doador sem cadastro';
+    this.setState((s) => ({
+      camps: s.camps.map((c) => (c.id === id ? Object.assign({}, c, { arrecadado: c.arrecadado + v, doacoes: c.doacoes + 1 }) : c)),
+      doacoes: [{ id: 'u' + Date.now(), valor: v, doador: nome, id_campanha: id, data: agora(), status: 'Registrada', txid: 'E182361202026' + Date.now().toString(36).toUpperCase(), data_conf: '' }].concat(s.doacoes),
+      ultima: v, screen: 'confirmada', pixMsg: '',
+    }));
+  };
+  simular = () => {
+    if (!(this.props.pagamentoConfirmado ?? true)) return this.setState({ pixMsg: 'Ainda não identificamos o pagamento. Depois de pagar no app do banco, pode levar alguns segundos.' });
+    this.registrar();
+  };
+
+  confirmarRecebimento = () => {
+    const d = this.state.doacoes.find((x) => x.id === this.state.doacaoId);
+    this.setState((s) => ({ doacoes: s.doacoes.map((x) => (x.id === d.id ? Object.assign({}, x, { status: 'Confirmada', data_conf: agora() }) : x)), screen: 'lista', ongTab: 'confirmadas' }));
+    clearTimeout(this._t); this.setState({ toast: 'Recebimento de ' + brl(d.valor) + ' de ' + d.doador.split(' ')[0] + ' confirmado.' });
+    this._t = setTimeout(() => this.setState({ toast: '' }), 3200);
+  };
+
+  reset = () => this.setState({ screen: 'detalhe', geral: false, campId: 1, camps: CAMPS, doacoes: DOACOES, chip: 2500, outro: '', submitted: false, forced: false, copiado: false, pixMsg: '', ultima: 0, ongTab: 'registradas', doacaoId: 'd1', toast: '' });
+
+  renderVals() {
+    const s = this.state;
+    const c = this.camp();
+    const valido = this.props.formularioValido ?? true;
+    const pago = this.props.pagamentoConfirmado ?? true;
+    const userScreen = ['detalhe', 'contribuir', 'pix', 'confirmada'].indexOf(s.screen) >= 0;
+    const erro = this.erroValor();
+    let active = s.screen;
+    if (s.screen === 'contribuir' && erro) active = 'erro';
+    const stepStyle = (on) => ({ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', padding: '9px 10px', borderRadius: 10, border: '1px solid ' + (on ? '#F2DC9E' : 'transparent'), background: on ? '#FFF8E3' : 'transparent', color: on ? '#14161A' : '#3D4249' });
+    const chipD = (ok) => ({ fontWeight: 700, fontSize: 12, padding: '2px 8px', borderRadius: 999, background: ok ? '#E8F6F0' : '#FDF0EE', color: ok ? '#16694A' : '#8E2A20' });
+
+    const pct = c.meta ? Math.min(100, Math.round((c.arrecadado / c.meta) * 100)) : 0;
+    const v = this.valorCents();
+    const l = this.logado() ? 1 : 0;
+    const goMain = (t) => () => { window.location.href = URL_MAIN + '#tab=' + t + '&logado=' + l; };
+    const optStyle = (on, err) => ({ fontFamily: 'inherit', fontSize: 17, fontWeight: 700, padding: '15px 8px', borderRadius: 12, cursor: 'pointer', border: '1.5px solid ' + (on ? C.prim : err ? C.err : C.border), background: on ? '#FFF8E3' : err ? '#FDF0EE' : '#fff', color: on ? '#14161A' : '#14161A' });
+    const errSemValor = !!erro && (s.chip == null);
+
+    const d = s.doacoes.find((x) => x.id === s.doacaoId) || s.doacoes[0];
+    const campDe = (x) => { const k = x.id_campanha != null ? s.camps.find((y) => y.id === x.id_campanha) : null; return k && k.tipo === 'Monetária' ? k.titulo : ''; };
+    const reg = s.doacoes.filter((x) => x.status === 'Registrada');
+    const conf = s.doacoes.filter((x) => x.status === 'Confirmada');
+    const isReg = s.ongTab === 'registradas';
+    const vis = isReg ? reg : conf;
+    const segTab = (on) => ({ flex: 1, border: 'none', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, padding: '10px 8px', borderRadius: 9, cursor: 'pointer', background: on ? '#fff' : 'transparent', color: on ? '#14161A' : '#4A4E55', boxShadow: on ? '0 1px 3px rgba(20,22,26,.12)' : 'none' });
+    const ongTabBtn = (on) => ({ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12.5, fontWeight: 700, color: on ? C.blue : '#6B6F76', cursor: 'pointer', padding: '0 0 6px' });
+    const ongInd = (on) => ({ width: 36, height: 3, borderRadius: '0 0 3px 3px', background: on ? C.prim : 'transparent' });
+    const dCamp = campDe(d);
+    const rowVal = { color: '#14161A', fontWeight: 600, textAlign: 'right', flex: 1, minWidth: 0, overflowWrap: 'anywhere' };
+
+    return {
+      paineis: this.props.mostrarPaineis ?? true, reset: this.reset,
+      stepsUser: STEPS_USER.map((x, i) => ({ n: i + 1, label: x.label, go: this.go(x.key), style: stepStyle(x.key === active) })),
+      stepsOng: STEPS_ONG.map((x, i) => ({ n: STEPS_USER.length + i + 1, label: x.label, go: this.go(x.key), style: stepStyle(x.key === active) })),
+      tipoLinks: [1, 2, 3].map((id) => {
+        const k = CAMPS.find((x) => x.id === id); const on = s.screen === 'detalhe' && s.campId === id;
+        return { label: k.tipo, go: () => this.setState({ screen: 'detalhe', campId: id }), style: { border: '1px solid ' + (on ? '#F2DC9E' : C.border), background: on ? '#FFF8E3' : '#fff', color: on ? '#14161A' : '#4A4E55', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 600, padding: '3px 7px', borderRadius: 6, cursor: 'pointer' } };
+      }),
+      txtValido: valido ? 'Sim' : 'Não', chipValido: chipD(valido), txtPago: pago ? 'Sim' : 'Não', chipPago: chipD(pago),
+      nav: { detalhe: this.go('detalhe'), contribuir: this.go('contribuir'), erro: this.go('erro'), lista: this.go('lista') },
+      irPerfilOng: () => { window.location.href = URL_PERFIL + '#ongId=1&logado=' + (this.logado() ? 1 : 0); },
+      destNome: s.geral ? 'Abrigo Patas Felizes' : c.titulo,
+      destSufixo: s.geral ? ' · doação geral, sem campanha' : (c.meta ? ' · faltam ' + brl0(Math.max(0, c.meta - c.arrecadado)) : ''),
+      voltarContribLabel: s.geral ? '← Perfil da ONG' : '← Campanha',
+      voltarContrib: s.geral ? () => { window.location.href = URL_PERFIL + '#ongId=1&logado=' + (this.logado() ? 1 : 0); } : this.go('detalhe'),
+      voltarFinalLabel: s.geral ? 'Voltar ao perfil da ONG' : 'Voltar à campanha',
+      voltarFinal: s.geral ? () => { window.location.href = URL_PERFIL + '#ongId=1&logado=' + (this.logado() ? 1 : 0); } : this.go('detalhe'),
+      showProgresso: !s.geral,
+      isDetalhe: s.screen === 'detalhe', isContribuir: s.screen === 'contribuir', isPix: s.screen === 'pix', isConfirmada: s.screen === 'confirmada',
+      isLista: s.screen === 'lista', isDoacao: s.screen === 'doacao',
+      userBar: userScreen, ongBar: !userScreen,
+      irInicio: goMain('inicio'),
+      cp: {
+        slot: 'campanha-' + c.id, tipo: c.tipo, tipoTag: tag(c.tipo), status: c.status, badge: badge(CST[c.status]), dot: dot(CST[c.status]),
+        titulo: c.titulo, descricao: c.descricao,
+        isMon: c.tipo === 'Monetária', arrecadado: brl0(c.arrecadado || 0), meta: brl0(c.meta || 0), pct: pct + '%', doacoes: c.doacoes || 0,
+        bar: { width: pct + '%', height: 10, borderRadius: 5, background: c.status === 'Encerrada' ? '#8A8D93' : '#1E8A5F', transition: 'width .6s ease' },
+        periodo: c.data_inicio && c.data_fim ? 'De ' + c.data_inicio + ' a ' + c.data_fim : '',
+        falta: c.meta ? brl0(Math.max(0, c.meta - c.arrecadado)) : '',
+        isItens: c.tipo === 'Itens', itens: (c.itens_desejados || '').split(',').map((t) => t.trim()).filter(Boolean).map((t) => ({ label: t.charAt(0).toUpperCase() + t.slice(1) })), ate: c.tipo === 'Itens' ? c.data_fim || '' : '',
+        isDiv: c.tipo === 'Eventos', dataEvento: c.data_evento || 'A definir', localEvento: c.local_evento || 'A definir',
+        encerrada: c.status === 'Encerrada', podeContribuir: c.tipo === 'Monetária' && c.status === 'Ativa',
+      },
+      chips: CHIPS.map((x) => ({ label: brlChip(x), pick: this.pick(x), style: optStyle(s.chip === x, errSemValor) })),
+      pickOutro: this.pickOutro, outroAberto: s.chip === 'outro',
+      outroStyle: Object.assign(optStyle(s.chip === 'outro', errSemValor), { width: '100%', marginTop: 10, fontSize: 15.5, fontWeight: 600 }),
+      outro: s.outro, setOutro: this.setOutro,
+      outroBox: { display: 'flex', alignItems: 'center', gap: 8, borderRadius: 12, padding: '0 14px', border: '1.5px solid ' + (erro ? C.err : C.blue), background: erro ? '#FDF0EE' : '#fff', boxShadow: erro ? 'none' : '0 0 0 3px rgba(245,184,32,.14)' },
+      valorErr: erro, valorHint: !erro,
+      botaoPix: v >= 100 ? 'Gerar código PIX · ' + brl(v) : 'Gerar código PIX',
+      gerarPix: this.gerarPix,
+      valorFmt: brl(v), pixCode: this.pixCode(), copiar: this.copiar,
+      copiarLabel: s.copiado ? '✓ Copiado' : 'Copiar código',
+      copiarStyle: { flex: 'none', border: 'none', borderRadius: 9, fontFamily: 'inherit', fontSize: 14, fontWeight: 700, padding: '10px 12px', cursor: 'pointer', whiteSpace: 'nowrap', background: s.copiado ? '#E8F6F0' : C.blue, color: s.copiado ? '#16694A' : '#fff' },
+      pixMsg: s.pixMsg, simular: this.simular,
+      primeiroNome: this.logado() ? 'Marina' : 'doador', ultimaFmt: brl(s.ultima || v),
+
+      tabReg: () => this.setState({ ongTab: 'registradas' }), tabConf: () => this.setState({ ongTab: 'confirmadas' }),
+      segReg: segTab(isReg), segConf: segTab(!isReg), nReg: reg.length, nConf: conf.length, toast: s.toast,
+      lista: vis.map((x) => {
+        const t = campDe(x);
+        return {
+          open: () => this.setState({ screen: 'doacao', doacaoId: x.id }), valor: brl(x.valor), doador: x.doador,
+          campanha: t || 'Doação avulsa', campStyle: { fontSize: 13.5, color: t ? '#3D4249' : '#6B6F76', fontStyle: t ? 'normal' : 'italic' },
+          status: x.status, badge: badge(DST[x.status]), dot: dot(DST[x.status]), data: x.data.split(' · ')[0],
+        };
+      }),
+      vazio: vis.length === 0,
+      vazioTitulo: isReg ? 'Nenhuma doação para conferir' : 'Nenhuma doação confirmada',
+      vazioTexto: isReg ? 'Novas doações aparecem aqui assim que o pagamento é identificado.' : 'Confirme o recebimento de uma doação registrada para que ela apareça aqui.',
+      fecharDoacao: () => this.setState({ screen: 'lista' }),
+      dd: {
+        valor: brl(d.valor), status: d.status, badge: badge(DST[d.status]), dot: dot(DST[d.status]), data: d.data,
+        registrada: d.status === 'Registrada', confirmada: d.status === 'Confirmada', dataConf: d.data_conf,
+        rows: [
+          { label: 'Doador', value: d.doador, style: rowVal },
+          { label: 'Campanha', value: dCamp || 'Doação avulsa', style: dCamp ? rowVal : Object.assign({}, rowVal, { fontStyle: 'italic', color: '#6B6F76', fontWeight: 500 }) },
+          { label: 'Pagamento', value: 'PIX', style: rowVal },
+          { label: 'ID da transação', value: d.txid, style: Object.assign({}, rowVal, { fontFamily: 'ui-monospace,Menlo,monospace', fontSize: 12.5, fontWeight: 500 }) },
+          { label: 'Data', value: d.data, style: rowVal },
+        ],
+      },
+      confirmarRecebimento: this.confirmarRecebimento,
+
+      tabs: {
+        inicio: goMain('inicio'),
+        resgates: () => { if (l) window.location.href = URL_RESG_USER + '#logado=1'; else goMain('resgates')(); },
+        voluntariado: goMain('voluntariado'), perfil: goMain('perfil'),
+      },
+      tabStyle: { inicio: tabSt(true), resgates: tabSt(false), voluntariado: tabSt(false), perfil: tabSt(false) },
+      ong: ongNav('mais', ONG_GO, 3, 3),
+      tabOn: ongTabBtn(true), tabOff: ongTabBtn(false), indOn: ongInd(true), indOff: ongInd(false),
+      irAnimais: () => { window.location.href = URL_MAIN + '#ong=animais'; },
+      irVoluntarios: () => { window.location.href = URL_MAIN + '#ong=voluntarios'; },
+      irResgates: () => { window.location.href = URL_RESG_ONG; },
+      irCampanhas: () => { window.location.href = URL_CAMP; },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<a href="index.html" data-home-button style="position:fixed;top:14px;left:14px;z-index:99999;display:flex;align-items:center;gap:6px;background:#14161A;color:#fff;text-decoration:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;font-weight:600;padding:9px 14px 9px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)">&larr; In&iacute;cio</a>
+
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#EFEEEA;font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2A56D6}a:hover{color:#1C3EA0}
+@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:28px 28px 64px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;justify-content:space-between;max-width:1360px;width:100%;margin:0 auto">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6B6F76">Adotaê · React Native</div>
+      <h1 style="margin:6px 0 0;font-size:26px;font-weight:800;letter-spacing:-.02em;color:#14161A">Perfil da ONG</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#6B6F76;max-width:56ch;text-wrap:pretty">Página pública, sem login. Use o tweak <span style="font-weight:600;color:#3D4249">planoDaONG</span> para ver como o selo, as campanhas e o apoio mudam conforme o plano.</p>
+    </div>
+    <div style="display:flex;gap:4px;background:#E4E3DE;border-radius:10px;padding:3px">
+      <sc-for list="{{ planoBtns }}" as="p" hint-placeholder-count="3">
+        <button onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</button>
+      </sc-for>
+    </div>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:center;max-width:1360px;width:100%;margin:0 auto">
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <nav style="flex:0 0 232px;display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:4px 8px 8px">Perfil da ONG · Público</div>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="2">
+        <button onClick="{{ s.go }}" style="{{ s.style }}">
+          <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(0,0,0,.06);flex:none">{{ s.n }}</span>
+          <span style="text-align:left;line-height:1.25">{{ s.label }}</span>
+        </button>
+      </sc-for>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76;padding:16px 8px 8px;border-top:1px solid #EFEEEA;margin-top:8px">ONG exibida</div>
+      <sc-for list="{{ ongBtns }}" as="o" hint-placeholder-count="3">
+        <button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button>
+      </sc-for>
+      <div style="margin-top:8px;border-top:1px solid #EFEEEA;padding:12px 8px 4px;font-size:12px;line-height:1.5;color:#6B6F76">Componentes base: <a href="Adotae%20-%20Cadastro%20e%20Login.dc.html">Cadastro e Login</a>. iPhone 390 × 844 pt.</div>
+    </nav>
+    </sc-if>
+
+    <div style="flex:none">
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 390 }}" height="{{ 844 }}" hint-size="390px,844px">
+        <div style="height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;background:#F7F7F5">
+          <div ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto">
+            <div style="background:#F5B820;padding:58px 20px 92px;position:relative">
+              <button onClick="{{ voltar }}" style="border:none;background:#fff;color:#2A56D6;font-family:inherit;font-size:14.5px;font-weight:700;padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(20,22,26,.15)">← Voltar</button>
+            </div>
+            <div style="padding:0 20px 28px;margin-top:-44px;display:flex;flex-direction:column;gap:18px;position:relative">
+              <div style="background:#FEF6E4;border:1px solid #F2DC9E;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 6px 18px rgba(245,184,32,.10)">
+                <div style="width:72px;height:72px;border-radius:20px;overflow:hidden;background:#FFF8E3;flex:none;border:3px solid #fff;box-shadow:0 2px 8px rgba(20,22,26,.12);margin-top:-54px"><image-slot id="{{ ong.slot }}" shape="rounded" radius="17" placeholder="Logo"></image-slot></div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                    <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em;color:#14161A;line-height:1.2">{{ ong.nome }}</h2>
+                    <sc-if value="{{ verificada }}">
+                      <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 9px 4px 6px;border-radius:999px;background:#fff;color:#1C3EA0;font-size:12.5px;font-weight:700;white-space:nowrap"><span style="width:16px;height:16px;border-radius:50%;background:#F5B820;color:#14161A;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">✓</span>Selo verificado</span>
+                    </sc-if>
+                  </div>
+                  <div style="font-size:14.5px;color:#4A4E55">{{ ong.cidade }}</div>
+                </div>
+                <p style="margin:0;font-size:15px;line-height:1.55;color:#3D4249;text-wrap:pretty">{{ ong.descricao }}</p>
+                <div style="border-top:1px solid #D6E0FA;padding-top:4px;display:flex;flex-direction:column">
+                  <sc-for list="{{ contatos }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #D6E0FA">
+                      <div style="width:32px;height:32px;border-radius:9px;background:#fff;color:#2A56D6;display:flex;align-items:center;justify-content:center;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="{{ c.icon }}"></path></svg></div>
+                      <div style="flex:1;min-width:0"><div style="font-size:12.5px;color:#4A4E55">{{ c.label }}</div><div style="font-size:15px;font-weight:600;color:#14161A;margin-top:1px;overflow-wrap:anywhere">{{ c.value }}</div></div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div ref="{{ apoiarRef }}" style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:#EAF0FD;border:1px solid #C9D6FA;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px">
+                    <div style="font-size:18px;font-weight:800;color:#14161A">Apoiar esta ONG</div>
+                    <div>
+                      <div style="font-size:13px;font-weight:600;color:#3D4249;margin-bottom:7px">Chave Pix</div>
+                      <div style="display:flex;align-items:center;gap:8px;border-radius:12px;padding:0 6px 0 14px;border:1.5px solid #F2DC9E;background:#fff">
+                        <div style="flex:1;min-width:0;font-family:ui-monospace,Menlo,monospace;font-size:14px;color:#14161A;padding:14px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ong.pix }}</div>
+                        <button onClick="{{ copiar }}" style="{{ copiarStyle }}">{{ copiarLabel }}</button>
+                      </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;gap:10px;font-size:14.5px"><span style="color:#4A4E55">Titular</span><span style="color:#14161A;font-weight:600;text-align:right">{{ ong.nome }}</span></div>
+                    <div style="background:#fff;border:1px solid #F2DC9E;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.5;color:#3D4249">Essa doação é feita diretamente para a ONG e não é processada nem registrada pelo Adotaê.</div>
+                  </div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Animais desta ONG</h3><span style="font-size:13px;color:#6B6F76">{{ nAnimais }}</span></div>
+                <div style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 4px;scroll-snap-type:x mandatory">
+                  <sc-for list="{{ animais }}" as="a" hint-placeholder-count="3">
+                    <button onClick="{{ a.open }}" style="flex:none;width:160px;scroll-snap-align:start;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;padding:0;display:flex;flex-direction:column" style-hover="border-color:#C9D6FA">
+                      <div style="height:132px;width:100%;background:#F0EFEB;pointer-events:none"><image-slot id="{{ a.slot }}" shape="rect" placeholder="Foto"></image-slot></div>
+                      <div style="padding:12px 12px 14px;display:flex;flex-direction:column;gap:3px">
+                        <div style="font-size:16px;font-weight:700;color:#14161A">{{ a.nome }}</div>
+                        <div style="font-size:13.5px;color:#3D4249">{{ a.linha1 }}</div>
+                        <div style="font-size:13px;color:#6B6F76">{{ a.idade }}</div>
+                      </div>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+
+              <sc-if value="{{ temCampanhas }}">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><h3 style="margin:0;font-size:17px;font-weight:700;color:#14161A;display:flex;align-items:center;gap:8px"><span style="width:4px;height:16px;border-radius:2px;background:#F5B820;flex:none"></span>Campanhas desta ONG</h3><span style="font-size:13px;color:#6B6F76">{{ nCampanhas }}</span></div>
+                  <div style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 4px;scroll-snap-type:x mandatory">
+                    <sc-for list="{{ campanhas }}" as="c" hint-placeholder-count="3">
+                      <button onClick="{{ c.open }}" style="flex:none;width:256px;scroll-snap-align:start;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #E4E3DE;border-radius:16px;overflow:hidden;padding:0;display:flex;flex-direction:column" style-hover="border-color:#C9D6FA">
+                        <div style="height:112px;width:100%;background:#F0EFEB;pointer-events:none"><image-slot id="{{ c.slot }}" shape="rect" placeholder="Imagem"></image-slot></div>
+                        <div style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:7px;width:100%;box-sizing:border-box">
+                          <div><span style="{{ c.tipoTag }}">{{ c.tipo }}</span></div>
+                          <div style="font-size:16px;font-weight:700;color:#14161A;line-height:1.25">{{ c.titulo }}</div>
+                          <sc-if value="{{ c.isMon }}">
+                            <div style="display:flex;flex-direction:column;gap:6px">
+                              <div style="height:8px;border-radius:4px;background:#EFEEEA;overflow:hidden"><div style="{{ c.bar }}"></div></div>
+                              <div style="display:flex;justify-content:space-between;gap:8px;font-size:13px"><span style="color:#14161A;font-weight:600">{{ c.arrecadado }} <span style="color:#6B6F76;font-weight:400">de {{ c.meta }}</span></span><span style="color:#6B6F76;font-weight:600">{{ c.pct }}</span></div>
+                            </div>
+                          </sc-if>
+                          <sc-if value="{{ c.isItens }}"><div style="font-size:13.5px;line-height:1.45;color:#3D4249;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">{{ c.itens }}</div></sc-if>
+                          <sc-if value="{{ c.eventoTxt }}"><div style="font-size:13.5px;line-height:1.45;color:#3D4249">{{ c.eventoTxt }}</div></sc-if>
+                        </div>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+
+          <div style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #E4E3DE;background:#fff;padding:8px 8px 28px">
+            <button onClick="{{ tabs.inicio }}" style="{{ tabSt }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg><span>Início</span></button>
+            <button onClick="{{ tabs.resgates }}" style="{{ tabSt }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 3 2 20h20L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg><span>Resgates</span></button>
+            <button onClick="{{ tabs.voluntariado }}" style="{{ tabSt }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><span>Voluntariado</span></button>
+            <button onClick="{{ tabs.perfil }}" style="{{ tabSt }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span>Perfil</span></button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <sc-if value="{{ paineis }}" hint-placeholder-val="{{ true }}">
+    <aside style="flex:1 1 300px;min-width:280px;max-width:420px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E4E3DE;border-radius:16px;padding:18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6B6F76">Regras por plano</div>
+        <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5;color:#3D4249">
+          <li><span style="font-weight:600">Pro / Pro Anual:</span> selo verificado e campanhas ativas.</li>
+          <li><span style="font-weight:600">Free:</span> sem selo e sem campanhas.</li>
+          <li><span style="font-weight:600">Apoiar esta ONG:</span> igual em todos os planos — chave Pix cadastrada para cópia; a doação vai direto para a ONG e não passa pelo Adotaê.</li>
+          <li>Seção de campanhas só aparece se houver campanhas Ativas.</li>
+          <li>Página pública: não exige login. Nenhuma aba fica destacada.</li>
+        </ul>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;planoDaONG&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Free&quot;,&quot;Pro&quot;,&quot;Pro Anual&quot;],&quot;default&quot;:&quot;Pro&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Estado&quot;},&quot;usuarioLogado&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Estado&quot;},&quot;mostrarPaineis&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Apresentação&quot;}}">
+const C = { blue: '#2A56D6', prim: '#F5B820', border: '#E4E3DE' };
+const URL_MAIN = 'Adotae%20-%20Cadastro%20e%20Login.dc.html';
+const URL_ADOCAO = 'Adotae%20-%20Ado%C3%A7%C3%A3o.dc.html';
+const URL_DOACOES = 'Adotae%20-%20Doa%C3%A7%C3%B5es.dc.html';
+const URL_RESG_USER = 'Adotae%20-%20Resgates%20-%20Cadastro.dc.html';
+const ONGS = [
+  { id: 1, nome: 'Abrigo Patas Felizes', cidade: 'São Paulo · SP', descricao: 'Abrigo fundado em 2012 que acolhe cerca de 120 cães e gatos resgatados das ruas e de situações de maus-tratos. Todos são vacinados, castrados e preparados para adoção responsável.', telefone: '(11) 3456-7890', email: 'contato@patasfelizes.org.br', endereco: 'Rua dos Pinheiros, 1200 — Pinheiros, São Paulo · SP', pix: '12.345.678/0001-90' },
+  { id: 2, nome: 'Instituto Miau Seguro', cidade: 'São Paulo · SP', descricao: 'Organização dedicada ao resgate e à reabilitação de gatos. Mantém um gatil com 60 animais e uma rede de lares temporários.', telefone: '(11) 3210-5544', email: 'ola@miauseguro.org', endereco: 'Rua Domingos de Morais, 880 — Vila Mariana, São Paulo · SP', pix: 'pix@miauseguro.org' },
+  { id: 3, nome: 'ONG Focinho Amigo', cidade: 'Santo André · SP', descricao: 'Grupo de protetores independentes que organiza feiras de adoção e campanhas de arrecadação na região do ABC.', telefone: '(11) 4433-2211', email: 'focinhoamigo@email.com', endereco: 'Av. Industrial, 600 — Jardim, Santo André · SP', pix: '(11) 94433-2211' },
+];
+const ANIMAIS = [
+  { id: 1, ong: 1, nome: 'Thor', especie: 'Cão', porte: 'Grande', idade: '3 anos' },
+  { id: 5, ong: 1, nome: 'Bento', especie: 'Cão', porte: 'Grande', idade: '7 anos' },
+  { id: 8, ong: 1, nome: 'Amora', especie: 'Cão', porte: 'Pequeno', idade: '2 anos' },
+  { id: 2, ong: 2, nome: 'Mel', especie: 'Gato', porte: 'Pequeno', idade: '8 meses' },
+  { id: 6, ong: 3, nome: 'Nina', especie: 'Gato', porte: 'Pequeno', idade: '1 ano' },
+  { id: 7, ong: 3, nome: 'Fred', especie: 'Cão', porte: 'Médio', idade: '4 anos' },
+];
+const CAMPS = [
+  { id: 1, ong: 1, tipo: 'Monetária', titulo: 'Cirurgia da Luna', meta: 500000, arrecadado: 342000, status: 'Ativa' },
+  { id: 2, ong: 1, tipo: 'Itens', titulo: 'Inverno sem frio', itens: 'Cobertores, mantas de lã, ração para cães de porte grande, areia higiênica, caminhas', status: 'Ativa' },
+  { id: 3, ong: 1, tipo: 'Eventos', titulo: 'Feira de adoção de outubro', data_evento: '18/10/2026', local_evento: 'Parque Villa-Lobos, portão 2', status: 'Ativa' },
+  { id: 4, ong: 1, tipo: 'Monetária', titulo: 'Reforma do gatil', meta: 1200000, arrecadado: 1235000, status: 'Encerrada' },
+];
+const TIPO_TAG = { 'Monetária': ['#EEF2FE', '#1C3EA0'], 'Itens': ['#FFF3D1', '#7A5600'], 'Eventos': ['#F1EDFC', '#5B3DB5'] };
+const PLANOS = ['Free', 'Pro', 'Pro Anual'];
+const ICONS = {
+  tel: 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2',
+  mail: 'M3 6h18v12H3zM3 7l9 6 9-6',
+  pin: 'M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+};
+const brl0 = (c) => 'R$ ' + Math.round(c / 100).toLocaleString('pt-BR');
+
+class Component extends DCLogic {
+  state = { ongId: 1, plano: null, copiado: false, sessao: null };
+  scrollRef = React.createRef();
+  apoiarRef = React.createRef();
+
+  componentDidMount() {
+    const h = window.location.hash || '';
+    const st = {};
+    const o = /ongId=(\d)/.exec(h); if (o && ONGS.some((x) => x.id === +o[1])) st.ongId = +o[1];
+    const lg = /logado=([01])/.exec(h); if (lg) st.sessao = lg[1] === '1';
+    this.setState(st);
+  }
+  componentDidUpdate(prev) { if (prev.planoDaONG !== this.props.planoDaONG && this.state.plano !== null) this.setState({ plano: null }); }
+  componentWillUnmount() { clearTimeout(this._c); }
+
+  logado = () => (this.state.sessao !== null ? this.state.sessao : (this.props.usuarioLogado ?? true));
+  plano = () => this.state.plano || this.props.planoDaONG || 'Pro';
+
+  scrollTo = (target) => {
+    const sc = this.scrollRef.current; if (!sc) return;
+    const top = target === 'apoiar' && this.apoiarRef.current ? this.apoiarRef.current.offsetTop - 12 : 0;
+    sc.scrollTo({ top, behavior: 'smooth' });
+  };
+
+  copiar = () => {
+    const ong = ONGS.find((x) => x.id === this.state.ongId);
+    try { navigator.clipboard && navigator.clipboard.writeText(ong.pix); } catch (e) {}
+    clearTimeout(this._c);
+    this.setState({ copiado: true });
+    this._c = setTimeout(() => this.setState({ copiado: false }), 2000);
+  };
+
+  renderVals() {
+    const s = this.state;
+    const plano = this.plano();
+    const pago = plano !== 'Free';
+    const ong = ONGS.find((x) => x.id === s.ongId) || ONGS[0];
+    const l = this.logado() ? 1 : 0;
+    const goMain = (t) => () => { window.location.href = URL_MAIN + '#tab=' + t + '&logado=' + l; };
+    const animais = ANIMAIS.filter((a) => a.ong === ong.id);
+    const camps = pago ? CAMPS.filter((c) => c.ong === ong.id && c.status === 'Ativa') : [];
+    const stepStyle = { display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', fontFamily: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', padding: '9px 10px', borderRadius: 10, border: '1px solid transparent', background: 'transparent', color: '#3D4249' };
+    const miniSt = (on) => ({ width: '100%', textAlign: 'left', border: '1px solid ' + (on ? '#F2DC9E' : 'transparent'), background: on ? '#FFF8E3' : 'transparent', color: on ? '#14161A' : '#3D4249', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, padding: '7px 10px', borderRadius: 8, cursor: 'pointer' });
+
+    return {
+      paineis: this.props.mostrarPaineis ?? true,
+      steps: [
+        { n: 1, label: 'Perfil da ONG', go: () => this.scrollTo('top'), style: stepStyle },
+        { n: 2, label: 'Apoiar esta ONG', go: () => this.scrollTo('apoiar'), style: stepStyle },
+      ],
+      planoBtns: PLANOS.map((p) => {
+        const on = p === plano;
+        return { label: p, go: () => this.setState({ plano: p }), style: { border: 'none', background: on ? '#fff' : 'transparent', color: on ? '#14161A' : '#4A4E55', boxShadow: on ? '0 1px 3px rgba(20,22,26,.12)' : 'none', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, padding: '7px 12px', borderRadius: 8, cursor: 'pointer', whiteSpace: 'nowrap' } };
+      }),
+      ongBtns: ONGS.map((o) => ({ label: o.nome, go: () => this.setState({ ongId: o.id }), style: miniSt(o.id === ong.id) })),
+      scrollRef: this.scrollRef, apoiarRef: this.apoiarRef,
+      voltar: () => { if (window.history.length > 1) window.history.back(); else goMain('inicio')(); },
+      ong: { nome: ong.nome, cidade: ong.cidade, descricao: ong.descricao, pix: ong.pix, slot: 'ong-logo-' + ong.id },
+      verificada: pago,
+      contatos: [
+        { label: 'Telefone', value: ong.telefone, icon: ICONS.tel },
+        { label: 'E-mail', value: ong.email, icon: ICONS.mail },
+        { label: 'Endereço', value: ong.endereco, icon: ICONS.pin },
+      ],
+      copiar: this.copiar, copiarLabel: s.copiado ? '✓ Copiada' : 'Copiar chave',
+      copiarStyle: { flex: 'none', border: 'none', borderRadius: 9, fontFamily: 'inherit', fontSize: 14, fontWeight: 700, padding: '10px 12px', cursor: 'pointer', whiteSpace: 'nowrap', background: s.copiado ? '#E8F6F0' : C.blue, color: s.copiado ? '#16694A' : '#fff' },
+      nAnimais: animais.length + (animais.length === 1 ? ' disponível' : ' disponíveis'),
+      animais: animais.map((a) => ({ nome: a.nome, slot: 'animal-' + a.id + '-1', linha1: a.especie + ' · ' + a.porte, idade: a.idade, open: () => { window.location.href = URL_ADOCAO + '#animal=' + a.id + '&logado=' + l; } })),
+      temCampanhas: camps.length > 0, nCampanhas: camps.length + (camps.length === 1 ? ' ativa' : ' ativas'),
+      campanhas: camps.map((c) => {
+        const pct = c.meta ? Math.min(100, Math.round((c.arrecadado / c.meta) * 100)) : 0;
+        return {
+          slot: 'campanha-' + c.id, tipo: c.tipo, titulo: c.titulo,
+          tipoTag: { padding: '3px 8px', borderRadius: 6, fontSize: 12, fontWeight: 700, background: TIPO_TAG[c.tipo][0], color: TIPO_TAG[c.tipo][1], whiteSpace: 'nowrap' },
+          isMon: c.tipo === 'Monetária', bar: { width: pct + '%', height: 8, borderRadius: 4, background: '#1E8A5F' },
+          arrecadado: c.meta ? brl0(c.arrecadado) : '', meta: c.meta ? brl0(c.meta) : '', pct: pct + '%',
+          isItens: c.tipo === 'Itens', itens: c.itens || '',
+          eventoTxt: c.tipo === 'Eventos' ? [c.data_evento ? 'Evento em ' + c.data_evento : '', c.local_evento].filter(Boolean).join(' · ') : '',
+          open: () => { window.location.href = URL_DOACOES + '#campanha=' + c.id + '&logado=' + l; },
+        };
+      }),
+      tabs: {
+        inicio: goMain('inicio'),
+        resgates: () => { if (l) window.location.href = URL_RESG_USER + '#logado=1'; else goMain('resgates')(); },
+        voluntariado: goMain('voluntariado'), perfil: goMain('perfil'),
+      },
+      tabSt: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: '6px 0', color: '#6B6F76', minHeight: 48 },
+    };
+  }
+}
+
+</script>
+</body>
+</html>
